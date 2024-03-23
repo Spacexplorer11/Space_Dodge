@@ -37,7 +37,7 @@ def main():
     welcome = True
 
     try:
-        Background = pygame.transform.scale(pygame.image.load("Space_Background.jpg"), (WIDTH, HEIGHT))
+        Background = pygame.transform.scale(pygame.image.load("Assets/Space_Background.jpg"), (WIDTH, HEIGHT))
     except FileNotFoundError:
         error = "Background"
         welcome = False
@@ -45,8 +45,8 @@ def main():
         draw_except(error)
 
     try:
-        playerR = pygame.transform.scale(pygame.image.load("Player copy.png"), (PLAYER_WIDTH, PLAYER_HEIGHT))
-        playerL = pygame.transform.scale(pygame.image.load("Player.png"), (PLAYER_WIDTH, PLAYER_HEIGHT))
+        playerR = pygame.transform.scale(pygame.image.load("Assets/Player copy.png"), (PLAYER_WIDTH, PLAYER_HEIGHT))
+        playerL = pygame.transform.scale(pygame.image.load("Assets/Player.png"), (PLAYER_WIDTH, PLAYER_HEIGHT))
         player = playerL.get_rect()
     except FileNotFoundError:
         welcome = False
