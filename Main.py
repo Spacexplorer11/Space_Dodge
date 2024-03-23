@@ -7,7 +7,8 @@ from Drawing.draw import draw
 from Exception_Handling.draw_exception import draw_except
 from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
-from Sound_effects.Game_over.Game_over import game_over_sound
+from Sound_effects.Game_over.Game_over_sound_function import game_over_sound
+from Sound_effects.Highscore.Highscore_sound_function import highscore_sound
 
 pygame.font.init()
 
@@ -90,6 +91,7 @@ def main():
         if score > highscore:
             highscore = score
             highscoreBreak = True
+            highscore_sound()
         bulletCount += clock.tick(60)
         elapsedTime = time.time() - startTime
         player.x = playerX
