@@ -9,16 +9,23 @@ from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
 from Sound_effects.Game_over.Game_over_sound_function import game_over_sound
 from Sound_effects.Highscore.Highscore_sound_function import highscore_sound
+from Welcome.Welcome_text_function import welcome_text
 
 pygame.font.init()
 
+
+# Window variables
 WIDTH, HEIGHT = 1000, 800
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# Set the title of the window
 pygame.display.set_caption("Space Dodge")
 
 FONT = pygame.font.SysFont("Arial Black", 30)
 FONT_SMALL = pygame.font.SysFont("Cochin", 30)
 FONT_ERROR = pygame.font.SysFont("Phosphate", 50)
+FONT_BIG = pygame.font.SysFont("Arial Black", 100)
+FONT_MEDIUM = pygame.font.SysFont("Arial Black", 50)
 
 # Player variables
 PLAYER_HEIGHT = 100
@@ -37,6 +44,8 @@ def main():
     highscoreBreak = False
     welcome = True
     mute = False
+    lives = 3
+    highscoreSoundPlayed = False
 
     try:
         Background = pygame.transform.scale(pygame.image.load("Assets/Space_Background.jpg"), (WIDTH, HEIGHT))
@@ -104,7 +113,9 @@ def main():
         if score > highscore:
             highscore = score
             highscoreBreak = True
-            highscore_sound(mute)
+            if not highscoreSoundPlayed:
+                highscore_sound(mute)
+                highscoreSoundPlayed = True
         bulletCount += clock.tick(60)
         elapsedTime = time.time() - startTime
         player.x = playerX
@@ -130,58 +141,48 @@ def main():
             player.x = playerX
 
         if welcome:
-            welcomeText1 = FONT.render("Welcome to Space Dodge!", 1, "white")
-            welcomeText2 = FONT.render("Use A & D keys to move left and right!", 1, "white")
-            welcomeText3 = FONT.render("Try not to hit the bullets!", 1, "white")
-            startText = FONT_SMALL.render("Click any key to continue!", 1, "white")
-            muteInstructionText = FONT.render("Click M to mute and unmute!", 1, "white")
-            welcomeText1Place = WIDTH / 2 - welcomeText1.get_width() / 2, HEIGHT / 2 - welcomeText1.get_height() / 2
-            WINDOW.blit(welcomeText1, welcomeText1Place)
-            WINDOW.blit(welcomeText2, (WIDTH / 2 - welcomeText2.get_width() / 2,
-                                       HEIGHT / 2 - (welcomeText1.get_height() - welcomeText2.get_height() - 30) / 2))
-            WINDOW.blit(welcomeText3, (WIDTH / 2 - welcomeText3.get_width() / 2,
-                                       HEIGHT / 2 - (
-                                               welcomeText1.get_height() - welcomeText2.get_height() - welcomeText3.
-                                               get_height() - 60) / 2))
-            WINDOW.blit(muteInstructionText, (WIDTH / 2 - muteInstructionText.get_width() / 2,
-                                              HEIGHT / 2 - (
-                                                      welcomeText1.get_height() - welcomeText2.get_height() - welcomeText3.
-                                                      get_height() - muteInstructionText.get_height() - 90) / 2))
-            WINDOW.blit(startText, (WIDTH / 2 - startText.get_width() / 2, 740))
-            pygame.display.update()
             while not start:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
-                        start = True
-                        break
+                        return running
                     elif event.type == pygame.KEYDOWN:
                         start = True
                         break
-            startTime = time.time()
-            welcome = False
+                welcome_text()
+
 
         for bullet in bullets[:]:
             bullet.y += BULLET_VELOCITY
             if bullet.y > 790:
                 bullets.remove(bullet)
             elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
-                pygame.draw.rect(WINDOW, "red", bullet)
-                hit = True
-                break
+                bullets.clear()
+                lives = lives - 1
+                if lives == 0:
+                    pygame.draw.rect(WINDOW, "red", bullet)
+                    draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
+                         Background, mute, lives)
+                    hit = True
+                    break
 
         if hit:
             highscores.append(score)
             save_object(highscores)
-            loseText = FONT.render("GAME OVER!", 1, "red")
+            loseText = FONT_BIG.render("GAME OVER!", 1, "red")
+            highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
+            timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
             WINDOW.blit(loseText, (WIDTH / 2 - loseText.get_width() / 2, HEIGHT / 2 - loseText.get_height() / 2))
+            WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2, HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
+            WINDOW.blit(timeText, (WIDTH / 2 - timeText.get_width() / 2, HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
             pygame.display.update()
             game_over_sound(mute)
             bullets.clear()
             pygame.time.delay(4000)
             break
 
-        draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background, mute)
+        draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
+             Background, mute, lives)
     pygame.quit()
 
 

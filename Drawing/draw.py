@@ -1,4 +1,5 @@
 import pygame
+from Exception_Handling.draw_exception import draw_except
 
 pygame.font.init()
 
@@ -17,7 +18,7 @@ PLAYER_WIDTH = 80
 PLAYER_VELOCITY = 5
 
 
-def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background, mute):
+def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background, mute, lives):
     WINDOW.blit(Background, (0, 0))
 
     timeText = FONT.render(f"Time: {round(elapsedTime)}s", 1, "white")
@@ -25,17 +26,27 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")
     highScoreText_is = FONT.render(f" is {highscore}", 1, "white")
-    muteSymbol = pygame.transform.scale(pygame.image.load("Assets/mute.png"), (70, 50))
-    unmuteSymbol = pygame.transform.scale(pygame.image.load("Assets/unmute.png"), (70, 50))
+
+    try:
+        muteSymbol = pygame.transform.scale(pygame.image.load("Assets/mute.png"), (70, 50))
+        unmuteSymbol = pygame.transform.scale(pygame.image.load("Assets/unmute.png"), (70, 50))
+    except FileNotFoundError:
+        error = "Mute/unmute symbol"
+        draw_except(error)
+        running = False
+        return running
 
     WINDOW.blit(timeText, (10, 10))
     WINDOW.blit(scoreText, (WIDTH - 250, 10))
 
+    # Show the mute/unmute symbol
     if mute:
-        WINDOW.blit(muteSymbol,(timeText.get_width() + 10, 10))
+        WINDOW.blit(muteSymbol, (timeText.get_width() + 10, 10))
     else:
-        WINDOW.blit(unmuteSymbol,(timeText.get_width() + 10, 10))
+        WINDOW.blit(unmuteSymbol, (timeText.get_width() + 10, 10))
 
+
+    # Check if the highscore is higher than the current score and if it is then say highscore "is" not "was"
     if highscoreBreak:
         WINDOW.blit(highScoreTextPt1, (250, 10))
         WINDOW.blit(highScoreText_is, (500, 10))
@@ -43,13 +54,30 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
         WINDOW.blit(highScoreTextPt1, (250, 10))
         WINDOW.blit(highScoreText_was, (500, 10))
 
+
+    # Changing where the player faces
     # 1 = right vs 0 = left
     if direction == 1:
         WINDOW.blit(playerR, (playerX, HEIGHT - PLAYER_HEIGHT))
     else:
         WINDOW.blit(playerL, (playerX, HEIGHT - PLAYER_HEIGHT))
 
+
+    # Draw the bullets
     for bullet in bullets:
         pygame.draw.rect(WINDOW, "white", bullet)
+
+    # Draw the lives
+    threeLives = pygame.transform.scale(pygame.image.load("Assets/3_lives.png"), (200, 200))
+    twoLives = pygame.transform.scale(pygame.image.load("Assets/2_lives.png"), (200, 175))
+    oneLife = pygame.transform.scale(pygame.image.load("Assets/1_life.png"), (200, 150))
+    if lives == 3:
+        WINDOW.blit(threeLives, (780, 50))
+    elif lives == 2:
+        WINDOW.blit(twoLives, (780,50))
+    elif lives == 1:
+        WINDOW.blit(oneLife, (780, 50))
+    else:
+        WINDOW.blit(Background, (0, 0))
 
     pygame.display.update()
