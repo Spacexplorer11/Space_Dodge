@@ -159,6 +159,11 @@ def main():
             elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
                 bullets.clear()
                 lives = lives - 1
+                if lives != 0:
+                    lostLifeText = FONT.render(f"You lost a live, you are now on {lives} lives!", 1 ,"red")
+                    WINDOW.blit(lostLifeText,(WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2 ))
+                    pygame.display.update()
+                    pygame.time.delay(1000)
                 if lives == 0:
                     pygame.draw.rect(WINDOW, "red", bullet)
                     draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
