@@ -17,7 +17,7 @@ PLAYER_WIDTH = 80
 PLAYER_VELOCITY = 5
 
 
-def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background):
+def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background, mute):
     WINDOW.blit(Background, (0, 0))
 
     timeText = FONT.render(f"Time: {round(elapsedTime)}s", 1, "white")
@@ -25,9 +25,16 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")
     highScoreText_is = FONT.render(f" is {highscore}", 1, "white")
+    muteSymbol = pygame.transform.scale(pygame.image.load("Assets/mute.png"), (70, 50))
+    unmuteSymbol = pygame.transform.scale(pygame.image.load("Assets/unmute.png"), (70, 50))
 
     WINDOW.blit(timeText, (10, 10))
     WINDOW.blit(scoreText, (WIDTH - 250, 10))
+
+    if mute:
+        WINDOW.blit(muteSymbol,(timeText.get_width() + 10, 10))
+    else:
+        WINDOW.blit(unmuteSymbol,(timeText.get_width() + 10, 10))
 
     if highscoreBreak:
         WINDOW.blit(highScoreTextPt1, (250, 10))
