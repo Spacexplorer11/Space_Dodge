@@ -61,7 +61,27 @@ def main():
         player = playerL.get_rect()
     except FileNotFoundError:
         welcome = False
+        running = False
         error = "Player"
+        draw_except(error)
+
+    try:
+        threeLives = pygame.transform.scale(pygame.image.load("Assets/3_lives.png"), (200, 200))
+        twoLives = pygame.transform.scale(pygame.image.load("Assets/2_lives.png"), (200, 175))
+        oneLife = pygame.transform.scale(pygame.image.load("Assets/1_life.png"), (200, 150))
+    except FileNotFoundError:
+        error = "Lives"
+        running = False
+        welcome = False
+        draw_except(error)
+
+    try:
+        muteSymbol = pygame.transform.scale(pygame.image.load("Assets/mute.png"), (70, 50))
+        unmuteSymbol = pygame.transform.scale(pygame.image.load("Assets/unmute.png"), (70, 50))
+    except FileNotFoundError:
+        error = "Mute/unmute symbol"
+        welcome = False
+        running = False
         draw_except(error)
 
     clock = pygame.time.Clock()
@@ -82,6 +102,7 @@ def main():
     direction = 0
 
     hit = False
+
 
     # Load the high score from file as a list
     highscores = load_highscore("File_Handling/highscore.pickle")
@@ -114,8 +135,12 @@ def main():
             highscore = score
             highscoreBreak = True
             if not highscoreSoundPlayed:
+                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1,  "green")
+                WINDOW.blit(highscoreBrokenText, (WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
+                pygame.display.update()
                 highscore_sound(mute)
                 highscoreSoundPlayed = True
+                pygame.time.delay(1000)
         bulletCount += clock.tick(60)
         elapsedTime = time.time() - startTime
         player.x = playerX
@@ -148,6 +173,7 @@ def main():
                         return running
                     elif event.type == pygame.KEYDOWN:
                         start = True
+                        startTime = time.time()
                         break
                 welcome_text()
 
@@ -159,15 +185,21 @@ def main():
             elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
                 bullets.clear()
                 lives = lives - 1
-                if lives != 0:
-                    lostLifeText = FONT.render(f"You lost a live, you are now on {lives} lives!", 1 ,"red")
+                if not (lives <= 1):
+                    lostLifeText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1 ,"red")
                     WINDOW.blit(lostLifeText,(WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2 ))
+                    pygame.display.update()
+                    pygame.time.delay(1000)
+                elif lives == 1:
+                    lostLifeText = FONT.render("You lost a life, you are now on 1 life!", 1, "red")
+                    WINDOW.blit(lostLifeText,
+                                (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 if lives == 0:
                     pygame.draw.rect(WINDOW, "red", bullet)
                     draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
-                         Background, mute, lives)
+                         Background, mute, lives,  muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife)
                     hit = True
                     break
 
@@ -187,7 +219,7 @@ def main():
             break
 
         draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
-             Background, mute, lives)
+             Background, mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife)
     pygame.quit()
 
 

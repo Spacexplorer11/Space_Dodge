@@ -1,5 +1,4 @@
 import pygame
-from Exception_Handling.draw_exception import draw_except
 
 pygame.font.init()
 
@@ -18,7 +17,8 @@ PLAYER_WIDTH = 80
 PLAYER_VELOCITY = 5
 
 
-def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background, mute, lives):
+def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background,
+         mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife):
     WINDOW.blit(Background, (0, 0))
 
     timeText = FONT.render(f"Time: {round(elapsedTime)}s", 1, "white")
@@ -26,16 +26,7 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")
     highScoreText_is = FONT.render(f" is {highscore}", 1, "white")
-
-    try:
-        muteSymbol = pygame.transform.scale(pygame.image.load("Assets/mute.png"), (70, 50))
-        unmuteSymbol = pygame.transform.scale(pygame.image.load("Assets/unmute.png"), (70, 50))
-    except FileNotFoundError:
-        error = "Mute/unmute symbol"
-        draw_except(error)
-        running = False
-        return running
-
+    d
     WINDOW.blit(timeText, (10, 10))
     WINDOW.blit(scoreText, (WIDTH - 250, 10))
 
@@ -68,13 +59,10 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
         pygame.draw.rect(WINDOW, "white", bullet)
 
     # Draw the lives
-    threeLives = pygame.transform.scale(pygame.image.load("Assets/3_lives.png"), (200, 200))
-    twoLives = pygame.transform.scale(pygame.image.load("Assets/2_lives.png"), (200, 175))
-    oneLife = pygame.transform.scale(pygame.image.load("Assets/1_life.png"), (200, 150))
     if lives == 3:
         WINDOW.blit(threeLives, (780, 50))
     elif lives == 2:
-        WINDOW.blit(twoLives, (780,50))
+        WINDOW.blit(twoLives, (780, 50))
     elif lives == 1:
         WINDOW.blit(oneLife, (780, 50))
     else:
