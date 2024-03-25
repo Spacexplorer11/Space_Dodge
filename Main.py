@@ -1,18 +1,18 @@
 # imports
 import random
 import time
+
 import pygame
 
 from Drawing.draw import draw
 from Exception_Handling.draw_exception import draw_except
 from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
-from Sound_effects.Game_over.Game_over_sound_function import game_over_sound
-from Sound_effects.Highscore.Highscore_sound_function import highscore_sound
+from Sounds.Game_over.Game_over_sound_function import game_over_sound
+from Sounds.Highscore.Highscore_sound_function import highscore_sound
 from Welcome.Welcome_text_function import welcome_text
 
 pygame.font.init()
-
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
@@ -21,6 +21,7 @@ WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 # Set the title of the window
 pygame.display.set_caption("Space Dodge")
 
+# All the fonts
 FONT = pygame.font.SysFont("Arial Black", 30)
 FONT_SMALL = pygame.font.SysFont("Cochin", 30)
 FONT_ERROR = pygame.font.SysFont("Phosphate", 50)
@@ -103,7 +104,6 @@ def main():
 
     hit = False
 
-
     # Load the high score from file as a list
     highscores = load_highscore("File_Handling/highscore.pickle")
 
@@ -115,6 +115,9 @@ def main():
         # Finds the highest score
         highscore1 = sorted(highscores, reverse=True)
         highscore = highscore1[0]
+
+    background_music = pygame.mixer.Sound("Sounds/Background_music/background_music.wav")
+    pygame.mixer.Sound.play(background_music, -1)
 
     while running:
 
@@ -130,13 +133,14 @@ def main():
                     else:
                         mute = False
 
-        score = score + 1
+        score += 1
         if score > highscore:
             highscore = score
             highscoreBreak = True
             if not highscoreSoundPlayed:
-                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1,  "green")
-                WINDOW.blit(highscoreBrokenText, (WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
+                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
+                WINDOW.blit(highscoreBrokenText, (
+                    WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()
                 highscore_sound(mute)
                 highscoreSoundPlayed = True
@@ -154,7 +158,6 @@ def main():
             bulletAddIncrement = max(400, bulletAddIncrement - 50)
             bulletCount = 0
 
-
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and player.x - PLAYER_VELOCITY >= 0:
             direction = 0
@@ -170,13 +173,16 @@ def main():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
-                        return running
                     elif event.type == pygame.KEYDOWN:
                         start = True
                         startTime = time.time()
                         break
                 welcome_text()
 
+        if mute:
+            pygame.mixer.music.pause()
+        elif not mute:
+            pygame.mixer.music.unpause()
 
         for bullet in bullets[:]:
             bullet.y += BULLET_VELOCITY
@@ -184,10 +190,11 @@ def main():
                 bullets.remove(bullet)
             elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
                 bullets.clear()
-                lives = lives - 1
+                lives -= 1
                 if not (lives <= 1):
-                    lostLifeText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1 ,"red")
-                    WINDOW.blit(lostLifeText,(WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2 ))
+                    lostLifeText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
+                    WINDOW.blit(lostLifeText,
+                                (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height()))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 elif lives == 1:
@@ -196,12 +203,19 @@ def main():
                                 (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2))
                     pygame.display.update()
                     pygame.time.delay(1000)
-                if lives == 0:
+                else:
                     pygame.draw.rect(WINDOW, "red", bullet)
                     draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
-                         Background, mute, lives,  muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife)
+                         Background, mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife)
                     hit = True
                     break
+
+        if mute or hit:
+            pygame.mixer.Sound.stop(background_music)
+        elif not mute:
+            playing = pygame.mixer.Sound.get_num_channels(background_music)
+            if playing == 0:
+                pygame.mixer.Sound.play(background_music)
 
         if hit:
             highscores.append(score)
@@ -210,11 +224,13 @@ def main():
             highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
             timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
             WINDOW.blit(loseText, (WIDTH / 2 - loseText.get_width() / 2, HEIGHT / 2 - loseText.get_height() / 2))
-            WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2, HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
-            WINDOW.blit(timeText, (WIDTH / 2 - timeText.get_width() / 2, HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
+            WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2,
+                                        HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
+            WINDOW.blit(timeText, (
+                WIDTH / 2 - timeText.get_width() / 2,
+                HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
             pygame.display.update()
             game_over_sound(mute)
-            bullets.clear()
             pygame.time.delay(4000)
             break
 

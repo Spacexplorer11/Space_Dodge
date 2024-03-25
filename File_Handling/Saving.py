@@ -1,5 +1,6 @@
 import pickle
 
+
 def save_object(score):
     try:
         with open("File_Handling/highscore.pickle", "wb") as f:

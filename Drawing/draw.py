@@ -26,7 +26,7 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")
     highScoreText_is = FONT.render(f" is {highscore}", 1, "white")
-    d
+
     WINDOW.blit(timeText, (10, 10))
     WINDOW.blit(scoreText, (WIDTH - 250, 10))
 
@@ -36,7 +36,6 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
     else:
         WINDOW.blit(unmuteSymbol, (timeText.get_width() + 10, 10))
 
-
     # Check if the highscore is higher than the current score and if it is then say highscore "is" not "was"
     if highscoreBreak:
         WINDOW.blit(highScoreTextPt1, (250, 10))
@@ -45,14 +44,12 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
         WINDOW.blit(highScoreTextPt1, (250, 10))
         WINDOW.blit(highScoreText_was, (500, 10))
 
-
     # Changing where the player faces
     # 1 = right vs 0 = left
     if direction == 1:
         WINDOW.blit(playerR, (playerX, HEIGHT - PLAYER_HEIGHT))
     else:
         WINDOW.blit(playerL, (playerX, HEIGHT - PLAYER_HEIGHT))
-
 
     # Draw the bullets
     for bullet in bullets:

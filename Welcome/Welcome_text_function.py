@@ -1,5 +1,6 @@
-import pygame
 import time
+
+import pygame
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
