@@ -4,6 +4,8 @@ import time
 
 import pygame
 
+import simpleaudio as sa
+
 from Drawing.draw import draw
 from Exception_Handling.draw_exception import draw_except
 from File_Handling.Loading import load_highscore
@@ -12,6 +14,7 @@ from Sounds.Game_over.Game_over_sound_function import game_over_sound
 from Sounds.Highscore.Highscore_sound_function import highscore_sound
 from Welcome.Welcome_text_function import welcome_text
 
+pygame.mixer.init()
 pygame.font.init()
 
 # Window variables
@@ -85,6 +88,18 @@ def main():
         running = False
         draw_except(error)
 
+    try:
+        sadSound = sa.WaveObject.from_wave_file("Sounds/Game_over/sad-trombone.wav")
+        GameOverSound = sa.WaveObject.from_wave_file("Sounds/Game_over/game-over-sound.wav")
+        highscoreSound = sa.WaveObject.from_wave_file("Sounds/Highscore/highscore.wav")
+    except FileNotFoundError:
+        error = "Sound Effects"
+        welcome = False
+        running = False
+        draw_except(error)
+
+
+
     clock = pygame.time.Clock()
 
     startTime = time.time()
@@ -116,7 +131,14 @@ def main():
         highscore1 = sorted(highscores, reverse=True)
         highscore = highscore1[0]
 
-    background_music = pygame.mixer.Sound("Sounds/Background_music/background_music.wav")
+    try:
+        background_music = pygame.mixer.Sound("Sounds/Background_music/background_music.wav")
+    except FileNotFoundError:
+        error = "Background Music"
+        welcome = False
+        running = False
+        draw_except(error)
+
     pygame.mixer.Sound.play(background_music, -1)
 
     while running:
@@ -142,7 +164,7 @@ def main():
                 WINDOW.blit(highscoreBrokenText, (
                     WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()
-                highscore_sound(mute)
+                highscore_sound(mute, highscoreSound)
                 highscoreSoundPlayed = True
                 pygame.time.delay(1000)
         bulletCount += clock.tick(60)
@@ -230,7 +252,7 @@ def main():
                 WIDTH / 2 - timeText.get_width() / 2,
                 HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
             pygame.display.update()
-            game_over_sound(mute)
+            game_over_sound(mute, sadSound, GameOverSound)
             pygame.time.delay(4000)
             break
 
