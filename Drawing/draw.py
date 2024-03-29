@@ -21,6 +21,10 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
          mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife):
     WINDOW.blit(Background, (0, 0))
 
+    # Draw the bullets
+    for bullet in bullets:
+        pygame.draw.rect(WINDOW, "white", bullet)
+
     timeText = FONT.render(f"Time: {round(elapsedTime)}s", 1, "white")
     scoreText = FONT.render(f"Score: {score}", 1, "white")
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
@@ -50,10 +54,6 @@ def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, high
         WINDOW.blit(playerR, (playerX, HEIGHT - PLAYER_HEIGHT))
     else:
         WINDOW.blit(playerL, (playerX, HEIGHT - PLAYER_HEIGHT))
-
-    # Draw the bullets
-    for bullet in bullets:
-        pygame.draw.rect(WINDOW, "white", bullet)
 
     # Draw the lives
     if lives == 3:

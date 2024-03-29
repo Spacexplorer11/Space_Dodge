@@ -1,9 +1,9 @@
 # imports
+import os
 import random
 import time
 
 import pygame
-
 import simpleaudio as sa
 
 from Drawing.draw import draw
@@ -16,6 +16,7 @@ from Welcome.Welcome_text_function import welcome_text
 
 pygame.mixer.init()
 pygame.font.init()
+pygame.init()
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
@@ -52,7 +53,8 @@ def main():
     highscoreSoundPlayed = False
 
     try:
-        Background = pygame.transform.scale(pygame.image.load("Assets/Space_Background.jpg"), (WIDTH, HEIGHT))
+        Background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Space_Background.jpg")),
+                                            (WIDTH, HEIGHT))
     except FileNotFoundError:
         error = "Background"
         welcome = False
@@ -60,8 +62,10 @@ def main():
         draw_except(error)
 
     try:
-        playerR = pygame.transform.scale(pygame.image.load("Assets/Player copy.png"), (PLAYER_WIDTH, PLAYER_HEIGHT))
-        playerL = pygame.transform.scale(pygame.image.load("Assets/Player.png"), (PLAYER_WIDTH, PLAYER_HEIGHT))
+        playerR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player copy.png"), "PlayerR"),
+                                         (PLAYER_WIDTH, PLAYER_HEIGHT))
+        playerL = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player.png"), "PlayerL"),
+                                         (PLAYER_WIDTH, PLAYER_HEIGHT))
         player = playerL.get_rect()
     except FileNotFoundError:
         welcome = False
@@ -70,9 +74,9 @@ def main():
         draw_except(error)
 
     try:
-        threeLives = pygame.transform.scale(pygame.image.load("Assets/3_lives.png"), (200, 200))
-        twoLives = pygame.transform.scale(pygame.image.load("Assets/2_lives.png"), (200, 175))
-        oneLife = pygame.transform.scale(pygame.image.load("Assets/1_life.png"), (200, 150))
+        threeLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "3_lives.png")), (200, 200))
+        twoLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "2_lives.png")), (200, 190))
+        oneLife = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "1_life.png")), (200, 180))
     except FileNotFoundError:
         error = "Lives"
         running = False
@@ -80,8 +84,8 @@ def main():
         draw_except(error)
 
     try:
-        muteSymbol = pygame.transform.scale(pygame.image.load("Assets/mute.png"), (70, 50))
-        unmuteSymbol = pygame.transform.scale(pygame.image.load("Assets/unmute.png"), (70, 50))
+        muteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (70, 50))
+        unmuteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")), (70, 50))
     except FileNotFoundError:
         error = "Mute/unmute symbol"
         welcome = False
@@ -97,8 +101,6 @@ def main():
         welcome = False
         running = False
         draw_except(error)
-
-
 
     clock = pygame.time.Clock()
 
@@ -119,26 +121,18 @@ def main():
 
     hit = False
 
-    # Load the high score from file as a list
-    highscores = load_highscore("File_Handling/highscore.pickle")
-
-    # If highscores is not a list add 0 to make a list
-    if not highscores.__class__ == list:
-        highscores = [highscores, 0]
-
-    if len(highscores) >= 2:
-        # Finds the highest score
-        highscore1 = sorted(highscores, reverse=True)
-        highscore = highscore1[0]
+    # Load the high score from file
+    highscore = load_highscore(os.path.join("File_Handling", "highscore.pickle"))
 
     try:
-        background_music = pygame.mixer.Sound("Sounds/Background_music/background_music.wav")
+        background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
     except FileNotFoundError:
         error = "Background Music"
         welcome = False
         running = False
         draw_except(error)
 
+    pygame.mixer.Sound.set_volume(background_music, 20)
     pygame.mixer.Sound.play(background_music, -1)
 
     while running:
@@ -173,7 +167,7 @@ def main():
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
-                bullet_x = random.randint(0, WIDTH - BULLET_WIDTH)
+                bullet_x = random.randint(0, WIDTH)
                 bullet = pygame.Rect(bullet_x, -BULLET_HEIGHT, BULLET_WIDTH, BULLET_HEIGHT)
                 bullets.append(bullet)
 
@@ -201,11 +195,6 @@ def main():
                         break
                 welcome_text()
 
-        if mute:
-            pygame.mixer.music.pause()
-        elif not mute:
-            pygame.mixer.music.unpause()
-
         for bullet in bullets[:]:
             bullet.y += BULLET_VELOCITY
             if bullet.y > 790:
@@ -232,7 +221,9 @@ def main():
                     hit = True
                     break
 
-        if mute or hit:
+        if hit:
+            pygame.mixer.Sound.fadeout(background_music, 500)
+        elif mute:
             pygame.mixer.Sound.stop(background_music)
         elif not mute:
             playing = pygame.mixer.Sound.get_num_channels(background_music)
@@ -240,8 +231,8 @@ def main():
                 pygame.mixer.Sound.play(background_music)
 
         if hit:
-            highscores.append(score)
-            save_object(highscores)
+            if highscore >= score:
+                save_object(highscore)
             loseText = FONT_BIG.render("GAME OVER!", 1, "red")
             highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
             timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
