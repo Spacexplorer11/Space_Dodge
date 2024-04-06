@@ -56,6 +56,7 @@ def draw_except(error):
                                      HEIGHT / 2 - (
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
+            pygame.display.update()
         elif error == "Lives":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render("The image for the lives was not found", 1, "red")
@@ -68,6 +69,7 @@ def draw_except(error):
                                      HEIGHT / 2 - (
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
+            pygame.display.update()
         elif error == "Sound Effects":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render("One or more of the sound effects weren't found", 1, "red")
@@ -80,6 +82,7 @@ def draw_except(error):
                                      HEIGHT / 2 - (
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
+            pygame.display.update()
         elif error == "Background Music":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render("The background music was not found", 1, "red")
@@ -92,4 +95,5 @@ def draw_except(error):
                                      HEIGHT / 2 - (
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
+            pygame.display.update()
     pygame.quit()

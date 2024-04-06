@@ -17,15 +17,15 @@ PLAYER_WIDTH = 80
 PLAYER_VELOCITY = 5
 
 
-def draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak, Background,
-         mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife):
+def draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak, Background,
+         mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife, timeText):
     WINDOW.blit(Background, (0, 0))
 
     # Draw the bullets
     for bullet in bullets:
         pygame.draw.rect(WINDOW, "white", bullet)
 
-    timeText = FONT.render(f"Time: {round(elapsedTime)}s", 1, "white")
+
     scoreText = FONT.render(f"Score: {score}", 1, "white")
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")

@@ -51,6 +51,7 @@ def main():
     mute = False
     lives = 3
     highscoreSoundPlayed = False
+    muteChanged = True
 
     try:
         Background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Space_Background.jpg")),
@@ -136,25 +137,41 @@ def main():
     pygame.mixer.Sound.play(background_music, -1)
 
     while running:
+        elapsedTime = time.time() - startTime
+
+        timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
+
+        muteRect = muteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
+        unmuteRect = unmuteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 break
-            elif event.type == pygame.KEYDOWN:
+            if event.type == pygame.MOUSEBUTTONUP:
+                muteChanged = True
+            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_m]:
                     if not mute:
                         mute = True
                     else:
                         mute = False
+                if muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()):
+                    if not mute and muteChanged:
+                        mute = True
+                    elif muteChanged:
+                        mute = False
+                    muteChanged = False
+
 
         score += 1
         if score > highscore:
             highscore = score
             highscoreBreak = True
             if not highscoreSoundPlayed:
-                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
+                highscoreBrokenText = FONT_BIG.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
                 WINDOW.blit(highscoreBrokenText, (
                     WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()
@@ -162,8 +179,8 @@ def main():
                 highscoreSoundPlayed = True
                 pygame.time.delay(1000)
         bulletCount += clock.tick(60)
-        elapsedTime = time.time() - startTime
         player.x = playerX
+
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
@@ -202,13 +219,15 @@ def main():
             elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
                 bullets.clear()
                 lives -= 1
-                if not (lives <= 1):
+                if lives > 1:
+                    pygame.draw.rect(WINDOW, "red", bullet)
                     lostLifeText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
                     WINDOW.blit(lostLifeText,
                                 (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height()))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 elif lives == 1:
+                    pygame.draw.rect(WINDOW, "red", bullet)
                     lostLifeText = FONT.render("You lost a life, you are now on 1 life!", 1, "red")
                     WINDOW.blit(lostLifeText,
                                 (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2))
@@ -216,8 +235,7 @@ def main():
                     pygame.time.delay(1000)
                 else:
                     pygame.draw.rect(WINDOW, "red", bullet)
-                    draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
-                         Background, mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife)
+                    pygame.display.update()
                     hit = True
                     break
 
@@ -233,6 +251,7 @@ def main():
         if hit:
             if highscore >= score:
                 save_object(highscore)
+            WINDOW.blit(Background, (0, 0))
             loseText = FONT_BIG.render("GAME OVER!", 1, "red")
             highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
             timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
@@ -247,8 +266,8 @@ def main():
             pygame.time.delay(4000)
             break
 
-        draw(playerL, playerR, playerX, elapsedTime, bullets, direction, score, highscore, highscoreBreak,
-             Background, mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife)
+        draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak,
+             Background, mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife, timeText)
     pygame.quit()
 
 
