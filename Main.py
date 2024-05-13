@@ -13,6 +13,7 @@ from File_Handling.Saving import save_object
 from Sounds.Game_over.Game_over_sound_function import game_over_sound
 from Sounds.Highscore.Highscore_sound_function import highscore_sound
 from Welcome.Welcome_text_function import welcome_text
+from Pause_Menu.pause_function import pause_menu
 
 pygame.mixer.init()
 pygame.font.init()
@@ -52,6 +53,9 @@ def main():
     lives = 3
     highscoreSoundPlayed = False
     muteChanged = True
+    pause = False
+    pausedTimes = []
+    totalPausedTime = 0.0
 
     try:
         Background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Space_Background.jpg")),
@@ -127,8 +131,9 @@ def main():
 
     try:
         background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
+        pause_music = pygame.mixer.Sound(os.path.join("Sounds", "Pause_music", "pause_music.wav"))
     except FileNotFoundError:
-        error = "Background Music"
+        error = "Music"
         welcome = False
         running = False
         draw_except(error)
@@ -136,8 +141,21 @@ def main():
     pygame.mixer.Sound.set_volume(background_music, 20)
     pygame.mixer.Sound.play(background_music, -1)
 
-    while running:
+    if welcome:
+        while not start:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    start = True
+                    startTime = time.time()
+                    break
+            welcome_text()
+
+    while running and not pause:
         elapsedTime = time.time() - startTime
+        elapsedTime -= totalPausedTime
 
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
 
@@ -164,6 +182,34 @@ def main():
                     elif muteChanged:
                         mute = False
                     muteChanged = False
+                if keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
+                    pauseStartTime = time.time()
+                    pause = True
+                    pygame.mixer.Sound.stop(background_music)
+                    pygame.mixer.Sound.play(pause_music, -1)
+                    while pause:
+                        pausedTime = time.time() - pauseStartTime
+                        playing = pygame.mixer.Sound.get_num_channels(pause_music)
+                        if playing == 0:
+                            pygame.mixer.Sound.play(pause_music)
+
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                pause = False
+                                running = False
+                                break
+                            elif event.type == pygame.KEYDOWN:
+                                keys = pygame.key.get_pressed()
+                                if keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
+                                    pause = False
+                                    totalPausedTime = 0.0
+                                    pausedTimes.append(round(pausedTime))
+                                    pygame.mixer.Sound.stop(pause_music)
+                                    for num in pausedTimes:
+                                        totalPausedTime += num
+                                    break
+
+                        pause_menu(score, elapsedTime, highscore, highscoreBreak)
 
 
         score += 1
@@ -195,22 +241,9 @@ def main():
         if keys[pygame.K_a] and player.x - PLAYER_VELOCITY >= 0:
             direction = 0
             playerX -= PLAYER_VELOCITY
-            player.x = playerX
         if keys[pygame.K_d] and player.x + PLAYER_VELOCITY + player.width <= WIDTH:
             direction = 1
             playerX += PLAYER_VELOCITY
-            player.x = playerX
-
-        if welcome:
-            while not start:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        running = False
-                    elif event.type == pygame.KEYDOWN:
-                        start = True
-                        startTime = time.time()
-                        break
-                welcome_text()
 
         for bullet in bullets[:]:
             bullet.y += BULLET_VELOCITY
@@ -239,9 +272,8 @@ def main():
                     hit = True
                     break
 
-        if hit:
-            pygame.mixer.Sound.fadeout(background_music, 500)
-        elif mute:
+
+        if mute:
             pygame.mixer.Sound.stop(background_music)
         elif not mute:
             playing = pygame.mixer.Sound.get_num_channels(background_music)
@@ -251,6 +283,7 @@ def main():
         if hit:
             if highscore >= score:
                 save_object(highscore)
+            pygame.mixer.Sound.fadeout(background_music, 500)
             WINDOW.blit(Background, (0, 0))
             loseText = FONT_BIG.render("GAME OVER!", 1, "red")
             highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
