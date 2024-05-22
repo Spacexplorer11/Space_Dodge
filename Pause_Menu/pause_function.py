@@ -1,28 +1,38 @@
 import pygame
 import os
+from Exception_Handling.draw_exception import draw_except
 
 pygame.font.init()
-
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 
-pause_background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_background.png")), (WIDTH, HEIGHT))
+pause_background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_background.png")),
+                                          (WIDTH, HEIGHT))
 
 # All the fonts
 PAUSE_FONT = pygame.font.SysFont("Arial", 50)
 PAUSE_FONT_SMALL = pygame.font.SysFont("Arial", 48)
 
+mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (120, 80))
+unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")),
+                                           (120, 80))
 
-def pause_menu(score, elapsedTime, highscore, highscoreBreak):
+
+def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
     WINDOW.blit(pause_background, (0, 0))
     pause_text = PAUSE_FONT.render("PAUSE MENU", 1, "white")
     timeText = PAUSE_FONT.render(f"Time played: {round(elapsedTime)} secs", 1, "white")
     scoreText = PAUSE_FONT.render(f"Score: {score}", 1, "white")
-    highScoreTextPt1 = PAUSE_FONT_SMALL.render(f"Your high score", 1, "white")
+    highScoreTextPt1 = PAUSE_FONT_SMALL.render("Your high score", 1, "white")
     highScoreText_was = PAUSE_FONT_SMALL.render(f" was {highscore}", 1, "white")
     highScoreText_is = PAUSE_FONT_SMALL.render(f" is {highscore}", 1, "white")
+
+    if mute:
+        WINDOW.blit(mutePauseSymbol, (180, 430))
+    else:
+        WINDOW.blit(unmutePauseSymbol, (180, 430))
     WINDOW.blit(pause_text, (290, 176))
     WINDOW.blit(timeText, (180, 250))
     WINDOW.blit(scoreText, (180, 310))
