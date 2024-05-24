@@ -6,14 +6,15 @@ import time
 import pygame
 import simpleaudio as sa
 
+from Drawing.draw import Background
 from Drawing.draw import draw
 from Exception_Handling.draw_exception import draw_except
 from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
+from Pause_Menu.pause_function import pause_menu
 from Sounds.Game_over.Game_over_sound_function import game_over_sound
 from Sounds.Highscore.Highscore_sound_function import highscore_sound
 from Welcome.Welcome_text_function import welcome_text
-from Pause_Menu.pause_function import pause_menu
 
 pygame.mixer.init()
 pygame.font.init()
@@ -46,26 +47,17 @@ BULLET_VELOCITY = 3
 
 def main():
     global mute
-    running = True
-    start = False
-    highscoreBreak = False
-    welcome = True
-    mute = False
-    lives = 3
-    highscoreSoundPlayed = False
-    muteChanged = True
-    pause = False
-    pausedTimes = []
-    totalPausedTime = 0.0
-
-    try:
-        Background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Space_Background.jpg")),
-                                            (WIDTH, HEIGHT))
-    except FileNotFoundError:
-        error = "Background"
-        welcome = False
-        running = False
-        draw_except(error)
+    running = True  # Keeps the while loop running
+    start = False  # Doesn't start the game yet
+    highscoreBreak = False  # Tells if the current score is bigger than the highscore
+    welcome = True  # Shows the welcome screen or not
+    mute = False  # Is the game muted or not
+    lives = 3  # Self-explanatory
+    highscoreSoundPlayed = False  # Has the highscore sound been played?
+    muteChanged = True  # Has the mute symbol been changed
+    pause = False  # Is that pause screen active
+    pausedTimes = []  # All the pause time
+    totalPausedTime = 0.0  # The total pause time
 
     try:
         playerR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player copy.png"), "PlayerR"),
@@ -77,16 +69,6 @@ def main():
         welcome = False
         running = False
         error = "Player"
-        draw_except(error)
-
-    try:
-        threeLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "3_lives.png")), (200, 200))
-        twoLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "2_lives.png")), (200, 190))
-        oneLife = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "1_life.png")), (200, 180))
-    except FileNotFoundError:
-        error = "Lives"
-        running = False
-        welcome = False
         draw_except(error)
 
     try:
@@ -112,6 +94,15 @@ def main():
         running = False
         draw_except(error)
 
+    try:
+        background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
+        pause_music = pygame.mixer.Sound(os.path.join("Sounds", "Pause_music", "pause_music.wav"))
+    except FileNotFoundError:
+        error = "Music"
+        welcome = False
+        running = False
+        draw_except(error)
+
     clock = pygame.time.Clock()
 
     startTime = time.time()
@@ -129,19 +120,10 @@ def main():
 
     direction = 0
 
-    hit = False
+    hit = False  # Has the player collided with the bullet
 
     # Load the high score from file
     highscore = load_highscore(os.path.join("File_Handling", "highscore.pickle"))
-
-    try:
-        background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
-        pause_music = pygame.mixer.Sound(os.path.join("Sounds", "Pause_music", "pause_music.wav"))
-    except FileNotFoundError:
-        error = "Music"
-        welcome = False
-        running = False
-        draw_except(error)
 
     pygame.mixer.Sound.set_volume(background_music, 20)
     pygame.mixer.Sound.play(background_music, -1)
@@ -158,15 +140,22 @@ def main():
                     break
             welcome_text()
 
-    while running and not pause:
+    lostLifeText = FONT.render("You lost a life, you are now on 1 life!", 1, "red")
+
+    while running:
+
         elapsedTime = time.time() - startTime
         elapsedTime -= totalPausedTime
+
+        keys = pygame.key.get_pressed()
 
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
 
         muteRect = muteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
         unmuteRect = unmuteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
 
+        bulletCount += clock.tick(60)
+        player.x = playerX
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -238,7 +227,6 @@ def main():
 
                         pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
 
-
         score += 1
         if score > highscore:
             highscore = score
@@ -251,9 +239,6 @@ def main():
                 highscore_sound(mute, highscoreSound)
                 highscoreSoundPlayed = True
                 pygame.time.delay(1000)
-        bulletCount += clock.tick(60)
-        player.x = playerX
-
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
@@ -264,11 +249,10 @@ def main():
             bulletAddIncrement = max(400, bulletAddIncrement - 50)
             bulletCount = 0
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a] and player.x - PLAYER_VELOCITY >= 0:
+        if keys[pygame.K_a] and playerX - PLAYER_VELOCITY >= 0:
             direction = 0
             playerX -= PLAYER_VELOCITY
-        if keys[pygame.K_d] and player.x + PLAYER_VELOCITY + player.width <= WIDTH:
+        if keys[pygame.K_d] and playerX + PLAYER_VELOCITY + player.width <= WIDTH:
             direction = 1
             playerX += PLAYER_VELOCITY
 
@@ -281,14 +265,13 @@ def main():
                 lives -= 1
                 if lives > 1:
                     pygame.draw.rect(WINDOW, "red", bullet)
-                    lostLifeText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
-                    WINDOW.blit(lostLifeText,
+                    lostLivesText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
+                    WINDOW.blit(lostLivesText,
                                 (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height()))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 elif lives == 1:
                     pygame.draw.rect(WINDOW, "red", bullet)
-                    lostLifeText = FONT.render("You lost a life, you are now on 1 life!", 1, "red")
                     WINDOW.blit(lostLifeText,
                                 (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2))
                     pygame.display.update()
@@ -298,7 +281,6 @@ def main():
                     pygame.display.update()
                     hit = True
                     break
-
 
         if mute:
             pygame.mixer.Sound.stop(background_music)
@@ -326,8 +308,8 @@ def main():
             pygame.time.delay(4000)
             break
 
-        draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak,
-             Background, mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife, timeText)
+        draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak
+             , mute, lives, muteSymbol, unmuteSymbol, timeText)
     pygame.quit()
 
 

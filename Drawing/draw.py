@@ -1,4 +1,8 @@
+import os
+
 import pygame
+
+from Exception_Handling.draw_exception import draw_except
 
 pygame.font.init()
 
@@ -8,23 +12,38 @@ pygame.display.set_caption("Space Dodge")
 
 # Fonts
 FONT = pygame.font.SysFont("Arial Black", 30)
-FONT_SMALL = pygame.font.SysFont("Cochin", 30)
-FONT_ERROR = pygame.font.SysFont("Phosphate", 50)
 
 # Player variables
 PLAYER_HEIGHT = 100
 PLAYER_WIDTH = 80
-PLAYER_VELOCITY = 5
+
+try:
+    threeLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "3_lives.png")), (200, 200))
+    twoLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "2_lives.png")), (200, 190))
+    oneLife = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "1_life.png")), (200, 180))
+except FileNotFoundError:
+    error = "Lives"
+    running = False
+    welcome = False
+    draw_except(error)
+
+try:
+    Background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Space_Background.jpg")),
+                                        (WIDTH, HEIGHT))
+except FileNotFoundError:
+    error = "Background"
+    welcome = False
+    running = False
+    draw_except(error)
 
 
-def draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak, Background,
-         mute, lives, muteSymbol, unmuteSymbol, threeLives, twoLives, oneLife, timeText):
+def draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak,
+         mute, lives, muteSymbol, unmuteSymbol, timeText):
     WINDOW.blit(Background, (0, 0))
 
     # Draw the bullets
     for bullet in bullets:
         pygame.draw.rect(WINDOW, "white", bullet)
-
 
     scoreText = FONT.render(f"Score: {score}", 1, "white")
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
@@ -33,6 +52,7 @@ def draw(playerL, playerR, playerX, bullets, direction, score, highscore, highsc
 
     WINDOW.blit(timeText, (10, 10))
     WINDOW.blit(scoreText, (WIDTH - 250, 10))
+    WINDOW.blit(highScoreTextPt1, (250, 10))
 
     # Show the mute/unmute symbol
     if mute:
@@ -42,10 +62,8 @@ def draw(playerL, playerR, playerX, bullets, direction, score, highscore, highsc
 
     # Check if the highscore is higher than the current score and if it is then say highscore "is" not "was"
     if highscoreBreak:
-        WINDOW.blit(highScoreTextPt1, (250, 10))
         WINDOW.blit(highScoreText_is, (500, 10))
     else:
-        WINDOW.blit(highScoreTextPt1, (250, 10))
         WINDOW.blit(highScoreText_was, (500, 10))
 
     # Changing where the player faces
