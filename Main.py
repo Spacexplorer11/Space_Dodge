@@ -32,7 +32,7 @@ FONT = pygame.font.SysFont("Arial Black", 30)
 FONT_SMALL = pygame.font.SysFont("Cochin", 30)
 FONT_ERROR = pygame.font.SysFont("Phosphate", 50)
 FONT_BIG = pygame.font.SysFont("Arial Black", 100)
-FONT_MEDIUM = pygame.font.SysFont("Arial Black", 50)
+FONT_MEDIUM = pygame.font.SysFont("Arial Black", 45)
 
 # Player variables
 PLAYER_HEIGHT = 100
@@ -55,7 +55,6 @@ def main():
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
     muteChanged = True  # Has the mute symbol been changed
-    pause = False  # Is that pause screen active
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
 
@@ -140,7 +139,7 @@ def main():
                     break
             welcome_text()
 
-    lostLifeText = FONT.render("You lost a life, you are now on 1 life!", 1, "red")
+    lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")
 
     while running:
 
@@ -172,6 +171,9 @@ def main():
                     muteChanged = False
             elif event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
+                if keys[pygame.K_a] or keys[pygame.K_d]:
+                    pass
+                    break
                 if keys[pygame.K_m]:
                     if not mute:
                         mute = True
@@ -264,19 +266,22 @@ def main():
                 bullets.clear()
                 lives -= 1
                 if lives > 1:
+                    WINDOW.blit(Background, (0, 0))
                     pygame.draw.rect(WINDOW, "red", bullet)
-                    lostLivesText = FONT.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
+                    lostLivesText = FONT_MEDIUM.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
                     WINDOW.blit(lostLivesText,
-                                (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height()))
+                                (50, HEIGHT / 2 - lostLifeText.get_height()))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 elif lives == 1:
+                    WINDOW.blit(Background, (0, 0))
                     pygame.draw.rect(WINDOW, "red", bullet)
                     WINDOW.blit(lostLifeText,
-                                (WIDTH / 2 - lostLifeText.get_width() / 2, HEIGHT / 2 - lostLifeText.get_height() / 2))
+                                (50, HEIGHT / 2 - lostLifeText.get_height() / 2))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 else:
+                    WINDOW.blit(Background, (0, 0))
                     pygame.draw.rect(WINDOW, "red", bullet)
                     pygame.display.update()
                     hit = True
@@ -305,11 +310,12 @@ def main():
                 HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
             pygame.display.update()
             game_over_sound(mute, sadSound, GameOverSound)
-            pygame.time.delay(4000)
+            pygame.time.delay(10000)
             break
 
-        draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak
-             , mute, lives, muteSymbol, unmuteSymbol, timeText)
+        draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak, mute, lives, muteSymbol,
+             unmuteSymbol, timeText)
+
     pygame.quit()
 
 
