@@ -13,7 +13,7 @@ pause_background = pygame.transform.scale(pygame.image.load(os.path.join("Assets
 
 # All the fonts
 PAUSE_FONT = pygame.font.SysFont("Arial", 50)
-PAUSE_FONT_SMALL = pygame.font.SysFont("Arial", 48)
+PAUSE_FONT_SMALL = pygame.font.SysFont("Arial", 45)
 
 mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (120, 80))
 unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")),
@@ -40,9 +40,9 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
     # Check if the highscore is higher than the current score and if it is then say highscore "is" not "was"
     if highscoreBreak:
         WINDOW.blit(highScoreTextPt1, (180, 370))
-        WINDOW.blit(highScoreText_is, (510, 370))
+        WINDOW.blit(highScoreText_is, (490, 370))
     else:
         WINDOW.blit(highScoreTextPt1, (180, 370))
-        WINDOW.blit(highScoreText_was, (510, 370))
+        WINDOW.blit(highScoreText_was, (490, 370))
 
     pygame.display.update()

@@ -14,7 +14,8 @@ from File_Handling.Saving import save_object
 from Pause_Menu.pause_function import pause_menu
 from Sounds.Game_over.Game_over_sound_function import game_over_sound
 from Sounds.Highscore.Highscore_sound_function import highscore_sound
-from Welcome.Welcome_text_function import welcome_text
+from Tutorial_and_Information.Welcome_text_function import welcome_text
+from Tutorial_and_Information.Information import info_screen
 
 pygame.mixer.init()
 pygame.font.init()
@@ -228,6 +229,28 @@ def main():
                                     muteChanged = False
 
                         pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
+                if keys[pygame.K_k] or keys[pygame.K_i]:
+                    info_screen_active = True
+                    pauseStartTime = time.time()
+                    keyPress = True
+                    while info_screen_active:
+                        pausedTime = time.time() - pauseStartTime
+                        for event in pygame.event.get():
+                            if event.type == pygame.KEYUP:
+                                keyPress = False
+                            if event.type == pygame.QUIT:
+                                running = False
+                                info_screen_active = False
+                                break
+                            if event.type == pygame.KEYDOWN and not keyPress:
+                                keyPress = True
+                                totalPausedTime = 0.0
+                                pausedTimes.append(round(pausedTime))
+                                info_screen_active = False
+                                for num in pausedTimes:
+                                    totalPausedTime += num
+                                break
+                        info_screen()
 
         score += 1
         if score > highscore:
