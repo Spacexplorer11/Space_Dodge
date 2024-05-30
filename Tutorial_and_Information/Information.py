@@ -5,7 +5,7 @@ WIDTH, HEIGHT = 1000, 800
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Fonts
-FONT = pygame.font.SysFont("Arial Black", 40)
+FONT = pygame.font.SysFont("Arial Black", 36)
 FONT_SMALL = pygame.font.SysFont("Cochin", 30)
 
 

@@ -135,9 +135,16 @@ def main():
                     running = False
                     break
                 elif event.type == pygame.KEYDOWN:
-                    start = True
-                    startTime = time.time()
-                    break
+                    while not start:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                running = False
+                                break
+                            if event.type == pygame.KEYDOWN:
+                                start = True
+                                startTime = time.time()
+                                break
+                        info_screen()
             welcome_text()
 
     lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")

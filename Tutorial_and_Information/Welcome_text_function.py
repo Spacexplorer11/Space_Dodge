@@ -27,11 +27,11 @@ def welcome_text():
                                        welcomeText1.get_height() - welcomeText2.get_height() - welcomeText3.
                                        get_height() - 60) / 2))
     WINDOW.blit(keybindingsInstructionText, (WIDTH / 2 - keybindingsInstructionText.get_width() / 2,
-                                      HEIGHT / 2 - (
-                                              welcomeText1.get_height() - welcomeText2.get_height() -
-                                              welcomeText3.
-                                              get_height() - keybindingsInstructionText.get_height() - 90) / 2))
+                                             HEIGHT / 2 - (
+                                                     welcomeText1.get_height() - welcomeText2.get_height() -
+                                                     welcomeText3.
+                                                     get_height() - keybindingsInstructionText.get_height() - 90) / 2))
     WINDOW.blit(startText, (WIDTH / 2 - startText.get_width() / 2, 740))
     pygame.display.update()
-    startTime, welcome = time.time(), False
-    return startTime, welcome
+    welcome = False
+    return welcome
