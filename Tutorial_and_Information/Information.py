@@ -13,7 +13,7 @@ def info_screen():
     WINDOW.fill((0, 0, 0))
     keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "white")
     keybindText2 = FONT.render("Use A & D keys to move left & right.", 1, "white")
-    keybindText3 = FONT.render("Press P or esc to pause the game.", 1, "white")
+    keybindText3 = FONT.render("Press P, esc or the symbol to pause the game ", 1, "white")
     keybindText4 = FONT.render("Press I or K to bring up this screen.", 1, "white")
     resumeText = FONT_SMALL.render("Click any key to continue!", 1, "white")
     keybindText1Place = WIDTH / 2 - keybindText1.get_width() / 2, 300

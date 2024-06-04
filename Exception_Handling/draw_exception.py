@@ -44,9 +44,9 @@ def draw_except(error):
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
             pygame.display.update()
-        elif error == "Mute/unmute symbol":
+        elif error == "Symbol":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
-            errorText2 = FONT_ERROR.render("Mute/unmute image was not found", 1, "red")
+            errorText2 = FONT_ERROR.render("A symbol( mute, unmute or pause ) was not found", 1, "red")
             errorText3 = FONT_ERROR.render("Please check you have downloaded it", 1, "red")
             errorText1Place = WIDTH / 2 - errorText1.get_width() / 2, HEIGHT / 2 - errorText1.get_height() / 2
             WINDOW.blit(errorText1, errorText1Place)

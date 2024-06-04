@@ -23,8 +23,6 @@ try:
     oneLife = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "1_life.png")), (200, 180))
 except FileNotFoundError:
     error = "Lives"
-    running = False
-    welcome = False
     draw_except(error)
 
 try:
@@ -32,27 +30,32 @@ try:
                                         (WIDTH, HEIGHT))
 except FileNotFoundError:
     error = "Background"
-    welcome = False
-    running = False
+    draw_except(error)
+
+try:
+    pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_rectangle.png")), (50, 30))
+
+except FileNotFoundError:
+    error = "Symbol"
     draw_except(error)
 
 
-def draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak,
-         mute, lives, muteSymbol, unmuteSymbol, timeText):
+def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak,
+         mute, lives, muteSymbol, unmuteSymbol, timeText, scoreText):
     WINDOW.blit(Background, (0, 0))
 
     # Draw the bullets
     for bullet in bullets:
         pygame.draw.rect(WINDOW, "white", bullet)
 
-    scoreText = FONT.render(f"Score: {score}", 1, "white")
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")
     highScoreText_is = FONT.render(f" is {highscore}", 1, "white")
 
     WINDOW.blit(timeText, (10, 10))
-    WINDOW.blit(scoreText, (WIDTH - 250, 10))
+    WINDOW.blit(scoreText, (WIDTH - 270, 10))
     WINDOW.blit(highScoreTextPt1, (250, 10))
+    WINDOW.blit(pauseSymbol, (scoreText.get_width() + 745, 19))
 
     # Show the mute/unmute symbol
     if mute:

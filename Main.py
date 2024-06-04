@@ -55,7 +55,7 @@ def main():
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
-    muteChanged = True  # Has the mute symbol been changed
+    symbolChanged = True  # Has the mute symbol been changed
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
 
@@ -78,8 +78,10 @@ def main():
         mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (120, 80))
         unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")),
                                                    (120, 80))
+
+        pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
-        error = "Mute/unmute symbol"
+        error = "Symbol"
         welcome = False
         running = False
         draw_except(error)
@@ -157,9 +159,11 @@ def main():
         keys = pygame.key.get_pressed()
 
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
+        scoreText = FONT.render(f"Score: {score}", 1, "white")
 
         muteRect = muteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
         unmuteRect = unmuteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
+        pauseSymbolRect = pauseSymbol.get_rect(x=(scoreText.get_width() + 745), y=19)
 
         bulletCount += clock.tick(60)
         player.x = playerX
@@ -169,14 +173,62 @@ def main():
                 running = False
                 break
             if event.type == pygame.MOUSEBUTTONUP:
-                muteChanged = True
+                symbolChanged = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()):
-                    if not mute and muteChanged:
+                    if not mute and symbolChanged:
                         mute = True
-                    elif muteChanged:
+                    elif symbolChanged:
                         mute = False
-                    muteChanged = False
+                    symbolChanged = False
+                if pauseSymbolRect.collidepoint(pygame.mouse.get_pos()):
+                    pauseStartTime = time.time()
+                    pause = True
+                    if not mute:
+                        pygame.mixer.Sound.stop(background_music)
+                        pygame.mixer.Sound.play(pause_music, -1)
+                    mutePauseRect = mutePauseSymbol.get_rect(x=180, y=430)
+                    unmutePauseRect = unmutePauseSymbol.get_rect(x=180, y=430)
+                    while pause:
+                        pausedTime = time.time() - pauseStartTime
+                        playing = pygame.mixer.Sound.get_num_channels(pause_music)
+                        if playing == 0 and not mute:
+                            pygame.mixer.Sound.play(pause_music)
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                pause = False
+                                running = False
+                                break
+                            if event.type == pygame.MOUSEBUTTONUP:
+                                symbolChanged = True
+                            elif event.type == pygame.KEYDOWN:
+                                keys = pygame.key.get_pressed()
+                                if keys[pygame.K_m]:
+                                    if not mute:
+                                        mute = True
+                                        pygame.mixer.Sound.stop(pause_music)
+                                    else:
+                                        pygame.mixer.Sound.play(pause_music)
+                                        mute = False
+                                elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
+                                    pause = False
+                                    totalPausedTime = 0.0
+                                    pausedTimes.append(round(pausedTime))
+                                    pygame.mixer.Sound.stop(pause_music)
+                                    for num in pausedTimes:
+                                        totalPausedTime += num
+                                    break
+                            elif event.type == pygame.MOUSEBUTTONDOWN:
+                                if mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
+                                        pygame.mouse.get_pos()):
+                                    if not mute and symbolChanged:
+                                        pygame.mixer.Sound.stop(pause_music)
+                                        mute = True
+                                    elif symbolChanged:
+                                        pygame.mixer.Sound.play(pause_music)
+                                        mute = False
+                                    symbolChanged = False
+                        pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
             elif event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_a] or keys[pygame.K_d]:
@@ -206,7 +258,7 @@ def main():
                                 running = False
                                 break
                             if event.type == pygame.MOUSEBUTTONUP:
-                                muteChanged = True
+                                symbolChanged = True
                             elif event.type == pygame.KEYDOWN:
                                 keys = pygame.key.get_pressed()
                                 if keys[pygame.K_m]:
@@ -227,13 +279,13 @@ def main():
                             elif event.type == pygame.MOUSEBUTTONDOWN:
                                 if mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
                                         pygame.mouse.get_pos()):
-                                    if not mute and muteChanged:
+                                    if not mute and symbolChanged:
                                         pygame.mixer.Sound.stop(pause_music)
                                         mute = True
-                                    elif muteChanged:
+                                    elif symbolChanged:
                                         pygame.mixer.Sound.play(pause_music)
                                         mute = False
-                                    muteChanged = False
+                                    symbolChanged = False
 
                         pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                 if keys[pygame.K_k] or keys[pygame.K_i]:
@@ -343,8 +395,8 @@ def main():
             pygame.time.delay(10000)
             break
 
-        draw(playerL, playerR, playerX, bullets, direction, score, highscore, highscoreBreak, mute, lives, muteSymbol,
-             unmuteSymbol, timeText)
+        draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
+             unmuteSymbol, timeText, scoreText)
 
     pygame.quit()
 
