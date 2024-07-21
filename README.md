@@ -14,6 +14,6 @@ pip install simpleaudio
 
 If pip install simpleaudio doesn't work use, pip install https://github.com/hamiltron/py-simple-audio/tree/master.
 
-
+If it doesn't work, then download simpleaudio from https://pypi.org/project/simpleaudio/
 
 
