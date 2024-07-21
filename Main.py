@@ -14,8 +14,8 @@ from File_Handling.Saving import save_object
 from Pause_Menu.pause_function import pause_menu
 from Sounds.Game_over.Game_over_sound_function import game_over_sound
 from Sounds.Highscore.Highscore_sound_function import highscore_sound
-from Tutorial_and_Information.Welcome_text_function import welcome_text
 from Tutorial_and_Information.Information import info_screen
+from Tutorial_and_Information.Welcome_text_function import welcome_text
 
 pygame.mixer.init()
 pygame.font.init()
@@ -55,7 +55,7 @@ def main():
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
-    symbolChanged = True  # Has the mute symbol been changed
+    symbolChanged = True  # Has the mute symbol been changed?
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
 
@@ -122,8 +122,6 @@ def main():
 
     direction = 0
 
-    hit = False  # Has the player collided with the bullet
-
     # Load the high score from file
     highscore = load_highscore(os.path.join("File_Handling", "highscore.pickle"))
 
@@ -149,6 +147,7 @@ def main():
                         info_screen()
             welcome_text()
 
+    lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
     lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")
 
     while running:
@@ -174,62 +173,7 @@ def main():
                 break
             if event.type == pygame.MOUSEBUTTONUP:
                 symbolChanged = True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()):
-                    if not mute and symbolChanged:
-                        mute = True
-                    elif symbolChanged:
-                        mute = False
-                    symbolChanged = False
-                if pauseSymbolRect.collidepoint(pygame.mouse.get_pos()):
-                    pauseStartTime = time.time()
-                    pause = True
-                    if not mute:
-                        pygame.mixer.Sound.stop(background_music)
-                        pygame.mixer.Sound.play(pause_music, -1)
-                    mutePauseRect = mutePauseSymbol.get_rect(x=180, y=430)
-                    unmutePauseRect = unmutePauseSymbol.get_rect(x=180, y=430)
-                    while pause:
-                        pausedTime = time.time() - pauseStartTime
-                        playing = pygame.mixer.Sound.get_num_channels(pause_music)
-                        if playing == 0 and not mute:
-                            pygame.mixer.Sound.play(pause_music)
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                pause = False
-                                running = False
-                                break
-                            if event.type == pygame.MOUSEBUTTONUP:
-                                symbolChanged = True
-                            elif event.type == pygame.KEYDOWN:
-                                keys = pygame.key.get_pressed()
-                                if keys[pygame.K_m]:
-                                    if not mute:
-                                        mute = True
-                                        pygame.mixer.Sound.stop(pause_music)
-                                    else:
-                                        pygame.mixer.Sound.play(pause_music)
-                                        mute = False
-                                elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
-                                    pause = False
-                                    totalPausedTime = 0.0
-                                    pausedTimes.append(round(pausedTime))
-                                    pygame.mixer.Sound.stop(pause_music)
-                                    for num in pausedTimes:
-                                        totalPausedTime += num
-                                    break
-                            elif event.type == pygame.MOUSEBUTTONDOWN:
-                                if mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
-                                        pygame.mouse.get_pos()):
-                                    if not mute and symbolChanged:
-                                        pygame.mixer.Sound.stop(pause_music)
-                                        mute = True
-                                    elif symbolChanged:
-                                        pygame.mixer.Sound.play(pause_music)
-                                        mute = False
-                                    symbolChanged = False
-                        pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_a] or keys[pygame.K_d]:
                     pass
@@ -239,7 +183,13 @@ def main():
                         mute = True
                     else:
                         mute = False
-                if keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
+                if muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()):
+                    if not mute and symbolChanged:
+                        mute = True
+                    elif symbolChanged:
+                        mute = False
+                    symbolChanged = False
+                if pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) or keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
                     pauseStartTime = time.time()
                     pause = True
                     if not mute:
@@ -259,7 +209,7 @@ def main():
                                 break
                             if event.type == pygame.MOUSEBUTTONUP:
                                 symbolChanged = True
-                            elif event.type == pygame.KEYDOWN:
+                            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN :
                                 keys = pygame.key.get_pressed()
                                 if keys[pygame.K_m]:
                                     if not mute:
@@ -276,8 +226,7 @@ def main():
                                     for num in pausedTimes:
                                         totalPausedTime += num
                                     break
-                            elif event.type == pygame.MOUSEBUTTONDOWN:
-                                if mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
+                                elif mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
                                         pygame.mouse.get_pos()):
                                     if not mute and symbolChanged:
                                         pygame.mixer.Sound.stop(pause_music)
@@ -286,7 +235,6 @@ def main():
                                         pygame.mixer.Sound.play(pause_music)
                                         mute = False
                                     symbolChanged = False
-
                         pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                 if keys[pygame.K_k] or keys[pygame.K_i]:
                     info_screen_active = True
@@ -350,9 +298,8 @@ def main():
                 if lives > 1:
                     WINDOW.blit(Background, (0, 0))
                     pygame.draw.rect(WINDOW, "red", bullet)
-                    lostLivesText = FONT_MEDIUM.render(f"You lost a life, you are now on {lives} lives!", 1, "red")
                     WINDOW.blit(lostLivesText,
-                                (50, HEIGHT / 2 - lostLifeText.get_height()))
+                                (50, HEIGHT / 2 - lostLivesText.get_height()))
                     pygame.display.update()
                     pygame.time.delay(1000)
                 elif lives == 1:
@@ -366,7 +313,23 @@ def main():
                     WINDOW.blit(Background, (0, 0))
                     pygame.draw.rect(WINDOW, "red", bullet)
                     pygame.display.update()
-                    hit = True
+                    if highscore >= score:
+                        save_object(highscore)
+                    pygame.mixer.Sound.fadeout(background_music, 500)
+                    WINDOW.blit(Background, (0, 0))
+                    loseText = FONT_BIG.render("GAME OVER!", 1, "red")
+                    highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
+                    timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
+                    WINDOW.blit(loseText,
+                                (WIDTH / 2 - loseText.get_width() / 2, HEIGHT / 2 - loseText.get_height() / 2))
+                    WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2,
+                                                HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
+                    WINDOW.blit(timeText, (
+                        WIDTH / 2 - timeText.get_width() / 2,
+                        HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
+                    pygame.display.update()
+                    game_over_sound(mute, sadSound, GameOverSound)
+                    pygame.time.delay(10000)
                     break
 
         if mute:
@@ -375,25 +338,6 @@ def main():
             playing = pygame.mixer.Sound.get_num_channels(background_music)
             if playing == 0:
                 pygame.mixer.Sound.play(background_music)
-
-        if hit:
-            if highscore >= score:
-                save_object(highscore)
-            pygame.mixer.Sound.fadeout(background_music, 500)
-            WINDOW.blit(Background, (0, 0))
-            loseText = FONT_BIG.render("GAME OVER!", 1, "red")
-            highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
-            timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
-            WINDOW.blit(loseText, (WIDTH / 2 - loseText.get_width() / 2, HEIGHT / 2 - loseText.get_height() / 2))
-            WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2,
-                                        HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
-            WINDOW.blit(timeText, (
-                WIDTH / 2 - timeText.get_width() / 2,
-                HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
-            pygame.display.update()
-            game_over_sound(mute, sadSound, GameOverSound)
-            pygame.time.delay(10000)
-            break
 
         draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
              unmuteSymbol, timeText, scoreText)
