@@ -9,10 +9,10 @@ First, you must download python from python.org
 Make sure it is correct for your computer
 
 Secondly, open the terminal on your computer and type the following one after another:
-pip install pygame
+pip install pygame,
 pip install simpleaudio
 
-If pip install simpleaudio doesn't work use pip install https://github.com/hamiltron/py-simple-audio/tree/master.
+If pip install simpleaudio doesn't work use, pip install https://github.com/hamiltron/py-simple-audio/tree/master.
 
 
 
