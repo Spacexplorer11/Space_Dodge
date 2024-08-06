@@ -175,6 +175,9 @@ def main():
                 symbolChanged = True
             elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
+                mouseclick = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouseclick = True
                 if keys[pygame.K_a] or keys[pygame.K_d]:
                     pass
                     break
@@ -183,13 +186,15 @@ def main():
                         mute = True
                     else:
                         mute = False
-                if muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()):
+                if ((muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()))
+                        and mouseclick):
                     if not mute and symbolChanged:
                         mute = True
                     elif symbolChanged:
                         mute = False
                     symbolChanged = False
-                if pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) or keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
+                if (pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) and mouseclick) or (keys[pygame.K_p]
+                                                                                             or keys[pygame.K_ESCAPE]):
                     pauseStartTime = time.time()
                     pause = True
                     if not mute:
