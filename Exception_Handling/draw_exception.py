@@ -5,7 +5,7 @@ pygame.font.init()
 WIDTH, HEIGHT = 1000, 800
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Dodge")
-FONT_ERROR = pygame.font.SysFont("Phosphate", 50)
+FONT_ERROR = pygame.font.SysFont("Phosphate", 40)
 
 
 def draw_except(error):

@@ -1,5 +1,3 @@
-import time
-
 import pygame
 
 # Window variables
@@ -11,7 +9,7 @@ FONT = pygame.font.SysFont("Arial Black", 30)
 FONT_SMALL = pygame.font.SysFont("Cochin", 30)
 
 
-def welcome_text():
+def draw_title():
     WINDOW.fill((0, 0, 0))
     welcomeText1 = FONT.render("Welcome to Space Dodge!", 1, "white")
     welcomeText2 = FONT.render("Use A & D keys to move left & right!", 1, "white")

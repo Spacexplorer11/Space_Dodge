@@ -4,7 +4,7 @@ import random
 import time
 
 import pygame
-import simpleaudio as sa
+from playsound import playsound
 
 from Drawing.draw import Background
 from Drawing.draw import draw
@@ -12,10 +12,8 @@ from Exception_Handling.draw_exception import draw_except
 from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
 from Pause_Menu.pause_function import pause_menu
-from Sounds.Game_over.Game_over_sound_function import game_over_sound
-from Sounds.Highscore.Highscore_sound_function import highscore_sound
+from Title_screen.draw_title_screen import draw_title
 from Tutorial_and_Information.Information import info_screen
-from Tutorial_and_Information.Welcome_text_function import welcome_text
 
 pygame.mixer.init()
 pygame.font.init()
@@ -86,15 +84,21 @@ def main():
         running = False
         draw_except(error)
 
-    try:
-        sadSound = sa.WaveObject.from_wave_file("Sounds/Game_over/sad-trombone.wav")
-        GameOverSound = sa.WaveObject.from_wave_file("Sounds/Game_over/game-over-sound.wav")
-        highscoreSound = sa.WaveObject.from_wave_file("Sounds/Highscore/highscore.wav")
-    except FileNotFoundError:
+    sadSoundCheck = os.path.exists(os.path.join("Sounds", "Game_over", "sad-trombone.wav"))
+    GameOverSoundCheck = os.path.exists(os.path.join("Sounds", "Game_over", "game-over-sound.wav"))
+    highscoreSoundCheck = os.path.exists(os.path.join("Sounds", "Highscore", "highscore.wav"))
+    if not (sadSoundCheck or GameOverSoundCheck or highscoreSoundCheck):
+        print(sadSoundCheck)
+        print(GameOverSoundCheck)
+        print(highscoreSoundCheck)
         error = "Sound Effects"
         welcome = False
         running = False
         draw_except(error)
+    else:
+        sadSound = os.path.join("Sounds", "Game_over", "sad-trombone.wav")
+        GameOverSound = os.path.join("Sounds", "Game_over", "game-over-sound.wav")
+        highscoreSound = os.path.join("Sounds", "Highscore", "highscore.wav")
 
     try:
         background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
@@ -145,7 +149,7 @@ def main():
                                 startTime = time.time()
                                 break
                         info_screen()
-            welcome_text()
+            draw_title()
 
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
     lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")
@@ -273,7 +277,7 @@ def main():
                 WINDOW.blit(highscoreBrokenText, (
                     WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()
-                highscore_sound(mute, highscoreSound)
+                playsound(highscoreSound)
                 highscoreSoundPlayed = True
                 pygame.time.delay(1000)
 
@@ -333,10 +337,11 @@ def main():
                         WIDTH / 2 - timeText.get_width() / 2,
                         HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
                     pygame.display.update()
-                    game_over_sound(mute, sadSound, GameOverSound)
-                    pygame.time.delay(10000)
+                    playsound(GameOverSound)
+                    playsound(sadSound)
+                    pygame.time.delay(5000)
+                    main()
                     break
-
         if mute:
             pygame.mixer.Sound.stop(background_music)
         elif not mute:
