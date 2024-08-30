@@ -11,12 +11,12 @@ If you need help opening a pull request, please follow [this link](https://docs.
 >[!Important]
 Instructions to use the game:   
 The instructions to play the game are in-game.  
->1. Download python from https://python.org.  
->Make sure it is correct for your computer.  
->2. Open the terminal on your computer and type: pip install pygame and playsound  
->3. Find the zip file called Space_Dodge-main.  
->4. Extract/unzip that file.  
->5. In the extracted folder, find "main.py", and run this file. The game should start, but if you have any trouble, create an issue with the tag "help wanted".
+>1. Download python from https://python.org. **Make sure it is correct for your computer.**  
+>2. Open the terminal on your computer and type: pip install pygame and wheel and playsound
+>3. Download the zip file from the main page of the repository.  
+>4. Find the zip file called Space_Dodge-main.  
+>5. Extract/unzip that file.  
+>6. In the extracted folder, find "main.py", and run this file. The game should start, but if you have any trouble, create an issue with the tag "help wanted".
 
 
 
