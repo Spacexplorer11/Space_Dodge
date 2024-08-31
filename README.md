@@ -6,7 +6,7 @@ A game where you dodge bullets that are coming down from the top of the screen. 
 
 This is just a pygame project which I followed a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY) to make.  
 I have been adding new features such as sound effects, and lives and will try to add any suggestions!  
-Please leave them in [Issues under the "suggestion" tag](../../issues/new?template=suggestion.md).
+Please leave them in [Issues under the "suggestion" tag](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=feature_request.yml).
 
 >[!Note]  
 > This project is currently in active development, I work on it during my free time.  
@@ -30,4 +30,4 @@ The instructions to play the game are in-game.
 3. Extract/unzip the file to a desired location.
 4. Open the terminal on your computer and navigate to the extracted folder.
 5. Type: `pip install -r requirements.txt` to install the necessary dependencies.
-6. In the extracted folder, find `main.py`, and run this file. The game should start, but if you have any trouble, create an issue with the tag "help wanted".
+6. In the extracted folder, find `main.py`, and run this file. The game should start, but if you have any trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=healp_wanted.yml).

@@ -3,7 +3,7 @@ name: Greetings
 on:
   issues:
     types: [opened]
-  pull_request_target:
+  pull_request:
     types: [opened]
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             github.pulls.createReview({
-              pull_number: context.issue.number,
+              pull_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: "Thank you very much for making a pull request. It will be reviewed as fast as possible!",

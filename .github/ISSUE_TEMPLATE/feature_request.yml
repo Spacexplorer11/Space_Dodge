@@ -1,18 +1,18 @@
 name: Feature request
 description: Suggest an idea for this project
 title: "[FEATURE] "
-labels: [enhancement]
+labels: [suggestion]
 body:
   - type: markdown
     attributes:
       value: |
-        **Is your feature request related to a problem? Please describe.**  
+        **Is your feature request related to a problem? Please describe.**
         A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
   - type: textarea
     id: problem
     attributes:
       label: Problem
-      description: A clear and concise description of what the problem is.
+      description: Summarize the problem briefly.
       placeholder: Describe the problem
       value:
     validations:
@@ -20,13 +20,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Describe the solution you'd like**  
+        **Describe the solution you'd like**
         A clear and concise description of what you want to happen.
   - type: textarea
     id: solution
     attributes:
       label: Solution
-      description: A clear and concise description of what you want to happen.
+      description: Summarize the solution briefly.
       placeholder: Describe the solution
       value:
     validations:
@@ -34,24 +34,24 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Describe alternatives you've considered**  
+        **Describe alternatives you've considered**
         A clear and concise description of any alternative solutions or features you've considered.
   - type: textarea
     id: alternatives
     attributes:
       label: Alternatives
-      description: A clear and concise description of any alternative solutions or features you've considered.
+      description: Summarize the alternatives briefly.
       placeholder: Describe the alternatives
       value:
   - type: markdown
     attributes:
       value: |
-        **Additional context**  
+        **Additional context**
         Add any other context or screenshots about the feature request here.
   - type: textarea
     id: context
     attributes:
-      label: Additional context
-      description: Add any other context or screenshots about the feature request here.
-      placeholder: Add any other context
+      label: Extra Information or Background
+      description: Include any additional details or screenshots related to the feature request here.
+      placeholder: Add any other things you think we should know
       value:

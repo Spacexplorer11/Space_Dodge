@@ -1,32 +1,32 @@
 name: Help wanted
-description: Request help with the project
+description: Request help with a problem or question
 title: "[HELP] "
 labels: [help wanted]
 body:
   - type: markdown
     attributes:
       value: |
-        **Describe the help you need**  
+        **Describe the issue**
         A clear and concise description of what you need help with.
   - type: textarea
-    id: description
+    id: issue
     attributes:
-      label: Description
-      description: A clear and concise description of what you need help with.
-      placeholder: Describe the help you need
+      label: Issue Summary
+      description: Briefly describe the issue.
+      placeholder: Describe the issue
       value:
     validations:
       required: true
   - type: markdown
     attributes:
       value: |
-        **Steps to reproduce the issue**  
-        Steps to reproduce the issue you need help with:
+        **Steps to reproduce**
+        Steps to reproduce the issue:
   - type: textarea
     id: steps
     attributes:
-      label: Steps to reproduce
-      description: Steps to reproduce the issue you need help with.
+      label: Reproduction Steps
+      description: Steps to reproduce the issue.
       placeholder: "1. Go to '...'\n2. Click on '....'\n3. Scroll down to '....'\n4. See issue"
       value:
     validations:
@@ -34,38 +34,38 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Expected behaviour**  
+        **Expected outcome**
         A clear and concise description of what you expected to happen.
   - type: textarea
     id: expected
     attributes:
-      label: Expected behaviour
-      description: A clear and concise description of what you expected to happen.
-      placeholder: Describe the expected behaviour
+      label: Expected Outcome
+      description: Describe what you expected to happen.
+      placeholder: Describe the expected outcome
       value:
     validations:
       required: true
   - type: markdown
     attributes:
       value: |
-        **Screenshots**  
-        If applicable, add screenshots to help explain the issue.
+        **Screenshots**
+        If applicable, add screenshots to help explain your issue.
   - type: textarea
     id: screenshots
     attributes:
       label: Screenshots
-      description: If applicable, add screenshots to help explain the issue.
+      description: Add screenshots to help explain your issue.
       placeholder: Add screenshots
       value:
   - type: markdown
     attributes:
       value: |
-        **Additional context**  
-        Add any other context about the issue here.
+        **Additional context**
+        Add any other relevant information or context about the issue here.
   - type: textarea
     id: context
     attributes:
-      label: Additional context
-      description: Add any other context about the issue here.
+      label: Extra Information
+      description: Include any additional details about the issue.
       placeholder: Add any other context
       value:
