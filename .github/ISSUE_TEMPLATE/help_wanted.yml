@@ -1,0 +1,71 @@
+name: Help wanted
+description: Request help with the project
+title: "[HELP] "
+labels: [help wanted]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Describe the help you need**  
+        A clear and concise description of what you need help with.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what you need help with.
+      placeholder: Describe the help you need
+      value:
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        **Steps to reproduce the issue**  
+        Steps to reproduce the issue you need help with:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the issue you need help with.
+      placeholder: "1. Go to '...'\n2. Click on '....'\n3. Scroll down to '....'\n4. See issue"
+      value:
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        **Expected behaviour**  
+        A clear and concise description of what you expected to happen.
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: A clear and concise description of what you expected to happen.
+      placeholder: Describe the expected behaviour
+      value:
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        **Screenshots**  
+        If applicable, add screenshots to help explain the issue.
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain the issue.
+      placeholder: Add screenshots
+      value:
+  - type: markdown
+    attributes:
+      value: |
+        **Additional context**  
+        Add any other context about the issue here.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context about the issue here.
+      placeholder: Add any other context
+      value:

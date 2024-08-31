@@ -20,7 +20,7 @@ def draw_except(error):
         WINDOW.fill((0, 0, 0))
         if error == "Background":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
-            errorText2 = FONT_ERROR.render("Background image was not found", 1, "red")
+            errorText2 = FONT_ERROR.render("Background or title screen image was not found", 1, "red")
             errorText3 = FONT_ERROR.render("Please check you have downloaded it", 1, "red")
             errorText1Place = WIDTH / 2 - errorText1.get_width() / 2, HEIGHT / 2 - errorText1.get_height() / 2
             WINDOW.blit(errorText1, errorText1Place)

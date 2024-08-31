@@ -57,6 +57,16 @@ def main():
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
 
+    # Load all the files/variables
+    try:
+        title_screen_image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Title_screen_image.jpg")),
+                                                    (WIDTH, HEIGHT))
+    except FileNotFoundError:
+        welcome = False
+        running = False
+        error = "Background"
+        draw_except(error)
+
     try:
         playerR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player copy.png"), "PlayerR"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
@@ -109,29 +119,31 @@ def main():
         running = False
         draw_except(error)
 
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock()  # The clock for the game
 
-    startTime = time.time()
+    startTime = time.time()  # The time the game started
 
-    score = 0
+    score = 0  # The score of the player
 
-    bulletAddIncrement = 2000
+    bulletAddIncrement = 2000  # The time between adding bullets
     bulletCount = 0  # Tells us when to add the bullet
 
-    bullets = []
+    bullets = []  # The list of bullets
 
-    playerX = 500
-    player.x = playerX
-    player.y = HEIGHT - PLAYER_HEIGHT
+    playerX = 500  # The x position of the player
+    player.x = playerX  # The x position of the player assigned to local variable
+    player.y = HEIGHT - PLAYER_HEIGHT  # The y position of the player
 
-    direction = 0
+    direction = 0  # The direction the player is facing( written in binary ) 0 = left, 1 = right
 
     # Load the high score from file
     highscore = load_highscore(os.path.join("File_Handling", "highscore.pickle"))
 
+    # Play the background music
     pygame.mixer.Sound.set_volume(background_music, 20)
     pygame.mixer.Sound.play(background_music, -1)
 
+    # Draw the welcome screen
     if welcome:
         while not start:
             for event in pygame.event.get():
@@ -149,28 +161,38 @@ def main():
                                 startTime = time.time()
                                 break
                         info_screen()
-            draw_title()
+            draw_title(title_screen_image)
 
+    # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
     lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")
 
+    # The main game loop
     while running:
 
+        # The time the game was paused & playing
         elapsedTime = time.time() - startTime
         elapsedTime -= totalPausedTime
 
+        # Get the keys pressed
         keys = pygame.key.get_pressed()
 
+        # The text for the time and score( it's updated every frame )
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
         scoreText = FONT.render(f"Score: {score}", 1, "white")
 
+        # The rectangles for the symbols( it's updated every frame )
         muteRect = muteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
         unmuteRect = unmuteSymbol.get_rect(x=(timeText.get_width() + 10), y=10)
         pauseSymbolRect = pauseSymbol.get_rect(x=(scoreText.get_width() + 745), y=19)
 
+        # The framerate of the game
         bulletCount += clock.tick(60)
+
+        # The player's x position reassignment to the local variable
         player.x = playerX
 
+        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -218,7 +240,7 @@ def main():
                                 break
                             if event.type == pygame.MOUSEBUTTONUP:
                                 symbolChanged = True
-                            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN :
+                            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                                 keys = pygame.key.get_pressed()
                                 if keys[pygame.K_m]:
                                     if not mute:
