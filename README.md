@@ -1,6 +1,6 @@
 # Space Dodge
 
-A game where you dodge bullets that are coming down from the top of the screen. Can only be played with keyboard.
+A game where you dodge bullets that are coming down from the top of the screen. It can only be played with a keyboard.
 
 ## Description
 
@@ -25,15 +25,29 @@ Please leave them in [Issues under the "suggestion" tag](https://github.com/Spac
 
 The instructions to play the game are in-game.
 
+>[!Important]
+> **Are you on Windows?**  
+> If you are on Windows, you will need to run `python` in terminal/command prompt on its own and download Python from the Microsoft store before proceeding.
+
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
 2. Download the zip file from the main page of the repository. [Click the green `Code` button and click `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
 3. Extract/unzip the file to a desired location.
 4. Open the terminal on your computer and navigate to the extracted folder.
-5. Type: `pip install -r requirements.txt` to install the necessary dependencies.
+5. Type: `pip install -r PATH/requirement.txt` to install the necessary dependencies. Replace `PATH` with the path to requirements.txt. You will find it in the extracted folder. 
 6. In the extracted folder, find `main.py`, and run this file.  
-You can also right-click it, click `copy path`, go to terminal and type `python3 PATH`. Replace `PATH` with the path to the file.   
-The game should start, but if you have any trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=healp_wanted.yml).
+You can also right-click it, click `copy path`, go to terminal/command prompt and type `python3 PATH`. Replace `PATH` with the path to the file.   
+The game should start, but if you have **any** trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
 
->[!Important]
-> **Are you windows?**
-> If you are on windows, you will need to run `python` in terminal on its own and download python from the microsoft store before proceeding.
+>[!Tip]
+>Before opening an issue, go through the following FAQ.
+>  
+>Issue:  
+>The playsound module didn't install  
+>Answer:  
+>Try the following commands:  
+>- pip3 install playsound
+>- pip3 install playsound --upgrade
+>- pip3 install playsound --no-cache-dir
+>- pip install playsound@git+https://github.com/taconi/playsound
+>  
+>[If that didn't help, please open an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
