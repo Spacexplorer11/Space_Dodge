@@ -30,4 +30,6 @@ The instructions to play the game are in-game.
 3. Extract/unzip the file to a desired location.
 4. Open the terminal on your computer and navigate to the extracted folder.
 5. Type: `pip install -r requirements.txt` to install the necessary dependencies.
-6. In the extracted folder, find `main.py`, and run this file. The game should start, but if you have any trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=healp_wanted.yml).
+6. In the extracted folder, find `main.py`, and run this file.  
+You can also right-click it, click `copy path`, go to terminal and type `python3 PATH`. Replace `PATH` with the path to the file.   
+The game should start, but if you have any trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=healp_wanted.yml).
