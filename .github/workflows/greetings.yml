@@ -6,11 +6,13 @@ on:
   pull_request:
     types: [opened]
 
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
   greet-on-issue:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
       - name: Post greeting on new issue
         uses: actions/github-script@v6
@@ -25,8 +27,6 @@ jobs:
 
   greet-on-pr:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     steps:
       - name: Post greeting on new pull request
         uses: actions/github-script@v6
