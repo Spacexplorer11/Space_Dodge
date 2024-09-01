@@ -26,7 +26,7 @@ Please leave them in [Issues under the "suggestion" tag](https://github.com/Spac
 The instructions to play the game are in-game.
 
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
-2. Download the zip file from the main page of the repository.
+2. Download the zip file from the main page of the repository. Click the green `Code` button and click `Download Zip`
 3. Extract/unzip the file to a desired location.
 4. Open the terminal on your computer and navigate to the extracted folder.
 5. Type: `pip install -r requirements.txt` to install the necessary dependencies.
