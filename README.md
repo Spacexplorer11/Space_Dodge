@@ -33,3 +33,7 @@ The instructions to play the game are in-game.
 6. In the extracted folder, find `main.py`, and run this file.  
 You can also right-click it, click `copy path`, go to terminal and type `python3 PATH`. Replace `PATH` with the path to the file.   
 The game should start, but if you have any trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=healp_wanted.yml).
+
+>[!Important]
+> **Are you windows?**
+> If you are on windows, you will need to run `python` in terminal on its own and download python from the microsoft store before proceeding.
