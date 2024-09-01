@@ -37,3 +37,17 @@ The instructions to play the game are in-game.
 6. In the extracted folder, find `main.py`, and run this file.  
 You can also right-click it, click `copy path`, go to terminal/command prompt and type `python3 PATH`. Replace `PATH` with the path to the file.   
 The game should start, but if you have **any** trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
+
+>[!Tip]
+>Before opening an issue, go through the following FAQ.
+>  
+>Issue:  
+>The playsound module didn't install  
+>Answer:  
+>Try the following commands:  
+>- pip3 install playsound
+>- pip3 install playsound --upgrade
+>- pip3 install playsound --no-cache-dir
+>- pip install playsound@git+https://github.com/taconi/playsound
+>  
+>[If that didn't help, please open an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
