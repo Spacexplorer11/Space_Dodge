@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   greet-on-issue:
+    if: github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
       - name: Post greeting on new issue
@@ -26,6 +27,7 @@ jobs:
             })
 
   greet-on-pr:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Post greeting on new pull request
