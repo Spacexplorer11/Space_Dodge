@@ -51,3 +51,8 @@ The game should start, but if you have **any** trouble, [create an issue with th
 >- pip install playsound@git+https://github.com/taconi/playsound
 >  
 >[If that didn't help, please open an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
+
+## Credits
+- The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).  
+- After that, 100% of code was written by me with help from GitHub Copilot.  
+- All images were generated using [Leonardo.ai](https://leonardo.ai)  
