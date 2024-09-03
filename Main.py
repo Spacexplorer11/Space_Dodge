@@ -4,7 +4,7 @@ import random
 import time
 
 import pygame
-from playsound import playsound
+from playsound3 import playsound
 
 from Drawing.draw import Background
 from Drawing.draw import draw
