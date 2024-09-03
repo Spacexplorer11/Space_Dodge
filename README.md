@@ -19,7 +19,7 @@ Please leave them in [Issues under the "suggestion" tag](https://github.com/Spac
 >**Make sure** you have the following dependencies installed:
 >- pygame
 >- wheel
->- playsound
+>- playsound3
 
 ## Instructions to use the game
 
@@ -45,10 +45,10 @@ The game should start, but if you have **any** trouble, [create an issue with th
 >The playsound module didn't install  
 >Answer:  
 >Try the following commands:  
->- pip3 install playsound
->- pip3 install playsound --upgrade
->- pip3 install playsound --no-cache-dir
->- pip install playsound@git+https://github.com/taconi/playsound
+>- pip3 install playsound3
+>- pip3 install playsound3 --upgrade
+>- pip3 install playsound3 --no-cache-dir
+>- pip3 install playsound3@git+https://github.com/sjmikler/playsound3
 >  
 >[If that didn't help, please open an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
 
