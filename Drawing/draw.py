@@ -33,7 +33,7 @@ except FileNotFoundError:
     draw_except(error)
 
 try:
-    pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_rectangle.png")), (50, 30))
+    pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Pause_rectangle.png")), (50, 30))
 
 except FileNotFoundError:
     error = "Symbol"

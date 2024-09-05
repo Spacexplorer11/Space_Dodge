@@ -4,7 +4,6 @@ import random
 import time
 
 import pygame
-from playsound3 import playsound
 
 from Drawing.draw import Background
 from Drawing.draw import draw
@@ -13,7 +12,8 @@ from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
 from Pause_Menu.pause_function import pause_menu
 from Title_screen.draw_title_screen import draw_title
-from Tutorial_and_Information.Information import info_screen
+from Tutorial_and_Information.Keybindings import keybindings_screen
+from Tutorial_and_Information.Welcome import welcome_screen
 
 pygame.mixer.init()
 pygame.font.init()
@@ -49,7 +49,7 @@ def main():
     running = True  # Keeps the while loop running
     start = False  # Doesn't start the game yet
     highscoreBreak = False  # Tells if the current score is bigger than the highscore
-    welcome = True  # Shows the welcome screen or not
+    welcome = False # Shows the welcome screen
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
@@ -59,63 +59,43 @@ def main():
 
     # Load all the files/variables
     try:
-        title_screen_image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Title_screen_image.jpg")),
-                                                    (WIDTH, HEIGHT))
-    except FileNotFoundError:
-        welcome = False
-        running = False
-        error = "Background"
-        draw_except(error)
-
-    try:
         playerR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player copy.png"), "PlayerR"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
         playerL = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player.png"), "PlayerL"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
         player = playerL.get_rect()
     except FileNotFoundError:
-        welcome = False
         running = False
         error = "Player"
         draw_except(error)
 
     try:
-        muteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (70, 50))
-        unmuteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")), (70, 50))
+        muteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Mute.png")), (70, 50))
+        unmuteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Unmute.png")), (70, 50))
 
-        mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (120, 80))
-        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")),
+        mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Mute.png")), (120, 80))
+        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Unmute.png")),
                                                    (120, 80))
 
-        pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_rectangle.png")), (50, 30))
+        pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
         error = "Symbol"
-        welcome = False
         running = False
         draw_except(error)
-
-    sadSoundCheck = os.path.exists(os.path.join("Sounds", "Game_over", "sad-trombone.wav"))
-    GameOverSoundCheck = os.path.exists(os.path.join("Sounds", "Game_over", "game-over-sound.wav"))
-    highscoreSoundCheck = os.path.exists(os.path.join("Sounds", "Highscore", "highscore.wav"))
-    if not (sadSoundCheck or GameOverSoundCheck or highscoreSoundCheck):
-        print(sadSoundCheck)
-        print(GameOverSoundCheck)
-        print(highscoreSoundCheck)
-        error = "Sound Effects"
-        welcome = False
-        running = False
-        draw_except(error)
-    else:
-        sadSound = os.path.join("Sounds", "Game_over", "sad-trombone.wav")
-        GameOverSound = os.path.join("Sounds", "Game_over", "game-over-sound.wav")
-        highscoreSound = os.path.join("Sounds", "Highscore", "highscore.wav")
 
     try:
-        background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
-        pause_music = pygame.mixer.Sound(os.path.join("Sounds", "Pause_music", "pause_music.wav"))
+        sadSound = pygame.mixer.Sound(os.path.join("Sounds", "Game_over", "sad-trombone.wav"))
+        GameOverSound = pygame.mixer.Sound(os.path.join("Sounds", "Game_over", "game-over-sound.wav"))
+        highscoreSound = pygame.mixer.Sound(os.path.join("Sounds", "Highscore", "highscore.wav"))
     except FileNotFoundError:
+        error = "Sound Effects"
+        running = False
+        draw_except(error)
+
+    background_music_check = os.path.exists(os.path.join("Sounds", "Background_music", "background_music.mp3"))
+    pause_music_check = os.path.exists(os.path.join("Sounds", "Pause_screen", "pause_music.mp3"))
+    if not (background_music_check or pause_music_check):
         error = "Music"
-        welcome = False
         running = False
         draw_except(error)
 
@@ -133,6 +113,7 @@ def main():
     playerX = 500  # The x position of the player
     player.x = playerX  # The x position of the player assigned to local variable
     player.y = HEIGHT - PLAYER_HEIGHT  # The y position of the player
+    playerY = player.y  # The y position of the player assigned to local variable
 
     direction = 0  # The direction the player is facing( written in binary ) 0 = left, 1 = right
 
@@ -140,28 +121,33 @@ def main():
     highscore = load_highscore(os.path.join("File_Handling", "highscore.pickle"))
 
     # Play the background music
-    pygame.mixer.Sound.set_volume(background_music, 20)
-    pygame.mixer.Sound.play(background_music, -1)
+    pygame.mixer.music.load(os.path.join("Sounds", "Background_music", "background_music.mp3"))
+    pygame.mixer.music.set_volume(20)
+    pygame.mixer.music.play(-1)
 
-    # Draw the welcome screen
-    if welcome:
-        while not start:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                    break
-                elif event.type == pygame.KEYDOWN:
-                    while not start:
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                running = False
-                                break
-                            if event.type == pygame.KEYDOWN:
-                                start = True
-                                startTime = time.time()
-                                break
-                        info_screen()
-            draw_title(title_screen_image)
+    # Draw the title screen
+    if not start:
+        welcome = draw_title(start, welcome)
+
+    while welcome:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                welcome = False
+                running = False
+                break
+            elif event.type == pygame.KEYDOWN:
+                while welcome:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            welcome = False
+                            running = False
+                            break
+                        if event.type == pygame.KEYDOWN:
+                            welcome = False
+                            startTime = time.time()
+                            break
+                    keybindings_screen()
+        welcome_screen()
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -189,14 +175,18 @@ def main():
         # The framerate of the game
         bulletCount += clock.tick(60)
 
+        player = playerL.get_rect(x=playerX, y=playerY) if direction == 0 else playerR.get_rect(x=playerX, y=playerY)
+
         # The player's x position reassignment to the local variable
         player.x = playerX
 
         # Event handling
         for event in pygame.event.get():
+            # Quit the game
             if event.type == pygame.QUIT:
                 running = False
                 break
+            # Check if the mouse is clicked
             if event.type == pygame.MOUSEBUTTONUP:
                 symbolChanged = True
             elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
@@ -208,31 +198,23 @@ def main():
                     pass
                     break
                 if keys[pygame.K_m]:
-                    if not mute:
-                        mute = True
-                    else:
-                        mute = False
+                    mute = True if not mute else False
                 if ((muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()))
                         and mouseclick):
-                    if not mute and symbolChanged:
-                        mute = True
-                    elif symbolChanged:
-                        mute = False
+                    mute = True if not mute and symbolChanged else False
                     symbolChanged = False
                 if (pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) and mouseclick) or (keys[pygame.K_p]
                                                                                              or keys[pygame.K_ESCAPE]):
                     pauseStartTime = time.time()
                     pause = True
+                    pygame.mixer.music.load(
+                        os.path.join("Sounds", "Background_music", "Pause_screen", "pause_music.mp3"))
                     if not mute:
-                        pygame.mixer.Sound.stop(background_music)
-                        pygame.mixer.Sound.play(pause_music, -1)
+                        pygame.mixer.music.play(-1)
                     mutePauseRect = mutePauseSymbol.get_rect(x=180, y=430)
                     unmutePauseRect = unmutePauseSymbol.get_rect(x=180, y=430)
                     while pause:
                         pausedTime = time.time() - pauseStartTime
-                        playing = pygame.mixer.Sound.get_num_channels(pause_music)
-                        if playing == 0 and not mute:
-                            pygame.mixer.Sound.play(pause_music)
                         for event in pygame.event.get():
                             if event.type == pygame.QUIT:
                                 pause = False
@@ -245,25 +227,29 @@ def main():
                                 if keys[pygame.K_m]:
                                     if not mute:
                                         mute = True
-                                        pygame.mixer.Sound.stop(pause_music)
+                                        pygame.mixer.music.pause()
                                     else:
-                                        pygame.mixer.Sound.play(pause_music)
+                                        pygame.mixer.music.unpause()
                                         mute = False
                                 elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
                                     pause = False
                                     totalPausedTime = 0.0
                                     pausedTimes.append(round(pausedTime))
-                                    pygame.mixer.Sound.stop(pause_music)
+                                    pygame.mixer.music.stop()
+                                    pygame.mixer.music.unload()
+                                    pygame.mixer.music.load(
+                                        os.path.join("Sounds", "Background_music", "background_music.mp3"))
+                                    pygame.mixer.music.play(-1)
                                     for num in pausedTimes:
                                         totalPausedTime += num
                                     break
                                 elif mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
                                         pygame.mouse.get_pos()):
                                     if not mute and symbolChanged:
-                                        pygame.mixer.Sound.stop(pause_music)
+                                        pygame.mixer.music.pause()
                                         mute = True
                                     elif symbolChanged:
-                                        pygame.mixer.Sound.play(pause_music)
+                                        pygame.mixer.music.unpause()
                                         mute = False
                                     symbolChanged = False
                         pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
@@ -288,24 +274,26 @@ def main():
                                 for num in pausedTimes:
                                     totalPausedTime += num
                                 break
-                        info_screen()
+                        keybindings_screen()
 
         score += 1
         if score > highscore:
             highscore = score
-            highscoreBreak = True
+            if highscore > 1:
+                highscoreBreak = True
             if not highscoreSoundPlayed:
-                highscoreBrokenText = FONT_BIG.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
+                highscoreBrokenText = FONT_MEDIUM.render(f"You broke your previous highscore of {score - 1}!", 1,
+                                                         "green")
                 WINDOW.blit(highscoreBrokenText, (
                     WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()
-                playsound(highscoreSound)
+                pygame.mixer.Sound.play(highscoreSound)
                 highscoreSoundPlayed = True
                 pygame.time.delay(1000)
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
-                bullet_x = random.randint(0, WIDTH)
+                bullet_x = random.randint(0 + BULLET_WIDTH, WIDTH - BULLET_WIDTH)
                 bullet = pygame.Rect(bullet_x, -BULLET_HEIGHT, BULLET_WIDTH, BULLET_HEIGHT)
                 bullets.append(bullet)
 
@@ -321,7 +309,7 @@ def main():
 
         for bullet in bullets[:]:
             bullet.y += BULLET_VELOCITY
-            if bullet.y > 790:
+            if bullet.y > HEIGHT - BULLET_HEIGHT:
                 bullets.remove(bullet)
             elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
                 bullets.clear()
@@ -346,7 +334,7 @@ def main():
                     pygame.display.update()
                     if highscore >= score:
                         save_object(highscore)
-                    pygame.mixer.Sound.fadeout(background_music, 500)
+                    pygame.mixer.music.fadeout(1000)
                     WINDOW.blit(Background, (0, 0))
                     loseText = FONT_BIG.render("GAME OVER!", 1, "red")
                     highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
@@ -359,17 +347,16 @@ def main():
                         WIDTH / 2 - timeText.get_width() / 2,
                         HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
                     pygame.display.update()
-                    playsound(GameOverSound)
-                    playsound(sadSound)
+                    pygame.mixer.Sound.play(GameOverSound)
+                    pygame.mixer.Sound.play(sadSound)
                     pygame.time.delay(5000)
+                    start = False
                     main()
                     break
         if mute:
-            pygame.mixer.Sound.stop(background_music)
+            pygame.mixer.music.pause()
         elif not mute:
-            playing = pygame.mixer.Sound.get_num_channels(background_music)
-            if playing == 0:
-                pygame.mixer.Sound.play(background_music)
+            pygame.mixer.music.unpause()
 
         draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
              unmuteSymbol, timeText, scoreText)
