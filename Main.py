@@ -59,7 +59,7 @@ def main():
 
     # Load all the files/variables
     try:
-        title_screen_image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Title_screen_image.jpg")),
+        title_screen_image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Title_screen.jpg")),
                                                     (WIDTH, HEIGHT))
     except FileNotFoundError:
         welcome = False
@@ -80,14 +80,14 @@ def main():
         draw_except(error)
 
     try:
-        muteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (70, 50))
-        unmuteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")), (70, 50))
+        muteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Mute.png")), (70, 50))
+        unmuteSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Unmute.png")), (70, 50))
 
-        mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (120, 80))
-        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")),
+        mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Mute.png")), (120, 80))
+        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Unmute.png")),
                                                    (120, 80))
 
-        pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_rectangle.png")), (50, 30))
+        pauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
         error = "Symbol"
         welcome = False
@@ -112,7 +112,7 @@ def main():
 
     try:
         background_music = pygame.mixer.Sound(os.path.join("Sounds", "Background_music", "background_music.wav"))
-        pause_music = pygame.mixer.Sound(os.path.join("Sounds", "Pause_music", "pause_music.wav"))
+        pause_music = pygame.mixer.Sound(os.path.join("Sounds", "Pause_screen", "pause_music.wav"))
     except FileNotFoundError:
         error = "Music"
         welcome = False

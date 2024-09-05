@@ -8,15 +8,15 @@ pygame.font.init()
 WIDTH, HEIGHT = 1000, 800
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 
-pause_background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pause_background.png")),
+pause_background = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Pause_background.png")),
                                           (WIDTH, HEIGHT))
 
 # All the fonts
 PAUSE_FONT = pygame.font.SysFont("Arial", 50)
 PAUSE_FONT_SMALL = pygame.font.SysFont("Arial", 45)
 
-mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "mute.png")), (120, 80))
-unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "unmute.png")),
+mutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Mute.png")), (120, 80))
+unmutePauseSymbol = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Unmute.png")),
                                            (120, 80))
 
 
