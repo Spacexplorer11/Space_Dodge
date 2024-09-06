@@ -59,9 +59,9 @@ def main():
 
     # Load all the files/variables
     try:
-        playerR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player copy.png"), "PlayerR"),
+        playerR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player_R.png"), "PlayerR"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
-        playerL = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player.png"), "PlayerL"),
+        playerL = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player_L.png"), "PlayerL"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
         player = playerL.get_rect()
     except FileNotFoundError:

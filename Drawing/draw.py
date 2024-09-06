@@ -18,9 +18,9 @@ PLAYER_HEIGHT = 100
 PLAYER_WIDTH = 80
 
 try:
-    threeLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "3_lives.png")), (200, 200))
-    twoLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "2_lives.png")), (200, 190))
-    oneLife = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "1_life.png")), (200, 180))
+    threeLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Three_lives.png")), (200, 200))
+    twoLives = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Two_lives.png")), (200, 190))
+    oneLife = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "One_life.png")), (200, 180))
 except FileNotFoundError:
     error = "Lives"
     draw_except(error)
