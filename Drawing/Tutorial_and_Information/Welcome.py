@@ -2,7 +2,7 @@ import os
 
 import pygame
 
-from Space_Dodge.Exception_Handling.draw_exception import draw_except
+from Drawing.Exception_Handling.draw_exception import draw_except
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800

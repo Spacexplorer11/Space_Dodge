@@ -1,6 +1,5 @@
 import pygame
 import os
-from Exception_Handling.draw_exception import draw_except
 
 pygame.font.init()
 

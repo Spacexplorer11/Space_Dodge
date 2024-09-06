@@ -2,7 +2,7 @@ import os
 
 import pygame
 
-from Exception_Handling.draw_exception import draw_except
+from Drawing.Exception_Handling.draw_exception import draw_except
 
 pygame.font.init()
 

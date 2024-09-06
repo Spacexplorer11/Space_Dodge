@@ -7,13 +7,13 @@ import pygame
 
 from Drawing.draw import Background
 from Drawing.draw import draw
-from Exception_Handling.draw_exception import draw_except
+from Drawing.Exception_Handling.draw_exception import draw_except
 from File_Handling.Loading import load_highscore
 from File_Handling.Saving import save_object
-from Pause_Menu.pause_function import pause_menu
-from Title_screen.draw_title_screen import draw_title
-from Tutorial_and_Information.Keybindings import keybindings_screen
-from Tutorial_and_Information.Welcome import welcome_screen
+from Drawing.Pause_Menu.pause_function import pause_menu
+from Drawing.Title_screen.draw_title_screen import draw_title
+from Drawing.Tutorial_and_Information.Keybindings import keybindings_screen
+from Drawing.Tutorial_and_Information.Welcome import welcome_screen
 
 pygame.mixer.init()
 pygame.font.init()
@@ -84,9 +84,9 @@ def main():
         draw_except(error)
 
     try:
-        sadSound = pygame.mixer.Sound(os.path.join("Sounds", "Game_over", "sad-trombone.wav"))
-        GameOverSound = pygame.mixer.Sound(os.path.join("Sounds", "Game_over", "game-over-sound.wav"))
-        highscoreSound = pygame.mixer.Sound(os.path.join("Sounds", "Highscore", "highscore.wav"))
+        sadSound = pygame.mixer.Sound(os.path.join("Sounds", "Game_over", "sad-trombone.mp3"))
+        GameOverSound = pygame.mixer.Sound(os.path.join("Sounds", "Game_over", "game-over-sound.mp3"))
+        highscoreSound = pygame.mixer.Sound(os.path.join("Sounds", "Highscore", "highscore.mp3"))
     except FileNotFoundError:
         error = "Sound Effects"
         running = False
