@@ -52,6 +52,11 @@ logging.basicConfig(filename=logfile, level=logging.INFO)
 logger = getLogger(__name__)
 
 
+# Create a simple surface for the bullet (white rectangle)
+bullet_surface = pygame.Surface((BULLET_WIDTH, BULLET_HEIGHT))
+bullet_surface.fill((255, 255, 255))
+bullet_mask = pygame.mask.from_surface(bullet_surface)
+
 
 def main():
     global mute
@@ -189,7 +194,7 @@ def main():
         # The framerate of the game
         bulletCount += clock.tick(60)
 
-        player = playerL.get_rect(x=playerX, y=playerY) if direction == 0 else playerR.get_rect(x=playerX, y=playerY)
+        player_mask = pygame.mask.from_surface(playerL if direction == 0 else playerR)
 
         # The player's x position reassignment to the local variable
         player.x = playerX
@@ -325,48 +330,48 @@ def main():
             bullet.y += BULLET_VELOCITY
             if bullet.y > HEIGHT - BULLET_HEIGHT:
                 bullets.remove(bullet)
-            elif bullet.y + bullet.height >= player.y and bullet.colliderect(player):
-                bullets.clear()
-                lives -= 1
-                if lives > 1:
-                    WINDOW.blit(Background, (0, 0))
-                    pygame.draw.rect(WINDOW, "red", bullet)
-                    WINDOW.blit(lostLivesText,
-                                (50, HEIGHT / 2 - lostLivesText.get_height()))
-                    pygame.display.update()
-                    pygame.time.delay(1000)
-                elif lives == 1:
-                    WINDOW.blit(Background, (0, 0))
-                    pygame.draw.rect(WINDOW, "red", bullet)
-                    WINDOW.blit(lostLifeText,
-                                (50, HEIGHT / 2 - lostLifeText.get_height() / 2))
-                    pygame.display.update()
-                    pygame.time.delay(1000)
-                else:
-                    WINDOW.blit(Background, (0, 0))
-                    pygame.draw.rect(WINDOW, "red", bullet)
-                    pygame.display.update()
-                    if highscore >= score:
-                        save_object(highscore)
-                    pygame.mixer.music.fadeout(1000)
-                    WINDOW.blit(Background, (0, 0))
-                    loseText = FONT_BIG.render("GAME OVER!", 1, "red")
-                    highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
-                    timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
-                    WINDOW.blit(loseText,
-                                (WIDTH / 2 - loseText.get_width() / 2, HEIGHT / 2 - loseText.get_height() / 2))
-                    WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2,
-                                                HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
-                    WINDOW.blit(timeText, (
-                        WIDTH / 2 - timeText.get_width() / 2,
-                        HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
-                    pygame.display.update()
-                    pygame.mixer.Sound.play(GameOverSound)
-                    pygame.mixer.Sound.play(sadSound)
-                    pygame.time.delay(5000)
-                    start = False
-                    main()
-                    break
+            else:
+                bullet_rect = pygame.Rect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT)
+                offset = (bullet_rect.x - player.x, bullet_rect.y - player.y)
+                if player_mask.overlap(bullet_mask, offset):
+                    bullets.clear()
+                    lives -= 1
+                    if lives > 1:
+                        WINDOW.blit(Background, (0, 0))
+                        pygame.draw.rect(WINDOW, "red", bullet)
+                        WINDOW.blit(lostLivesText, (50, HEIGHT / 2 - lostLivesText.get_height()))
+                        pygame.display.update()
+                        pygame.time.delay(1000)
+                    elif lives == 1:
+                        WINDOW.blit(Background, (0, 0))
+                        pygame.draw.rect(WINDOW, "red", bullet)
+                        WINDOW.blit(lostLifeText, (50, HEIGHT / 2 - lostLifeText.get_height() / 2))
+                        pygame.display.update()
+                        pygame.time.delay(1000)
+                    else:
+                        WINDOW.blit(Background, (0, 0))
+                        pygame.draw.rect(WINDOW, "red", bullet)
+                        pygame.display.update()
+                        if highscore >= score:
+                            save_object(highscore)
+                        pygame.mixer.music.fadeout(1000)
+                        WINDOW.blit(Background, (0, 0))
+                        loseText = FONT_BIG.render("GAME OVER!", 1, "red")
+                        highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
+                        timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
+                        WINDOW.blit(loseText,
+                                    (WIDTH / 2 - loseText.get_width() / 2, HEIGHT / 2 - loseText.get_height() / 2))
+                        WINDOW.blit(highscoreText, (WIDTH / 2 - highscoreText.get_width() / 2,
+                                                    HEIGHT / 2 - loseText.get_height() - highscoreText.get_height() - 100 / 2))
+                        WINDOW.blit(timeText, (WIDTH / 2 - timeText.get_width() / 2,
+                                               HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
+                        pygame.display.update()
+                        pygame.mixer.Sound.play(GameOverSound)
+                        pygame.mixer.Sound.play(sadSound)
+                        pygame.time.delay(5000)
+                        start = False
+                        main()
+                        break
         if mute:
             pygame.mixer.music.pause()
         elif not mute:

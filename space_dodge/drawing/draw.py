@@ -3,8 +3,8 @@ from logging import getLogger
 
 import pygame
 
-from drawing.exception_handling.draw_exception import draw_except
-from file_handling.utility import ref
+from space_dodge.drawing.exception_handling.draw_exception import draw_except
+from space_dodge.file_handling.utility import ref
 
 logfile = ref('mylog.log')
 logging.basicConfig(filename=logfile, level=logging.INFO)
@@ -22,6 +22,15 @@ FONT = pygame.font.SysFont("Arial Black", 30)
 # Player variables
 PLAYER_HEIGHT = 100
 PLAYER_WIDTH = 80
+
+# Bullet variables
+BULLET_WIDTH = 10
+BULLET_HEIGHT = 20
+
+# Create a simple surface for the bullet (white rectangle)
+bullet_surface = pygame.Surface((BULLET_WIDTH, BULLET_HEIGHT))
+bullet_surface.fill((255, 255, 255))
+bullet_mask = pygame.mask.from_surface(bullet_surface)
 
 try:
     threeLives = pygame.transform.scale(pygame.image.load(ref("assets/three_lives.png")), (200, 200))
@@ -53,9 +62,9 @@ def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBrea
          mute, lives, muteSymbol, unmuteSymbol, timeText, scoreText):
     WINDOW.blit(Background, (0, 0))
 
-    # Draw the bullets
+    # Draw the bullets using the bullet surface
     for bullet in bullets:
-        pygame.draw.rect(WINDOW, "white", bullet)
+        WINDOW.blit(bullet_surface, (bullet.x, bullet.y))
 
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")

@@ -3,8 +3,8 @@ import logging
 from logging import getLogger
 
 
-from drawing.exception_handling.draw_exception import draw_except
-from file_handling.utility import ref
+from space_dodge.drawing.exception_handling.draw_exception import draw_except
+from space_dodge.file_handling.utility import ref
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
