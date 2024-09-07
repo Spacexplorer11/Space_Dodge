@@ -1,7 +1,10 @@
 import pygame
-import os
+import logging
+from logging import getLogger
+
 
 from Drawing.Exception_Handling.draw_exception import draw_except
+from File_Handling.Utility import ref
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
@@ -11,10 +14,15 @@ WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 FONT = pygame.font.SysFont("Arial Black", 36)
 FONT_SMALL = pygame.font.SysFont("Cochin", 30)
 
+logfile = ref('mylog.log')
+logging.basicConfig(filename=logfile, level=logging.INFO)
+logger = getLogger(__name__)
+
 # Load the welcome screen image
 try:
-    Welcome_Screen_image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Welcome_screen.png")), (WIDTH, HEIGHT))
+    Welcome_Screen_image = pygame.transform.scale(pygame.image.load(ref("Assets/Welcome_screen.png")), (WIDTH, HEIGHT))
 except FileNotFoundError:
+    logger.exception('Welcome screen image not found')  # log the exception in a file
     error = "Background"
     draw_except(error)
 

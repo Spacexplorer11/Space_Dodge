@@ -1,1 +1,8 @@
 /File_Handling/highscore.pickle
+mylog.log
+Drawing/__pycache__/draw.cpython-312.pyc
+Drawing/Tutorial_and_Information/__pycache__/Welcome.cpython-312.pyc
+Drawing/Tutorial_and_Information/__pycache__/Keybindings.cpython-312.pyc
+Drawing/Title_screen/__pycache__/draw_title_screen.cpython-312.pyc
+Drawing/Pause_Menu/pause_function.py
+Drawing/Pause_Menu/__pycache__/pause_function.cpython-312.pyc
