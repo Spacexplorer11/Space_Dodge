@@ -24,7 +24,7 @@ The instructions to play the game are in-game.
 
 >[!Important]
 > **Are you on Windows?**  
-> If you are on Windows, you will need to run `python` in terminal/command prompt on its own and download Python from the Microsoft store before proceeding.
+> If you are on Windows, you will need to run `python` in terminal/command prompt on its own and download Python from the Microsoft store instead of the website.
 
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
 2. Download the zip file from the main page of the repository. [Click the green `Code` button and click `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
