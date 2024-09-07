@@ -3,8 +3,8 @@ import os
 import logging
 from logging import getLogger
 
-from Drawing.Exception_Handling.draw_exception import draw_except
-from File_Handling.Utility import ref
+from drawing.exception_handling.draw_exception import draw_except
+from file_handling.utility import ref
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
@@ -22,7 +22,7 @@ logger = getLogger(__name__)
 
 # Load the title screen image
 try:
-    title_screen_image = pygame.transform.scale(pygame.image.load(ref("Assets/Title_screen.jpg")), (WIDTH, HEIGHT))
+    title_screen_image = pygame.transform.scale(pygame.image.load(ref("assets/title_screen.jpg")), (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Title screen image not found')  # log the exception in a file
     error = "Background"
@@ -30,14 +30,14 @@ except FileNotFoundError:
 
 # Load the start button image
 try:
-    start_button_image = pygame.transform.scale(pygame.image.load(ref("Assets/Start_button.png")), (BUTTON_WIDTH, BUTTON_HEIGHT))
+    start_button_image = pygame.transform.scale(pygame.image.load(ref("assets/start_button.png")), (BUTTON_WIDTH, BUTTON_HEIGHT))
 except FileNotFoundError:
     logger.exception('Start button image not found')  # log the exception in a file
     error = "Button"
     draw_except(error)
 
 # Check if the title screen music file exists
-title_screen_music_check = os.path.exists(ref("Sounds/Background_music/Title_screen/Title_screen_music.mp3"))
+title_screen_music_check = os.path.exists(ref("sounds/background_music/title_screen/title_screen_music.mp3"))
 if not title_screen_music_check:
     error = "Music"
     draw_except(error)

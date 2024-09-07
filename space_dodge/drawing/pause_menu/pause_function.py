@@ -2,8 +2,8 @@ import pygame
 import logging
 from logging import getLogger
 
-from Drawing.Exception_Handling.draw_exception import draw_except
-from File_Handling.Utility import ref
+from drawing.exception_handling.draw_exception import draw_except
+from file_handling.utility import ref
 
 pygame.font.init()
 
@@ -17,7 +17,7 @@ logger = getLogger(__name__)
 
 
 try:
-    pause_background = pygame.transform.scale(pygame.image.load(ref("Assets/Pause_background.png")),
+    pause_background = pygame.transform.scale(pygame.image.load(ref("assets/pause_background.png")),
                                           (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Pause background not found') # log the exception in a file
@@ -29,8 +29,8 @@ PAUSE_FONT = pygame.font.SysFont("Arial", 50)
 PAUSE_FONT_SMALL = pygame.font.SysFont("Arial", 45)
 
 try:
-    mutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Mute.png")), (120, 80))
-    unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Unmute.png")),
+    mutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (120, 80))
+    unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")),
                                                (120, 80))
 except FileNotFoundError:
     error = "Symbol"

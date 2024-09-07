@@ -8,16 +8,16 @@ from logging import getLogger
 
 import pygame
 
-from Drawing.draw import Background
-from Drawing.draw import draw
-from Drawing.Exception_Handling.draw_exception import draw_except
-from File_Handling.Loading import load_highscore
-from File_Handling.Saving import save_object
-from Drawing.Pause_Menu.pause_function import pause_menu
-from Drawing.Title_screen.draw_title_screen import draw_title
-from Drawing.Tutorial_and_Information.Keybindings import keybindings_screen
-from Drawing.Tutorial_and_Information.Welcome import welcome_screen
-from File_Handling.Utility import ref
+from drawing.draw import Background
+from drawing.draw import draw
+from drawing.exception_handling.draw_exception import draw_except
+from file_handling.loading import load_highscore
+from file_handling.saving import save_object
+from drawing.pause_menu.pause_function import pause_menu
+from drawing.title_screen.draw_title_screen import draw_title
+from drawing.tutorial_and_information.keybindings import keybindings_screen
+from drawing.tutorial_and_information.welcome import welcome_screen
+from file_handling.utility import ref
 
 pygame.mixer.init()
 pygame.font.init()
@@ -65,12 +65,13 @@ def main():
     symbolChanged = True  # Has the mute symbol been changed?
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
-    print(ref("Sounds/....music.mp3"))
+
+
     # Load all the files/variables
     try:
-        playerR = pygame.transform.scale(pygame.image.load(ref("Assets/Player_R.png"), "PlayerR"),
+        playerR = pygame.transform.scale(pygame.image.load(ref("assets/player_r.png"), "PlayerR"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
-        playerL = pygame.transform.scale(pygame.image.load(ref("Assets/Player_L.png"), "PlayerL"),
+        playerL = pygame.transform.scale(pygame.image.load(ref("assets/player_l.png"), "PlayerL"),
                                          (PLAYER_WIDTH, PLAYER_HEIGHT))
         player = playerL.get_rect()
     except FileNotFoundError:
@@ -80,14 +81,14 @@ def main():
         draw_except(error)
 
     try:
-        muteSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Mute.png")), (70, 50))
-        unmuteSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Unmute.png")), (70, 50))
+        muteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (70, 50))
+        unmuteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")), (70, 50))
 
-        mutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Mute.png")), (120, 80))
-        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Unmute.png")),
+        mutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (120, 80))
+        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")),
                                                    (120, 80))
 
-        pauseSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Pause_rectangle.png")), (50, 30))
+        pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
         logger.exception('Mute or Unmute or Pause Symbol not found')  # log the exception in a file
         error = "Symbol"
@@ -95,17 +96,17 @@ def main():
         draw_except(error)
 
     try:
-        sadSound = pygame.mixer.Sound(ref("Sounds/Game_over/sad-trombone.mp3"))
-        GameOverSound = pygame.mixer.Sound(ref("Sounds/Game_over/game-over-sound.mp3"))
-        highscoreSound = pygame.mixer.Sound(ref("Sounds/Highscore/highscore.mp3"))
+        sadSound = pygame.mixer.Sound(ref("sounds/game_over/sad-trombone.mp3"))
+        GameOverSound = pygame.mixer.Sound(ref("sounds/game_over/game-over-sound.mp3"))
+        highscoreSound = pygame.mixer.Sound(ref("sounds/highscore/highscore.mp3"))
     except FileNotFoundError:
         logger.exception('Sound not found')  # log the exception in a file
         error = "Sound Effects"
         running = False
         draw_except(error)
 
-    background_music_check = os.path.exists(ref("Sounds/Background_music/background_music.mp3"))
-    pause_music_check = os.path.exists(ref("Sounds/Pause_screen/pause_music.mp3"))
+    background_music_check = os.path.exists(ref("sounds/background_music/background_music.mp3"))
+    pause_music_check = os.path.exists(ref("sounds/pause_screen/pause_music.mp3"))
     if not (background_music_check or pause_music_check):
         logger.exception('Music not found')  # log the exception in a file
         error = "Music"
@@ -131,10 +132,10 @@ def main():
     direction = 0  # The direction the player is facing( written in binary ) 0 = left, 1 = right
 
     # Load the high score from file
-    highscore = load_highscore(ref("File_Handling/highscore.pickle"))
+    highscore = load_highscore(ref("file_handling/highscore.pickle"))
 
     # Play the background music
-    pygame.mixer.music.load(ref("Sounds/Background_music/background_music.mp3"))
+    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
     pygame.mixer.music.set_volume(20)
     pygame.mixer.music.play(-1)
 
@@ -221,7 +222,7 @@ def main():
                     pauseStartTime = time.time()
                     pause = True
                     pygame.mixer.music.load(
-                        ref("Sounds/Background_music/Pause_screen/pause_music.mp3"))
+                        ref("sounds/background_music/pause_screen/pause_music.mp3"))
                     if not mute:
                         pygame.mixer.music.play(-1)
                     mutePauseRect = mutePauseSymbol.get_rect(x=180, y=430)
@@ -251,7 +252,7 @@ def main():
                                     pygame.mixer.music.stop()
                                     pygame.mixer.music.unload()
                                     pygame.mixer.music.load(
-                                        ref("Sounds/Background_music/background_music.mp3"))
+                                        ref("sounds/background_music/background_music.mp3"))
                                     pygame.mixer.music.play(-1)
                                     for num in pausedTimes:
                                         totalPausedTime += num

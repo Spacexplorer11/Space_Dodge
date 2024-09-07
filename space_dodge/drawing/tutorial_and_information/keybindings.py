@@ -3,8 +3,8 @@ import logging
 from logging import getLogger
 
 
-from Drawing.Exception_Handling.draw_exception import draw_except
-from File_Handling.Utility import ref
+from drawing.exception_handling.draw_exception import draw_except
+from file_handling.utility import ref
 
 # Window variables
 WIDTH, HEIGHT = 1000, 800
@@ -20,7 +20,7 @@ logger = getLogger(__name__)
 
 # Load the welcome screen image
 try:
-    Welcome_Screen_image = pygame.transform.scale(pygame.image.load(ref("Assets/Welcome_screen.png")), (WIDTH, HEIGHT))
+    Welcome_Screen_image = pygame.transform.scale(pygame.image.load(ref("assets/welcome_screen.png")), (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Welcome screen image not found')  # log the exception in a file
     error = "Background"

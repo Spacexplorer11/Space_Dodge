@@ -3,8 +3,8 @@ from logging import getLogger
 
 import pygame
 
-from Drawing.Exception_Handling.draw_exception import draw_except
-from File_Handling.Utility import ref
+from drawing.exception_handling.draw_exception import draw_except
+from file_handling.utility import ref
 
 logfile = ref('mylog.log')
 logging.basicConfig(filename=logfile, level=logging.INFO)
@@ -24,16 +24,16 @@ PLAYER_HEIGHT = 100
 PLAYER_WIDTH = 80
 
 try:
-    threeLives = pygame.transform.scale(pygame.image.load(ref("Assets/Three_lives.png")), (200, 200))
-    twoLives = pygame.transform.scale(pygame.image.load(ref("Assets/Two_lives.png")), (200, 190))
-    oneLife = pygame.transform.scale(pygame.image.load(ref("Assets/One_life.png")), (200, 180))
+    threeLives = pygame.transform.scale(pygame.image.load(ref("assets/three_lives.png")), (200, 200))
+    twoLives = pygame.transform.scale(pygame.image.load(ref("assets/two_lives.png")), (200, 190))
+    oneLife = pygame.transform.scale(pygame.image.load(ref("assets/one_life.png")), (200, 180))
 except FileNotFoundError:
     logger.exception('Player not found')  # log the exception in a file
     error = "Lives"
     draw_except(error)
 
 try:
-    Background = pygame.transform.scale(pygame.image.load(ref("Assets/Space_Background.jpg")),
+    Background = pygame.transform.scale(pygame.image.load(ref("assets/space_background.jpg")),
                                         (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Background not found')  # log the exception in a file
@@ -41,7 +41,7 @@ except FileNotFoundError:
     draw_except(error)
 
 try:
-    pauseSymbol = pygame.transform.scale(pygame.image.load(ref("Assets/Pause_rectangle.png")), (50, 30))
+    pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
 
 except FileNotFoundError:
     logger.exception('Symbol not found') # log the exception in a file
