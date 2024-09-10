@@ -1,9 +1,9 @@
 import pickle
 
 
-def load_highscore(filename):
+def load_highscore(file_path):
     try:
-        with open(filename, "rb") as f:
+        with open(file_path, "rb") as f:
             highscore = pickle.load(f)
         return highscore
     except FileNotFoundError:

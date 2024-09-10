@@ -70,6 +70,7 @@ def main():
     symbolChanged = True  # Has the mute symbol been changed?
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
+    highscore_file_not_found = False  # Is the highscore file not found?
 
 
     # Load all the files/variables
@@ -132,12 +133,13 @@ def main():
     playerX = 500  # The x position of the player
     player.x = playerX  # The x position of the player assigned to local variable
     player.y = HEIGHT - PLAYER_HEIGHT  # The y position of the player
-    playerY = player.y  # The y position of the player assigned to local variable
 
     direction = 0  # The direction the player is facing( written in binary ) 0 = left, 1 = right
 
     # Load the high score from file
     highscore = load_highscore(ref("file_handling/highscore.pickle"))
+    if highscore == 0:
+        highscore_file_not_found = True
 
     # Play the background music
     pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
@@ -298,9 +300,8 @@ def main():
         score += 1
         if score > highscore:
             highscore = score
-            if highscore > 1:
-                highscoreBreak = True
-            if not highscoreSoundPlayed:
+            highscoreBreak = True
+            if not highscoreSoundPlayed and not highscore_file_not_found:
                 highscoreBrokenText = FONT_MEDIUM.render(f"You broke your previous highscore of {score - 1}!", 1,
                                                          "green")
                 WINDOW.blit(highscoreBrokenText, (
