@@ -60,7 +60,7 @@ unmuteSymbol_rect = unmuteSymbol.get_rect(x=50, y=200, width=80, height=60)
 
 
 # Draw the title screen
-def draw_title(start, welcome):
+def draw_title(start):
     # Load the title screen music
     pygame.mixer.music.load(ref("sounds/background_music/title_screen/title_screen_music.mp3"))
     pygame.mixer.music.set_volume(0.5)
@@ -79,6 +79,7 @@ def draw_title(start, welcome):
                 if start_button_rect.collidepoint(mouse_x, mouse_y):
                     start = True
                     welcome = True
+                    pygame.mixer.music.stop()
                     return start, welcome
                 if muteSymbol_rect.collidepoint(mouse_x, mouse_y) or unmuteSymbol_rect.collidepoint(mouse_x, mouse_y):
                     if mute:

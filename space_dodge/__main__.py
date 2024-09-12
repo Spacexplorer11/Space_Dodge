@@ -141,14 +141,9 @@ def main():
     if highscore == 0:
         highscore_file_not_found = True
 
-    # Play the background music
-    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
-    pygame.mixer.music.set_volume(20)
-    pygame.mixer.music.play(-1)
-
     # Draw the title screen
     if not start:
-        welcome = draw_title(start, welcome)
+        welcome = draw_title(start)
 
     while welcome:
         for event in pygame.event.get():
@@ -173,6 +168,11 @@ def main():
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
     lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")
+
+    # Play the background music
+    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
+    pygame.mixer.music.set_volume(20)
+    pygame.mixer.music.play(-1)
 
     # The main game loop
     while running:
