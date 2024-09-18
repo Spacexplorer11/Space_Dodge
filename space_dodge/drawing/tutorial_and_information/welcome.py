@@ -22,8 +22,7 @@ try:
     Welcome_Screen_image = pygame.transform.scale(pygame.image.load(ref("assets/welcome_screen.png")), (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Welcome screen image not found')  # log the exception in a file
-    error = "Background"
-    draw_except(error)
+    draw_except("Background")
 
 
 def welcome_screen():

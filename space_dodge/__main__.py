@@ -43,19 +43,13 @@ PLAYER_WIDTH = 80
 PLAYER_VELOCITY = 5
 
 # Bullet variables
-BULLET_WIDTH = 10
-BULLET_HEIGHT = 20
+BULLET_WIDTH = 50
+BULLET_HEIGHT = 70
 BULLET_VELOCITY = 3
 
 logfile = ref('mylog.log')
 logging.basicConfig(filename=logfile, level=logging.INFO)
 logger = getLogger(__name__)
-
-
-# Create a simple surface for the bullet (white rectangle)
-bullet_surface = pygame.Surface((BULLET_WIDTH, BULLET_HEIGHT))
-bullet_surface.fill((255, 255, 255))
-bullet_mask = pygame.mask.from_surface(bullet_surface)
 
 
 def main():
@@ -83,8 +77,7 @@ def main():
     except FileNotFoundError:
         logger.exception('Player not found')  # log the exception in a file
         running = False
-        error = "Player"
-        draw_except(error)
+        draw_except("Player")
 
     try:
         muteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (70, 50))
@@ -97,9 +90,8 @@ def main():
         pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
         logger.exception('Mute or Unmute or Pause Symbol not found')  # log the exception in a file
-        error = "Symbol"
         running = False
-        draw_except(error)
+        draw_except("Symbol")
 
     try:
         sadSound = pygame.mixer.Sound(ref("sounds/game_over/sad-trombone.mp3"))
@@ -107,17 +99,25 @@ def main():
         highscoreSound = pygame.mixer.Sound(ref("sounds/highscore/highscore.mp3"))
     except FileNotFoundError:
         logger.exception('Sound not found')  # log the exception in a file
-        error = "Sound Effects"
         running = False
-        draw_except(error)
+        draw_except("Sound Effects")
 
     background_music_check = os.path.exists(ref("sounds/background_music/background_music.mp3"))
     pause_music_check = os.path.exists(ref("sounds/pause_screen/pause_music.mp3"))
     if not (background_music_check or pause_music_check):
         logger.exception('Music not found')  # log the exception in a file
-        error = "Music"
         running = False
-        draw_except(error)
+        draw_except("Music")
+
+    try:
+        bullet_texture = pygame.transform.scale(pygame.image.load(ref("assets/bullet_texture.png")),
+                                                (BULLET_WIDTH, BULLET_HEIGHT))
+    except FileNotFoundError:
+        logger.exception('Bullet texture not found')  # log the exception in a file
+        draw_except("Bullet")
+
+    # Create a mask for the bullet
+    bullet_mask = pygame.mask.from_surface(bullet_texture)
 
     clock = pygame.time.Clock()  # The clock for the game
 

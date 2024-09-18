@@ -24,13 +24,8 @@ PLAYER_HEIGHT = 100
 PLAYER_WIDTH = 80
 
 # Bullet variables
-BULLET_WIDTH = 10
-BULLET_HEIGHT = 20
-
-# Create a simple surface for the bullet (white rectangle)
-bullet_surface = pygame.Surface((BULLET_WIDTH, BULLET_HEIGHT))
-bullet_surface.fill((255, 255, 255))
-bullet_mask = pygame.mask.from_surface(bullet_surface)
+BULLET_WIDTH = 50
+BULLET_HEIGHT = 70
 
 try:
     threeLives = pygame.transform.scale(pygame.image.load(ref("assets/three_lives.png")), (200, 200))
@@ -38,24 +33,30 @@ try:
     oneLife = pygame.transform.scale(pygame.image.load(ref("assets/one_life.png")), (200, 180))
 except FileNotFoundError:
     logger.exception('Player not found')  # log the exception in a file
-    error = "Lives"
-    draw_except(error)
+    draw_except("Lives")
 
 try:
     Background = pygame.transform.scale(pygame.image.load(ref("assets/space_background.jpg")),
                                         (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Background not found')  # log the exception in a file
-    error = "Background"
-    draw_except(error)
+    draw_except("Background")
 
 try:
     pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
 
 except FileNotFoundError:
     logger.exception('Symbol not found') # log the exception in a file
-    error = "Symbol"
-    draw_except(error)
+    draw_except("Symbol")
+
+try:
+    bullet_texture = pygame.transform.scale(pygame.image.load(ref("assets/bullet_texture.png")), (BULLET_WIDTH, BULLET_HEIGHT))
+except FileNotFoundError:
+    logger.exception('Bullet texture not found') # log the exception in a file
+    draw_except("Bullet")
+
+# Create a mask for the bullet
+bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
 def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak,
@@ -64,7 +65,7 @@ def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBrea
 
     # Draw the bullets using the bullet surface
     for bullet in bullets:
-        WINDOW.blit(bullet_surface, (bullet.x, bullet.y))
+        WINDOW.blit(bullet_texture, (bullet.x, bullet.y))
 
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")

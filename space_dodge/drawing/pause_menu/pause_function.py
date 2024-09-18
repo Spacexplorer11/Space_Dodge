@@ -21,8 +21,7 @@ try:
                                           (WIDTH, HEIGHT))
 except FileNotFoundError:
     logger.exception('Pause background not found') # log the exception in a file
-    error = "Background"
-    draw_except(error)
+    draw_except("Background")
 
 # All the fonts
 PAUSE_FONT = pygame.font.SysFont("Arial", 50)
@@ -33,8 +32,7 @@ try:
     unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")),
                                                (120, 80))
 except FileNotFoundError:
-    error = "Symbol"
-    draw_except(error)
+    draw_except("Symbol")
 
 
 def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):

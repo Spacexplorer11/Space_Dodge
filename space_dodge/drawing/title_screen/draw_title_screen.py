@@ -35,23 +35,20 @@ try:
     start_button_image = pygame.transform.scale(pygame.image.load(ref("assets/start_button.png")), (BUTTON_WIDTH, BUTTON_HEIGHT))
 except FileNotFoundError:
     logger.exception('Start button image not found')  # log the exception in a file
-    error = "Button"
-    draw_except(error)
+    draw_except("Button")
 
 # Check if the title screen music file exists
 title_screen_music_check = os.path.exists(ref("sounds/background_music/title_screen/title_screen_music.mp3"))
 if not title_screen_music_check:
     logger.exception('Title screen music not found')  # log the exception in a file
-    error = "Music"
-    draw_except(error)
+    draw_except("Music")
 
 try:
     muteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (80, 60))
     unmuteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")), (80, 60))
 except FileNotFoundError:
-    logger.exception('Mute/unmute symbol not found')
-    error = "Symbol"
-    draw_except(error)
+    logger.exception('Mute/unmute symbol not found')  # log the exception in a file
+    draw_except("Symbol")
 
 # Define Rect objects
 start_button_rect = start_button_image.get_rect(x=WIDTH / 2 - BUTTON_WIDTH / 2, y=HEIGHT / 2 - BUTTON_HEIGHT / 2)
