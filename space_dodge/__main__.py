@@ -65,7 +65,8 @@ def main():
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
     highscore_file_not_found = False  # Is the highscore file not found?
-
+    last_time = time.time()
+    explosions = []  # The list of explosions
 
     # Load all the files/variables
     try:
@@ -180,6 +181,9 @@ def main():
         # The time the game was paused & playing
         elapsedTime = time.time() - startTime
         elapsedTime -= totalPausedTime
+        current_time = time.time()
+        dt = current_time - last_time
+        last_time = current_time
 
         # Get the keys pressed
         keys = pygame.key.get_pressed()
@@ -205,6 +209,8 @@ def main():
         for event in pygame.event.get():
             # Quit the game
             if event.type == pygame.QUIT:
+                if highscore >= score:
+                    save_object(highscore)
                 running = False
                 break
             # Check if the mouse is clicked
@@ -379,7 +385,7 @@ def main():
             pygame.mixer.music.unpause()
 
         draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
-             unmuteSymbol, timeText, scoreText)
+             unmuteSymbol, timeText, scoreText, explosions, dt)
 
     pygame.quit()
 

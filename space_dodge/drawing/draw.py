@@ -1,9 +1,11 @@
 import logging
+import time
 from logging import getLogger
 
 import pygame
 
 from space_dodge.drawing.exception_handling.draw_exception import draw_except
+from space_dodge.drawing.explosion_class import Explosion
 from space_dodge.file_handling.utility import ref
 
 logfile = ref('mylog.log')
@@ -46,26 +48,52 @@ try:
     pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
 
 except FileNotFoundError:
-    logger.exception('Symbol not found') # log the exception in a file
+    logger.exception('Symbol not found')  # log the exception in a file
     draw_except("Symbol")
 
 try:
-    bullet_texture = pygame.transform.scale(pygame.image.load(ref("assets/bullet_texture.png")), (BULLET_WIDTH, BULLET_HEIGHT))
+    bullet_texture = pygame.transform.scale(pygame.image.load(ref("assets/bullet_texture.png")),
+                                            (BULLET_WIDTH, BULLET_HEIGHT))
 except FileNotFoundError:
-    logger.exception('Bullet texture not found') # log the exception in a file
+    logger.exception('Bullet texture not found')  # log the exception in a file
     draw_except("Bullet")
+
+try:
+    bullet_explosion_frames = {
+        1: pygame.transform.scale(pygame.image.load(ref("assets/explosion_gif_frames/explosion1.png")),
+                                  (BULLET_WIDTH, BULLET_HEIGHT)),
+        2: pygame.transform.scale(pygame.image.load(ref("assets/explosion_gif_frames/explosion2.png")),
+                                  (BULLET_WIDTH, BULLET_HEIGHT)),
+        3: pygame.transform.scale(pygame.image.load(ref("assets/explosion_gif_frames/explosion3.png")),
+                                  (BULLET_WIDTH, BULLET_HEIGHT)),
+        4: pygame.transform.scale(pygame.image.load(ref("assets/explosion_gif_frames/explosion4.png")),
+                                  (BULLET_WIDTH, BULLET_HEIGHT)),
+        5: pygame.transform.scale(pygame.image.load(ref("assets/explosion_gif_frames/explosion5.png")),
+                                  (BULLET_WIDTH, BULLET_HEIGHT)),
+        6: pygame.transform.scale(pygame.image.load(ref("assets/explosion_gif_frames/explosion6.png")),
+                                  (BULLET_WIDTH, BULLET_HEIGHT)), }
+except FileNotFoundError:
+    logger.exception('Bullet explosion not found')  # log the exception in a file
 
 # Create a mask for the bullet
 bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
 def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak,
-         mute, lives, muteSymbol, unmuteSymbol, timeText, scoreText):
+         mute, lives, muteSymbol, unmuteSymbol, timeText, scoreText, explosions, dt):
     WINDOW.blit(Background, (0, 0))
 
     # Draw the bullets using the bullet surface
     for bullet in bullets:
         WINDOW.blit(bullet_texture, (bullet.x, bullet.y))
+        if bullet.y > HEIGHT - BULLET_HEIGHT - 10:
+            explosions.append(Explosion(bullet.x, HEIGHT - BULLET_HEIGHT - 10, list(bullet_explosion_frames.values()), 0.6))
+
+    # Update and draw explosions
+    for explosion in explosions:
+        explosion.update(dt)
+        explosion.draw(WINDOW)
+    explosions = [explosion for explosion in explosions if not explosion.is_finished()]
 
     highScoreTextPt1 = FONT.render(f"Your high score", 1, "white")
     highScoreText_was = FONT.render(f" was {highscore}", 1, "white")

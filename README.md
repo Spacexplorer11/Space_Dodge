@@ -38,5 +38,5 @@ The game should start, but if you have **any** trouble, [create an issue with th
 ## Credits
 - The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).  
 - After that, 100% of code was written by me with help from GitHub Copilot.  
-- All images were generated using [Leonardo.ai](https://leonardo.ai)  
+- All images were generated using [Leonardo.ai](https://leonardo.ai)  with the exception of the mini-explosion gif when a bullet hits the ground, you can find it [here](https://en.picmix.com/stamp/Explode-Digital-Art-2334354)
 - All sounds were sourced from [Pixabay](https://pixabay.com) and/or [Uppbeat](https://uppbeat.io)
