@@ -1,0 +1,10 @@
+name: Automatic Semantic Versioning
+
+on: [push, pull_request]
+
+jobs:
+  my_first_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v5.4.0
