@@ -5,7 +5,6 @@ import time
 import logging
 from logging import getLogger
 
-
 import pygame
 
 from drawing.draw import Background
@@ -53,11 +52,9 @@ logger = getLogger(__name__)
 
 
 def main():
-    global mute
     running = True  # Keeps the while loop running
     start = False  # Doesn't start the game yet
     highscoreBreak = False  # Tells if the current score is bigger than the highscore
-    welcome = False  # Shows the welcome screen
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
@@ -83,14 +80,9 @@ def main():
     try:
         muteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (70, 50))
         unmuteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")), (70, 50))
-
-        mutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (120, 80))
-        unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")),
-                                                   (120, 80))
-
         pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
-        logger.exception('Mute or Unmute or Pause Symbol not found')  # log the exception in a file
+        logger.exception('Mute or Unmute symbol not found')  # log the exception in a file
         running = False
         draw_except("Symbol")
 
@@ -144,27 +136,7 @@ def main():
 
     # Draw the title screen
     if not start:
-        welcome = draw_title(start)
-
-    while welcome:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                welcome = False
-                running = False
-                break
-            elif event.type == pygame.KEYDOWN:
-                while welcome:
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            welcome = False
-                            running = False
-                            break
-                        if event.type == pygame.KEYDOWN:
-                            welcome = False
-                            startTime = time.time()
-                            break
-                    keybindings_screen()
-        welcome_screen()
+        draw_title(start)
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -200,6 +172,7 @@ def main():
         # The framerate of the game
         bulletCount += clock.tick(60)
 
+        # The mask for the player
         player_mask = pygame.mask.from_surface(playerL if direction == 0 else playerR)
 
         # The player's x position reassignment to the local variable
@@ -232,84 +205,17 @@ def main():
                     symbolChanged = False
                 if (pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) and mouseclick) or (keys[pygame.K_p]
                                                                                              or keys[pygame.K_ESCAPE]):
-                    pauseStartTime = time.time()
-                    pause = True
-                    pygame.mixer.music.load(
-                        ref("sounds/background_music/pause_screen/pause_music.mp3"))
-                    if not mute:
-                        pygame.mixer.music.play(-1)
-                    mutePauseRect = mutePauseSymbol.get_rect(x=180, y=430)
-                    unmutePauseRect = unmutePauseSymbol.get_rect(x=180, y=430)
-                    while pause:
-                        pausedTime = time.time() - pauseStartTime
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                pause = False
-                                running = False
-                                break
-                            if event.type == pygame.MOUSEBUTTONUP:
-                                symbolChanged = True
-                            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-                                keys = pygame.key.get_pressed()
-                                if keys[pygame.K_m]:
-                                    if not mute:
-                                        mute = True
-                                        pygame.mixer.music.pause()
-                                    else:
-                                        pygame.mixer.music.unpause()
-                                        mute = False
-                                elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
-                                    pause = False
-                                    totalPausedTime = 0.0
-                                    pausedTimes.append(round(pausedTime))
-                                    pygame.mixer.music.stop()
-                                    pygame.mixer.music.unload()
-                                    pygame.mixer.music.load(
-                                        ref("sounds/background_music/background_music.mp3"))
-                                    pygame.mixer.music.play(-1)
-                                    for num in pausedTimes:
-                                        totalPausedTime += num
-                                    break
-                                elif mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
-                                        pygame.mouse.get_pos()):
-                                    if not mute and symbolChanged:
-                                        pygame.mixer.music.pause()
-                                        mute = True
-                                    elif symbolChanged:
-                                        pygame.mixer.music.unpause()
-                                        mute = False
-                                    symbolChanged = False
-                        pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
+                    pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes)
                 if keys[pygame.K_k] or keys[pygame.K_i]:
-                    info_screen_active = True
-                    pauseStartTime = time.time()
-                    keyPress = True
-                    while info_screen_active:
-                        pausedTime = time.time() - pauseStartTime
-                        for event in pygame.event.get():
-                            if event.type == pygame.KEYUP:
-                                keyPress = False
-                            if event.type == pygame.QUIT:
-                                running = False
-                                info_screen_active = False
-                                break
-                            if event.type == pygame.KEYDOWN and not keyPress:
-                                keyPress = True
-                                totalPausedTime = 0.0
-                                pausedTimes.append(round(pausedTime))
-                                info_screen_active = False
-                                for num in pausedTimes:
-                                    totalPausedTime += num
-                                break
-                        keybindings_screen()
+                    keybindings_screen(pausedTimes)
 
         score += 1
         if score > highscore:
             highscore = score
             highscoreBreak = True
             if not highscoreSoundPlayed and not highscore_file_not_found:
-                highscoreBrokenText = FONT_MEDIUM.render(f"You broke your previous highscore of {score - 1}!", 1,
-                                                         "green")
+                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1,
+                                                  "green")
                 WINDOW.blit(highscoreBrokenText, (
                     WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()

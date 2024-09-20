@@ -1,9 +1,13 @@
+import time
+
 import pygame
 import os
 import logging
 from logging import getLogger
 
 from space_dodge.drawing.exception_handling.draw_exception import draw_except
+from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
+from space_dodge.drawing.tutorial_and_information.welcome import welcome_screen
 from space_dodge.file_handling.utility import ref
 
 # Window variables
@@ -32,7 +36,8 @@ except FileNotFoundError:
 
 # Load the start button image
 try:
-    start_button_image = pygame.transform.scale(pygame.image.load(ref("assets/start_button.png")), (BUTTON_WIDTH, BUTTON_HEIGHT))
+    start_button_image = pygame.transform.scale(pygame.image.load(ref("assets/start_button.png")),
+                                                (BUTTON_WIDTH, BUTTON_HEIGHT))
 except FileNotFoundError:
     logger.exception('Start button image not found')  # log the exception in a file
     draw_except("Button")
@@ -77,7 +82,7 @@ def draw_title(start):
                     start = True
                     welcome = True
                     pygame.mixer.music.stop()
-                    return start, welcome
+                    break
                 if muteSymbol_rect.collidepoint(mouse_x, mouse_y) or unmuteSymbol_rect.collidepoint(mouse_x, mouse_y):
                     if mute:
                         mute = False
@@ -86,3 +91,12 @@ def draw_title(start):
                         mute = True
                         pygame.mixer.music.pause()
         pygame.display.update()
+    while welcome:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                return running
+            elif event.type == pygame.KEYDOWN:
+                startTime, info_screen_active, keyPress = keybindings_screen(None)
+                return startTime, info_screen_active, keyPress
+        welcome_screen()

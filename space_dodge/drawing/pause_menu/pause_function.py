@@ -1,3 +1,5 @@
+import time
+
 import pygame
 import logging
 from logging import getLogger
@@ -15,12 +17,11 @@ logfile = ref('mylog.log')
 logging.basicConfig(filename=logfile, level=logging.INFO)
 logger = getLogger(__name__)
 
-
 try:
     pause_background = pygame.transform.scale(pygame.image.load(ref("assets/pause_background.png")),
-                                          (WIDTH, HEIGHT))
+                                              (WIDTH, HEIGHT))
 except FileNotFoundError:
-    logger.exception('Pause background not found') # log the exception in a file
+    logger.exception('Pause background not found')  # log the exception in a file
     draw_except("Background")
 
 # All the fonts
@@ -32,32 +33,79 @@ try:
     unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")),
                                                (120, 80))
 except FileNotFoundError:
+    logger.exception("Mute/unmute symbol (pause) not found")  # log the exception in a file
     draw_except("Symbol")
 
 
-def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
-    WINDOW.blit(pause_background, (0, 0))
-    pause_text = PAUSE_FONT.render("PAUSE MENU", 1, "white")
-    timeText = PAUSE_FONT.render(f"Time played: {round(elapsedTime)} secs", 1, "white")
-    scoreText = PAUSE_FONT.render(f"Score: {score}", 1, "white")
-    highScoreTextPt1 = PAUSE_FONT_SMALL.render("Your high score", 1, "white")
-    highScoreText_was = PAUSE_FONT_SMALL.render(f" was {highscore}", 1, "white")
-    highScoreText_is = PAUSE_FONT_SMALL.render(f" is {highscore}", 1, "white")
+def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes):
+    pygame.mixer.music.load(ref("sounds/background_music/pause_screen/pause_music.mp3"))
+    pygame.mixer.music.play(-1)
+    pauseStartTime = time.time()
+    pause = True
+    while pause:
+        WINDOW.blit(pause_background, (0, 0))
+        pause_text = PAUSE_FONT.render("PAUSE MENU", 1, "white")
+        timeText = PAUSE_FONT.render(f"Time played: {round(elapsedTime)} secs", 1, "white")
+        scoreText = PAUSE_FONT.render(f"Score: {score}", 1, "white")
+        highScoreTextPt1 = PAUSE_FONT_SMALL.render("Your high score", 1, "white")
+        highScoreText_was = PAUSE_FONT_SMALL.render(f" was {highscore}", 1, "white")
+        highScoreText_is = PAUSE_FONT_SMALL.render(f" is {highscore}", 1, "white")
+        WINDOW.blit(pause_text, (290, 176))
+        WINDOW.blit(timeText, (180, 250))
+        WINDOW.blit(scoreText, (180, 310))
+        # Check if the highscore is higher than the current score and if it is then say highscore "is" not "was"
+        if highscoreBreak:
+            WINDOW.blit(highScoreTextPt1, (180, 370))
+            WINDOW.blit(highScoreText_is, (490, 370))
+        else:
+            WINDOW.blit(highScoreTextPt1, (180, 370))
+            WINDOW.blit(highScoreText_was, (490, 370))
+        if mute:
+            WINDOW.blit(mutePauseSymbol, (180, 430))
+            pygame.mixer.music.pause()
+        else:
+            WINDOW.blit(unmutePauseSymbol, (180, 430))
+            pygame.mixer.music.unpause()
 
-    if mute:
-        WINDOW.blit(mutePauseSymbol, (180, 430))
-    else:
-        WINDOW.blit(unmutePauseSymbol, (180, 430))
-    WINDOW.blit(pause_text, (290, 176))
-    WINDOW.blit(timeText, (180, 250))
-    WINDOW.blit(scoreText, (180, 310))
+        mutePauseRect = mutePauseSymbol.get_rect(x=180, y=430)
+        unmutePauseRect = unmutePauseSymbol.get_rect(x=180, y=430)
+        pausedTime = time.time() - pauseStartTime
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pause = False
+                running = False
+                return running, pause
+            if event.type == pygame.MOUSEBUTTONUP:
+                symbolChanged = True
+            elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_m]:
+                    if not mute:
+                        mute = True
+                        pygame.mixer.music.pause()
+                    else:
+                        pygame.mixer.music.unpause()
+                        mute = False
+                elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
+                    pause = False
+                    totalPausedTime = 0.0
+                    pausedTimes.append(round(pausedTime))
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.unload()
+                    pygame.mixer.music.load(
+                        ref("sounds/background_music/background_music.mp3"))
+                    pygame.mixer.music.play(-1)
+                    for num in pausedTimes:
+                        totalPausedTime += num
+                    return totalPausedTime, pause
+                elif mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
+                        pygame.mouse.get_pos()):
+                    if not mute and symbolChanged:
+                        pygame.mixer.music.pause()
+                        mute = True
+                    elif symbolChanged:
+                        pygame.mixer.music.unpause()
+                        mute = False
+                    symbolChanged = False
 
-    # Check if the highscore is higher than the current score and if it is then say highscore "is" not "was"
-    if highscoreBreak:
-        WINDOW.blit(highScoreTextPt1, (180, 370))
-        WINDOW.blit(highScoreText_is, (490, 370))
-    else:
-        WINDOW.blit(highScoreTextPt1, (180, 370))
-        WINDOW.blit(highScoreText_was, (490, 370))
-
-    pygame.display.update()
+        pygame.display.update()

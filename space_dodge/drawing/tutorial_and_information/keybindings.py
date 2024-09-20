@@ -1,7 +1,8 @@
-import pygame
 import logging
+import time
 from logging import getLogger
 
+import pygame
 
 from space_dodge.drawing.exception_handling.draw_exception import draw_except
 from space_dodge.file_handling.utility import ref
@@ -26,7 +27,7 @@ except FileNotFoundError:
     draw_except("Background")
 
 
-def keybindings_screen():
+def keybindings_screen(pausedTimes):
     WINDOW.blit(Welcome_Screen_image, (0, 0))
     keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "orange")
     keybindText2 = FONT.render("Use A & D keys to move left & right.", 1, "orange")
@@ -47,3 +48,26 @@ def keybindings_screen():
                                        get_height() - keybindText4.get_height() - 160) / 2))
     WINDOW.blit(resumeText, (WIDTH / 2 - resumeText.get_width() / 2, 740))
     pygame.display.update()
+    info_screen_active = True
+    pauseStartTime = time.time()
+    keyPress = True
+    while info_screen_active:
+        pausedTime = time.time() - pauseStartTime
+        for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                keyPress = False
+            if event.type == pygame.QUIT:
+                running = False
+                info_screen_active = False
+                return running, info_screen_active
+            if event.type == pygame.KEYDOWN and not keyPress:
+                keyPress = True
+                info_screen_active = False
+                if pausedTimes is not None:
+                    totalPausedTime = 0.0
+                    pausedTimes.append(round(pausedTime))
+                    for num in pausedTimes:
+                        totalPausedTime += num
+                    return totalPausedTime, pausedTime, keyPress, info_screen_active
+                startTime = time.time()
+                return startTime, info_screen_active, keyPress
