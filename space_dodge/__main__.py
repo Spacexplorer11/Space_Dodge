@@ -15,7 +15,6 @@ from file_handling.saving import save_object
 from drawing.pause_menu.pause_function import pause_menu
 from drawing.title_screen.draw_title_screen import draw_title
 from drawing.tutorial_and_information.keybindings import keybindings_screen
-from drawing.tutorial_and_information.welcome import welcome_screen
 from file_handling.utility import ref
 
 pygame.mixer.init()
@@ -53,12 +52,10 @@ logger = getLogger(__name__)
 
 def main():
     running = True  # Keeps the while loop running
-    start = False  # Doesn't start the game yet
     highscoreBreak = False  # Tells if the current score is bigger than the highscore
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
-    symbolChanged = True  # Has the mute symbol been changed?
     pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
     highscore_file_not_found = False  # Is the highscore file not found?
@@ -74,7 +71,6 @@ def main():
         player = playerL.get_rect()
     except FileNotFoundError:
         logger.exception('Player not found')  # log the exception in a file
-        running = False
         draw_except("Player")
 
     try:
@@ -83,7 +79,6 @@ def main():
         pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
     except FileNotFoundError:
         logger.exception('Mute or Unmute symbol not found')  # log the exception in a file
-        running = False
         draw_except("Symbol")
 
     try:
@@ -92,14 +87,12 @@ def main():
         highscoreSound = pygame.mixer.Sound(ref("sounds/highscore/highscore.mp3"))
     except FileNotFoundError:
         logger.exception('Sound not found')  # log the exception in a file
-        running = False
         draw_except("Sound Effects")
 
     background_music_check = os.path.exists(ref("sounds/background_music/background_music.mp3"))
     pause_music_check = os.path.exists(ref("sounds/pause_screen/pause_music.mp3"))
     if not (background_music_check or pause_music_check):
         logger.exception('Music not found')  # log the exception in a file
-        running = False
         draw_except("Music")
 
     try:
@@ -135,8 +128,7 @@ def main():
         highscore_file_not_found = True
 
     # Draw the title screen
-    if not start:
-        draw_title(start)
+    draw_title()
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -186,26 +178,22 @@ def main():
                     save_object(highscore)
                 running = False
                 break
-            # Check if the mouse is clicked
-            if event.type == pygame.MOUSEBUTTONUP:
-                symbolChanged = True
+            # Check if the mouse is clicked or a key is pressed
             elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
-                mouseclick = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouseclick = True
                 if keys[pygame.K_a] or keys[pygame.K_d]:
                     pass
                     break
                 if keys[pygame.K_m]:
-                    mute = True if not mute else False
+                    mute = not mute
                 if ((muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()))
-                        and mouseclick):
-                    mute = True if not mute and symbolChanged else False
-                    symbolChanged = False
-                if (pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) and mouseclick) or (keys[pygame.K_p]
-                                                                                             or keys[pygame.K_ESCAPE]):
-                    pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes)
+                        and event.type == pygame.MOUSEBUTTONDOWN):
+                    mute = not mute
+                if (pauseSymbolRect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.MOUSEBUTTONDOWN) or (
+                        keys[pygame.K_p]
+                        or keys[pygame.K_ESCAPE]):
+                    running, pause, totalPausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes)
+                    break
                 if keys[pygame.K_k] or keys[pygame.K_i]:
                     keybindings_screen(pausedTimes)
 
@@ -282,7 +270,6 @@ def main():
                         pygame.mixer.Sound.play(GameOverSound)
                         pygame.mixer.Sound.play(sadSound)
                         pygame.time.delay(5000)
-                        start = False
                         main()
                         break
         if mute:
@@ -290,7 +277,11 @@ def main():
         elif not mute:
             pygame.mixer.music.unpause()
 
-        draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
+        if not running:
+            save_object(highscore) if score >= highscore else None
+            continue
+
+        draw(playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
              unmuteSymbol, timeText, scoreText, explosions, dt)
 
     pygame.quit()

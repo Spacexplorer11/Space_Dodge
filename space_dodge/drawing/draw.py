@@ -1,5 +1,4 @@
 import logging
-import time
 from logging import getLogger
 
 import pygame
@@ -29,6 +28,8 @@ PLAYER_WIDTH = 80
 BULLET_WIDTH = 50
 BULLET_HEIGHT = 70
 
+
+# Load all files
 try:
     threeLives = pygame.transform.scale(pygame.image.load(ref("assets/three_lives.png")), (200, 200))
     twoLives = pygame.transform.scale(pygame.image.load(ref("assets/two_lives.png")), (200, 190))
@@ -74,12 +75,24 @@ try:
                                   (BULLET_WIDTH, BULLET_HEIGHT)), }
 except FileNotFoundError:
     logger.exception('Bullet explosion not found')  # log the exception in a file
+    draw_except("Bullet explosion")
+
+try:
+    playerR = pygame.transform.scale(pygame.image.load(ref("assets/player_r.png"), "PlayerR"),
+                                     (PLAYER_WIDTH, PLAYER_HEIGHT))
+    playerL = pygame.transform.scale(pygame.image.load(ref("assets/player_l.png"), "PlayerL"),
+                                     (PLAYER_WIDTH, PLAYER_HEIGHT))
+    player = playerL.get_rect()
+except FileNotFoundError:
+    logger.exception('Player not found')  # log the exception in a file
+    running = False
+    draw_except("Player")
 
 # Create a mask for the bullet
 bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
-def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBreak,
+def draw(playerX, bullets, direction, highscore, highscoreBreak,
          mute, lives, muteSymbol, unmuteSymbol, timeText, scoreText, explosions, dt):
     WINDOW.blit(Background, (0, 0))
 
@@ -118,10 +131,7 @@ def draw(playerL, playerR, playerX, bullets, direction, highscore, highscoreBrea
 
     # Changing where the player faces
     # 1 = right vs 0 = left
-    if direction == 1:
-        WINDOW.blit(playerR, (playerX, HEIGHT - PLAYER_HEIGHT))
-    else:
-        WINDOW.blit(playerL, (playerX, HEIGHT - PLAYER_HEIGHT))
+    WINDOW.blit(playerL if direction == 0 else playerR, (playerX, HEIGHT - PLAYER_HEIGHT))
 
     # Draw the lives
     if lives == 3:

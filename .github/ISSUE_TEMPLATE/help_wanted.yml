@@ -49,12 +49,12 @@ body:
     attributes:
       value: |
         **Screenshots**
-        If applicable, add screenshots to help explain your issue.
+        If applicable, add screenshots or mylog.log to help explain your issue.
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots
-      description: Add screenshots to help explain your issue.
+      label: Screenshots or files
+      description: Add screenshots to help explain your issue. You may also wish to add the mylog.log file, | which would've been created if an error was displayed on screen
       placeholder: Add screenshots
       value:
   - type: markdown

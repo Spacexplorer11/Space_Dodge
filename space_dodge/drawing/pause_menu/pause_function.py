@@ -74,20 +74,14 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes)
             if event.type == pygame.QUIT:
                 pause = False
                 running = False
-                return running, pause
-            if event.type == pygame.MOUSEBUTTONUP:
-                symbolChanged = True
+                return running, pause, 0.0
             elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_m]:
-                    if not mute:
-                        mute = True
-                        pygame.mixer.music.pause()
-                    else:
-                        pygame.mixer.music.unpause()
-                        mute = False
+                    mute = not mute
                 elif keys[pygame.K_p] or keys[pygame.K_ESCAPE]:
                     pause = False
+                    running = True
                     totalPausedTime = 0.0
                     pausedTimes.append(round(pausedTime))
                     pygame.mixer.music.stop()
@@ -97,15 +91,9 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes)
                     pygame.mixer.music.play(-1)
                     for num in pausedTimes:
                         totalPausedTime += num
-                    return totalPausedTime, pause
+                    return running, pause, totalPausedTime
                 elif mutePauseRect.collidepoint(pygame.mouse.get_pos()) or unmutePauseRect.collidepoint(
                         pygame.mouse.get_pos()):
-                    if not mute and symbolChanged:
-                        pygame.mixer.music.pause()
-                        mute = True
-                    elif symbolChanged:
-                        pygame.mixer.music.unpause()
-                        mute = False
-                    symbolChanged = False
+                    mute = not mute
 
         pygame.display.update()
