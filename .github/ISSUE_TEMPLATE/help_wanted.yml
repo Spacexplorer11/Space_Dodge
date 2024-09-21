@@ -54,8 +54,8 @@ body:
     id: screenshots
     attributes:
       label: Screenshots or files
-      description: Add screenshots to help explain your issue. You may also wish to add the mylog.log file, | which would've been created if an error was displayed on screen
-      placeholder: Add screenshots
+      description: Add screenshots to help explain your issue. You should also add the mylog.log file if available.
+      placeholder: Add screenshots, or mylog.log
       value:
   - type: markdown
     attributes:
