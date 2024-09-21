@@ -272,10 +272,7 @@ def main():
                         pygame.time.delay(5000)
                         main()
                         break
-        if mute:
-            pygame.mixer.music.pause()
-        elif not mute:
-            pygame.mixer.music.unpause()
+            pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()
 
         if not running:
             save_object(highscore) if score >= highscore else None
