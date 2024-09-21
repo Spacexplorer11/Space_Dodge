@@ -53,9 +53,9 @@ body:
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots
-      description: Add screenshots to help explain your issue.
-      placeholder: Add screenshots
+      label: Screenshots or files
+      description: Add screenshots to help explain your issue. You should also add the mylog.log file if available.
+      placeholder: Add screenshots, or mylog.log
       value:
   - type: markdown
     attributes:
