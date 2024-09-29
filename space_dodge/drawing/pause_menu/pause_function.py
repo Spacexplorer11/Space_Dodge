@@ -1,40 +1,13 @@
 import time
 
 import pygame
-import logging
-from logging import getLogger
 
 from space_dodge.drawing.exception_handling.draw_exception import draw_except
 from space_dodge.file_handling.utility import ref
 
-pygame.font.init()
-
-# Window variables
-WIDTH, HEIGHT = 1000, 800
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-
-logfile = ref('mylog.log')
-logging.basicConfig(filename=logfile, level=logging.INFO)
-logger = getLogger(__name__)
-
-try:
-    pause_background = pygame.transform.scale(pygame.image.load(ref("assets/pause_background.png")),
-                                              (WIDTH, HEIGHT))
-except FileNotFoundError:
-    logger.exception('Pause background not found')  # log the exception in a file
-    draw_except("Background")
-
-# All the fonts
-PAUSE_FONT = pygame.font.SysFont("Arial", 50)
-PAUSE_FONT_SMALL = pygame.font.SysFont("Arial", 45)
-
-try:
-    mutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (120, 80))
-    unmutePauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")),
-                                               (120, 80))
-except FileNotFoundError:
-    logger.exception("Mute/unmute symbol (pause) not found")  # log the exception in a file
-    draw_except("Symbol")
+# Importing the crucial variables from the main file
+from space_dodge.file_handling.constants_and_file_loading import (WINDOW, WIDTH, HEIGHT, PAUSE_FONT, PAUSE_FONT_SMALL,
+                                                                  pause_background, mutePauseSymbol, unmutePauseSymbol)
 
 
 def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes):
