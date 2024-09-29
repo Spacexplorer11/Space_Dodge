@@ -1,32 +1,11 @@
 import pygame
-import logging
-from logging import getLogger
 
-from space_dodge.drawing.exception_handling.draw_exception import draw_except
-from space_dodge.file_handling.utility import ref
-
-# Window variables
-WIDTH, HEIGHT = 1000, 800
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# Fonts
-FONT = pygame.font.SysFont("Arial Black", 40)
-FONT_SMALL = pygame.font.SysFont("Cochin", 30)
-
-logfile = ref('mylog.log')
-logging.basicConfig(filename=logfile, level=logging.INFO)
-logger = getLogger(__name__)
-
-# Load the welcome screen image
-try:
-    Welcome_Screen_image = pygame.transform.scale(pygame.image.load(ref("assets/welcome_screen.png")), (WIDTH, HEIGHT))
-except FileNotFoundError:
-    logger.exception('Welcome screen image not found')  # log the exception in a file
-    draw_except("Background")
+# Importing the crucial variables from the constants file
+from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_image, FONT, FONT_SMALL
 
 
 def welcome_screen():
-    WINDOW.blit(Welcome_Screen_image, (0, 0))
+    WINDOW.blit(welcome_screen_image, (0, 0))
     welcomeText1 = FONT.render("Welcome to Space Dodge!", 1, "orange")
     welcomeText2 = FONT.render("Use A & D keys to move left & right!", 1, "orange")
     welcomeText3 = FONT.render("Try not to hit the bullets!", 1, "orange")

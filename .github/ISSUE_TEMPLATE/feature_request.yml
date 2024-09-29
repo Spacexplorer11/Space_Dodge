@@ -51,7 +51,7 @@ body:
   - type: textarea
     id: context
     attributes:
-      label: Extra Information or Background
+      label: Extra Information or background
       description: Include any additional details or screenshots related to the feature request here.
       placeholder: Add any other things you think we should know
       value:

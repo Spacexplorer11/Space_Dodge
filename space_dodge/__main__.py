@@ -1,53 +1,29 @@
 # imports
-import os
 import random
 import time
-import logging
-from logging import getLogger
 
 import pygame
 
-from drawing.draw import Background
-from drawing.draw import draw
-from drawing.exception_handling.draw_exception import draw_except
-from file_handling.loading import load_highscore
-from file_handling.saving import save_object
-from drawing.pause_menu.pause_function import pause_menu
-from drawing.title_screen.draw_title_screen import draw_title
-from drawing.tutorial_and_information.keybindings import keybindings_screen
-from file_handling.utility import ref
+from space_dodge.drawing.draw import draw
+from space_dodge.file_handling.loading_func import load_highscore
+from space_dodge.file_handling.saving import save_object
+from space_dodge.drawing.pause_menu.pause_function import pause_menu
+from space_dodge.drawing.title_screen.draw_title_screen import draw_title
+from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
+from space_dodge.file_handling.utility import ref
+
+# Import all constant variables & files
+from file_handling.constants_and_file_loading import (PLAYER_HEIGHT, BULLET_WIDTH, BULLET_HEIGHT,
+                                                      PLAYER_VELOCITY, BULLET_VELOCITY, FONT,
+                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
+
+# Import all the files( images, sounds, etc. )
+from file_handling.constants_and_file_loading import (playerL, playerR, muteSymbol, unmuteSymbol, pauseSymbol, background,
+                                                      bullet_texture, player, sadSound, GameOverSound, highscoreSound)
 
 pygame.mixer.init()
 pygame.font.init()
 pygame.init()
-
-# Window variables
-WIDTH, HEIGHT = 1000, 800
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# Set the title of the window
-pygame.display.set_caption("Space Dodge")
-
-# All the fonts
-FONT = pygame.font.SysFont("Arial Black", 30)
-FONT_SMALL = pygame.font.SysFont("Cochin", 30)
-FONT_ERROR = pygame.font.SysFont("Phosphate", 50)
-FONT_BIG = pygame.font.SysFont("Arial Black", 100)
-FONT_MEDIUM = pygame.font.SysFont("Arial Black", 45)
-
-# Player variables
-PLAYER_HEIGHT = 100
-PLAYER_WIDTH = 80
-PLAYER_VELOCITY = 5
-
-# Bullet variables
-BULLET_WIDTH = 50
-BULLET_HEIGHT = 70
-BULLET_VELOCITY = 3
-
-logfile = ref('mylog.log')
-logging.basicConfig(filename=logfile, level=logging.INFO)
-logger = getLogger(__name__)
 
 
 def main():
@@ -61,46 +37,6 @@ def main():
     highscore_file_not_found = False  # Is the highscore file not found?
     last_time = time.time()
     explosions = []  # The list of explosions
-
-    # Load all the files/variables
-    try:
-        playerR = pygame.transform.scale(pygame.image.load(ref("assets/player_r.png"), "PlayerR"),
-                                         (PLAYER_WIDTH, PLAYER_HEIGHT))
-        playerL = pygame.transform.scale(pygame.image.load(ref("assets/player_l.png"), "PlayerL"),
-                                         (PLAYER_WIDTH, PLAYER_HEIGHT))
-        player = playerL.get_rect()
-    except FileNotFoundError:
-        logger.exception('Player not found')  # log the exception in a file
-        draw_except("Player")
-
-    try:
-        muteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/mute.png")), (70, 50))
-        unmuteSymbol = pygame.transform.scale(pygame.image.load(ref("assets/unmute.png")), (70, 50))
-        pauseSymbol = pygame.transform.scale(pygame.image.load(ref("assets/pause_rectangle.png")), (50, 30))
-    except FileNotFoundError:
-        logger.exception('Mute or Unmute symbol not found')  # log the exception in a file
-        draw_except("Symbol")
-
-    try:
-        sadSound = pygame.mixer.Sound(ref("sounds/game_over/sad-trombone.mp3"))
-        GameOverSound = pygame.mixer.Sound(ref("sounds/game_over/game-over-sound.mp3"))
-        highscoreSound = pygame.mixer.Sound(ref("sounds/highscore/highscore.mp3"))
-    except FileNotFoundError:
-        logger.exception('Sound not found')  # log the exception in a file
-        draw_except("Sound Effects")
-
-    background_music_check = os.path.exists(ref("sounds/background_music/background_music.mp3"))
-    pause_music_check = os.path.exists(ref("sounds/pause_screen/pause_music.mp3"))
-    if not (background_music_check or pause_music_check):
-        logger.exception('Music not found')  # log the exception in a file
-        draw_except("Music")
-
-    try:
-        bullet_texture = pygame.transform.scale(pygame.image.load(ref("assets/bullet_texture.png")),
-                                                (BULLET_WIDTH, BULLET_HEIGHT))
-    except FileNotFoundError:
-        logger.exception('Bullet texture not found')  # log the exception in a file
-        draw_except("Bullet")
 
     # Create a mask for the bullet
     bullet_mask = pygame.mask.from_surface(bullet_texture)
@@ -186,6 +122,8 @@ def main():
                     break
                 if keys[pygame.K_m]:
                     mute = not mute
+                if keys[pygame.K_k] or keys[pygame.K_i]:
+                    keybindings_screen(pausedTimes)
                 if ((muteRect.collidepoint(pygame.mouse.get_pos()) or unmuteRect.collidepoint(pygame.mouse.get_pos()))
                         and event.type == pygame.MOUSEBUTTONDOWN):
                     mute = not mute
@@ -194,8 +132,7 @@ def main():
                         or keys[pygame.K_ESCAPE]):
                     running, pause, totalPausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute, pausedTimes)
                     break
-                if keys[pygame.K_k] or keys[pygame.K_i]:
-                    keybindings_screen(pausedTimes)
+
 
         score += 1
         if score > highscore:
@@ -238,25 +175,22 @@ def main():
                     bullets.clear()
                     lives -= 1
                     if lives > 1:
-                        WINDOW.blit(Background, (0, 0))
-                        pygame.draw.rect(WINDOW, "red", bullet)
+                        WINDOW.blit(background, (0, 0))
                         WINDOW.blit(lostLivesText, (50, HEIGHT / 2 - lostLivesText.get_height()))
                         pygame.display.update()
                         pygame.time.delay(1000)
                     elif lives == 1:
-                        WINDOW.blit(Background, (0, 0))
-                        pygame.draw.rect(WINDOW, "red", bullet)
+                        WINDOW.blit(background, (0, 0))
                         WINDOW.blit(lostLifeText, (50, HEIGHT / 2 - lostLifeText.get_height() / 2))
                         pygame.display.update()
                         pygame.time.delay(1000)
                     else:
-                        WINDOW.blit(Background, (0, 0))
-                        pygame.draw.rect(WINDOW, "red", bullet)
+                        WINDOW.blit(background, (0, 0))
                         pygame.display.update()
                         if highscore >= score:
                             save_object(highscore)
                         pygame.mixer.music.fadeout(1000)
-                        WINDOW.blit(Background, (0, 0))
+                        WINDOW.blit(background, (0, 0))
                         loseText = FONT_BIG.render("GAME OVER!", 1, "red")
                         highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
                         timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
@@ -272,14 +206,14 @@ def main():
                         pygame.time.delay(5000)
                         main()
                         break
-            pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()
+
+            pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()  # Pause or unpause the music
 
         if not running:
             save_object(highscore) if score >= highscore else None
             continue
 
-        draw(playerX, bullets, direction, highscore, highscoreBreak, mute, lives, muteSymbol,
-             unmuteSymbol, timeText, scoreText, explosions, dt)
+        draw(playerX, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt)
 
     pygame.quit()
 

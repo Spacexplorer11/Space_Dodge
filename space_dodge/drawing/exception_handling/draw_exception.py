@@ -1,10 +1,11 @@
 import pygame
 
-pygame.font.init()
-
+# Window variables
 WIDTH, HEIGHT = 1000, 800
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Space Dodge")
+
+pygame.font.init()
+
 FONT_ERROR = pygame.font.SysFont("Phosphate", 30)
 
 
@@ -18,7 +19,7 @@ def draw_except(error):
                 run = False
                 break
         WINDOW.fill((0, 0, 0))
-        if error == "Background":
+        if error == "background":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render("A background image was not found", 1, "red")
             errorText3 = FONT_ERROR.render("Please create an issue on GitHub using the Help Wanted template", 1, "red")
