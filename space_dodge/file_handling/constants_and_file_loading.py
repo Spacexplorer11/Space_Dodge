@@ -65,7 +65,7 @@ def draw_loading_bar(screen, progress, width=392, height=30):
 
 
 # Load all the files/variables with loading bar updates
-total_assets = 28  # Total number of assets to load
+total_assets = 26  # Total number of assets to load
 loaded_assets = 0
 
 
@@ -79,19 +79,16 @@ def update_loading_bar(assets_num=1):
 try:
     playerR = t.scale(i.load(ref("assets/player_r.png")), (PLAYER_WIDTH, PLAYER_HEIGHT))
     playerL = t.scale(i.load(ref("assets/player_l.png")), (PLAYER_WIDTH, PLAYER_HEIGHT))
-    player = playerL.get_rect()
     update_loading_bar(2)
 except FileNotFoundError:
     logger.exception('Player not found')
     draw_except("Player")
 
 try:
-    muteSymbol = t.scale(i.load(ref("assets/mute.png")), (70, 50))
-    unmuteSymbol = t.scale(i.load(ref("assets/unmute.png")), (70, 50))
-    pauseSymbol = t.scale(i.load(ref("assets/pause_rectangle.png")), (50, 30))
-    mutePauseSymbol = t.scale(i.load(ref("assets/mute.png")), (120, 80))
-    unmutePauseSymbol = t.scale(i.load(ref("assets/unmute.png")), (120, 80))
-    update_loading_bar(5)
+    muteImage = t.scale(i.load(ref("assets/mute.png")), (70, 50))
+    unmuteImage = t.scale(i.load(ref("assets/unmute.png")), (70, 50))
+    pauseButtonImage = t.scale(i.load(ref("assets/pause_rectangle.png")), (50, 30))
+    update_loading_bar(3)
 
 except FileNotFoundError:
     logger.exception('Symbol not found')

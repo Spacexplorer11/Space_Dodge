@@ -122,7 +122,7 @@ def draw_except(error):
                                      HEIGHT / 2 - (
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
-        elif error == "Bullet Explosion":
+        elif error == "Bullet Animation":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render("The explosion frames weren't found", 1, "red")
             errorText3 = FONT_ERROR.render("Please create an issue on GitHub using the Help Wanted template", 1, "red")

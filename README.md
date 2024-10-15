@@ -38,5 +38,9 @@ The game should start, but if you have **any** trouble, [create an issue with th
 ## Credits
 - The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).  
 - After that, 100% of code was written by me with help from GitHub Copilot.  
-- All images were generated using [Leonardo.ai](https://leonardo.ai)  with the exception of the mini-explosion gif when a bullet hits the ground, you can find it [here](https://en.picmix.com/stamp/Explode-Digital-Art-2334354)
+- All images were generated using [Leonardo.ai](https://leonardo.ai)  with the some exceptions   
+- The mini-explosion gif when a bullet hits the ground, you can find it [here](https://en.picmix.com/stamp/Explode-Digital-Art-2334354)
+- The mute symbol can be found [here](https://www.freepik.com/icon/mute_7971700)
+- The unmute symbol can be found [here](https://lh3.googleusercontent.com/7mt9pf2gQYwXeU8d9y8Uow4p9lpVTMy0VJxoUA1jFNQuFB_G_UlLSGYq62D9Hs2bqFrqizUWtBMiViObGGIf5LREmA=s60)
+- The pause button symbol can be found in the SF Symbols app on Mac (It can be downloaded here: [SF Symbols](https://developer.apple.com/sf-symbols/))
 - All sounds were sourced from [Pixabay](https://pixabay.com) and/or [Uppbeat](https://uppbeat.io)

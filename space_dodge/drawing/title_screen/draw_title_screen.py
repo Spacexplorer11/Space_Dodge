@@ -2,21 +2,19 @@ import pygame
 
 from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
 from space_dodge.drawing.tutorial_and_information.welcome import welcome_screen
+from space_dodge.file_handling.constants_and_file_loading import (
+    WINDOW, WIDTH, HEIGHT, start_button_image, muteImage, unmuteImage, title_screen_image
+)
 from space_dodge.file_handling.utility import ref
-
-# Importing the crucial variables from the constants file
-from space_dodge.file_handling.constants_and_file_loading import (WINDOW, WIDTH, HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT,
-                                                                  start_button_image,
-                                                                  muteSymbol, unmuteSymbol, title_screen_image)
 
 # Initialise pygame & pygame.mixer
 pygame.init()
 pygame.mixer.init()
 
 # Define Rect objects
-start_button_rect = start_button_image.get_rect(x=WIDTH / 2 - BUTTON_WIDTH / 2, y=HEIGHT / 2 - BUTTON_HEIGHT / 2)
-muteSymbol_rect = muteSymbol.get_rect(x=50, y=200, width=80, height=60)
-unmuteSymbol_rect = unmuteSymbol.get_rect(x=50, y=200, width=80, height=60)
+start_button_rect = start_button_image.get_rect(center=(WIDTH / 2, HEIGHT / 2))
+muteSymbol_rect = muteImage.get_rect(x=50, y=200, width=80, height=60)
+unmuteSymbol_rect = unmuteImage.get_rect(x=50, y=200, width=80, height=60)
 
 
 # Draw the title screen
@@ -27,29 +25,30 @@ def draw_title():
     pygame.mixer.music.play(loops=-1)
     mute = False
     start = False
+
     while not start:
         WINDOW.blit(title_screen_image, (0, 0))
-        WINDOW.blit(start_button_image, (WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 2 - BUTTON_HEIGHT / 2))
-        WINDOW.blit(muteSymbol if mute else unmuteSymbol, (50, 200))
+        WINDOW.blit(start_button_image, start_button_rect.topleft)
+        WINDOW.blit(muteImage if mute else unmuteImage, (50, 200))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if start_button_rect.collidepoint(mouse_x, mouse_y):
                     start = True
-                    welcome = True
                     pygame.mixer.music.stop()
-                    break
-                if muteSymbol_rect.collidepoint(mouse_x, mouse_y) or unmuteSymbol_rect.collidepoint(mouse_x, mouse_y):
+                elif muteSymbol_rect.collidepoint(mouse_x, mouse_y) or unmuteSymbol_rect.collidepoint(mouse_x, mouse_y):
                     mute = not mute
                     pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
+
         pygame.display.update()
-    while welcome:
+
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-                return running
+                return False
             elif event.type == pygame.KEYDOWN:
                 startTime, info_screen_active, keyPress = keybindings_screen(None)
                 return startTime, info_screen_active, keyPress
