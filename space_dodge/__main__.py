@@ -6,15 +6,13 @@ import pygame
 # Import all constant variables
 from file_handling.constants_and_file_loading import (FONT,
                                                       FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
-
-# Import the classes' modules
-from space_dodge.classes.bullet import Bullet
-from space_dodge.classes.player import Player
-from space_dodge.classes.symbol import Symbol
-
 # Import all the files( images, sounds, etc. )
 from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, background,
                                                       sadSound, GameOverSound, highscoreSound)
+# Import the classes' modules
+from space_dodge.classes.bullet import Bullet
+from space_dodge.classes.button import Button
+from space_dodge.classes.player import Player
 from space_dodge.drawing.draw import draw
 from space_dodge.drawing.pause_menu.pause_function import pause_menu
 from space_dodge.drawing.title_screen.draw_title_screen import draw_title
@@ -40,9 +38,9 @@ def main():
     last_time = time.time()
     explosions = []  # The list of explosions
     player = Player()  # Create the player object
-    muteSymbol = Symbol(muteImage, 132, 10)  # Create the mute symbol object
-    unmuteSymbol = Symbol(unmuteImage, 132, 10)  # Create the unmute symbol object
-    pauseSymbol = Symbol(pauseButtonImage, 900, 10)  # Create the pause symbol object
+    muteButton = Button(muteImage, 132, 10)  # Create the mute symbol object
+    unmuteButton = Button(unmuteImage, 132, 10)  # Create the unmute symbol object
+    pauseButton = Button(pauseButtonImage, 900, 10)  # Create the pause symbol object
 
     clock = pygame.time.Clock()  # The clock for the game
 
@@ -94,9 +92,9 @@ def main():
         scoreText = FONT.render(f"Score: {score}", 1, "white")
 
         # The rectangles for the symbols( it's updated every frame )
-        muteSymbol.update_rect(timeText.get_width() + 10)
-        unmuteSymbol.update_rect(timeText.get_width() + 10)
-        pauseSymbol.update_rect(scoreText.get_width() + 745)
+        muteButton.update_rect(timeText.get_width() + 10)
+        unmuteButton.update_rect(timeText.get_width() + 10)
+        pauseButton.update_rect(scoreText.get_width() + 745)
 
         # The framerate of the game
         bulletCount += clock.tick(60)
@@ -122,10 +120,11 @@ def main():
                     mute = not mute
                 if keys[pygame.K_k] or keys[pygame.K_i]:
                     keybindings_screen(pausedTimes)
-                if ((muteSymbol.rect.collidepoint(pygame.mouse.get_pos()) or unmuteSymbol.rect.collidepoint(pygame.mouse.get_pos()))
+                if ((muteButton.rect.collidepoint(pygame.mouse.get_pos()) or unmuteButton.rect.collidepoint(
+                        pygame.mouse.get_pos()))
                         and event.type == pygame.MOUSEBUTTONDOWN):
                     mute = not mute
-                if (pauseSymbol.rect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.MOUSEBUTTONDOWN) or (
+                if (pauseButton.rect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.MOUSEBUTTONDOWN) or (
                         keys[pygame.K_p]
                         or keys[pygame.K_ESCAPE]):
                     running, pause, totalPausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute,
@@ -173,7 +172,8 @@ def main():
                     lives -= 1
                     if lives > 0:
                         WINDOW.blit(background, (0, 0))
-                        WINDOW.blit(lostLivesText if lives > 1 else lostLifeText, (50, HEIGHT / 2 - lostLivesText.get_height()))
+                        WINDOW.blit(lostLivesText if lives > 1 else lostLifeText,
+                                    (50, HEIGHT / 2 - lostLivesText.get_height()))
                         pygame.display.update()
                         pygame.time.delay(1000)
                     else:

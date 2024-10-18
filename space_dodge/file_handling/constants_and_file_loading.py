@@ -3,8 +3,8 @@ import os
 
 import pygame as p
 from pygame import image as i
-from pygame import transform as t
 from pygame import mixer as m
+from pygame import transform as t
 
 from space_dodge.drawing.exception_handling.draw_exception import draw_except
 from space_dodge.file_handling.utility import ref
@@ -65,7 +65,7 @@ def draw_loading_bar(screen, progress, width=392, height=30):
 
 
 # Load all the files/variables with loading bar updates
-total_assets = 26  # Total number of assets to load
+total_assets = 27  # Total number of assets to load
 loaded_assets = 0
 
 
@@ -88,11 +88,12 @@ try:
     muteImage = t.scale(i.load(ref("assets/mute.png")), (70, 50))
     unmuteImage = t.scale(i.load(ref("assets/unmute.png")), (70, 50))
     pauseButtonImage = t.scale(i.load(ref("assets/pause_rectangle.png")), (50, 30))
-    update_loading_bar(3)
+    settingsIcon = t.scale(i.load(ref("assets/settings_icon.png")), (50, 50))
+    update_loading_bar(4)
 
 except FileNotFoundError:
-    logger.exception('Symbol not found')
-    draw_except("Symbol")
+    logger.exception('Button not found')
+    draw_except("Button")
 
 try:
     sadSound = m.Sound(ref("sounds/game_over/sad-trombone.mp3"))
@@ -118,9 +119,9 @@ except FileNotFoundError:
     draw_except("Bullet")
 
 try:
-    threeLives = t.scale(i.load(ref("assets/three_lives.png")), (200, 200))
-    twoLives = t.scale(i.load(ref("assets/two_lives.png")), (200, 190))
-    oneLife = t.scale(i.load(ref("assets/one_life.png")), (200, 180))
+    threeLives = t.scale(i.load(ref("assets/lives/three_lives.png")), (200, 200))
+    twoLives = t.scale(i.load(ref("assets/lives/two_lives.png")), (200, 190))
+    oneLife = t.scale(i.load(ref("assets/lives/one_life.png")), (200, 180))
     update_loading_bar(3)
 except FileNotFoundError:
     logger.exception('Lives not found')

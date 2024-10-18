@@ -1,7 +1,8 @@
 import pygame
 
 # Importing the crucial variables from the constants file
-from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_image, FONT, FONT_SMALL
+from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_image, FONT, \
+    FONT_SMALL
 
 
 def welcome_screen():

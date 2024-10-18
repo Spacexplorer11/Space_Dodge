@@ -1,11 +1,11 @@
 import pygame
 
+from space_dodge.classes.animation import Animation
 from space_dodge.file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
     threeLives, twoLives, oneLife, background, bullet_texture, bullet_explosion_frames,
     pauseButtonImage, muteImage, unmuteImage
 )
-from space_dodge.classes.animation import Animation
 
 # Create a mask for the bullet
 bullet_mask = pygame.mask.from_surface(bullet_texture)
@@ -19,7 +19,8 @@ def draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, tim
         WINDOW.blit(bullet_texture, (bullet.x, bullet.y))
         if bullet.y > HEIGHT - BULLET_HEIGHT - 10:
             explosions.append(
-                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()), duration=0.7))
+                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()),
+                          duration=0.7))
 
     # Update and draw explosions
     for explosion in explosions:

@@ -45,7 +45,7 @@ def draw_except(error):
                                              errorText1.get_height() - errorText2.get_height() - errorText3.
                                              get_height() - 60) / 2))
             pygame.display.update()
-        elif error == "Symbol":
+        elif error == "Button":
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render("A symbol( mute, unmute or pause ) was not found", 1, "red")
             errorText3 = FONT_ERROR.render("Please create an issue on GitHub using the Help Wanted template", 1, "red")

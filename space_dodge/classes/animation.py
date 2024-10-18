@@ -1,4 +1,3 @@
-
 class Animation:
     def __init__(self, x, y, frames, duration):
         self.x = x
