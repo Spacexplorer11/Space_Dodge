@@ -5,7 +5,7 @@ import pygame
 
 # Import all constant variables
 from file_handling.constants_and_file_loading import (FONT,
-                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
+                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW, settingsIcon)
 # Import all the files( images, sounds, etc. )
 from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, background,
                                                       sadSound, GameOverSound, highscoreSound)
@@ -17,6 +17,7 @@ from space_dodge.drawing.draw import draw
 from space_dodge.drawing.pause_menu.pause_function import pause_menu
 from space_dodge.drawing.title_screen.draw_title_screen import draw_title
 from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
+from space_dodge.drawing.tutorial_and_information.settings import settings_menu
 from space_dodge.file_handling.loading_func import load_highscore
 from space_dodge.file_handling.saving import save_object
 from space_dodge.file_handling.utility import ref
@@ -32,8 +33,8 @@ def main():
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
-    pausedTimes = []  # All the pause time
     totalPausedTime = 0.0  # The total pause time
+    pausedTimes = []  # The total pause time
     highscore_file_not_found = False  # Is the highscore file not found?
     last_time = time.time()
     explosions = []  # The list of explosions
@@ -41,6 +42,7 @@ def main():
     muteButton = Button(muteImage, 132, 10)  # Create the mute symbol object
     unmuteButton = Button(unmuteImage, 132, 10)  # Create the unmute symbol object
     pauseButton = Button(pauseButtonImage, 900, 10)  # Create the pause symbol object
+    settingsButton = Button(settingsIcon, WIDTH - settingsIcon.get_width() - 10, HEIGHT - settingsIcon.get_height())  # Create the settings symbol object
 
     clock = pygame.time.Clock()  # The clock for the game
 
@@ -57,11 +59,11 @@ def main():
 
     # Load the high score from file
     highscore = load_highscore(ref("file_handling/highscore.pickle"))
-    if highscore == 0:
+    if highscore is 0:
         highscore_file_not_found = True
 
     # Draw the title screen
-    draw_title()
+    startTime = draw_title()
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -77,7 +79,7 @@ def main():
 
         # The time the game was paused & playing
         elapsedTime = time.time() - startTime
-        elapsedTime -= totalPausedTime
+        elapsedTime -= sum(pausedTimes)
 
         # These variables are used to calculate the time between frames for the explosion animation
         current_time = time.time()
@@ -119,17 +121,19 @@ def main():
                 if keys[pygame.K_m]:
                     mute = not mute
                 if keys[pygame.K_k] or keys[pygame.K_i]:
-                    keybindings_screen(pausedTimes)
+                    running, pause, pausedTime = keybindings_screen(pausedTimes)
+                    pausedTimes.append(pausedTime)
                 if ((muteButton.rect.collidepoint(pygame.mouse.get_pos()) or unmuteButton.rect.collidepoint(
                         pygame.mouse.get_pos()))
-                        and event.type == pygame.MOUSEBUTTONDOWN):
+                        and pygame.mouse.get_pressed()[0]):
                     mute = not mute
-                if (pauseButton.rect.collidepoint(pygame.mouse.get_pos()) and event.type == pygame.MOUSEBUTTONDOWN) or (
+                if (pauseButton.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]) or (
                         keys[pygame.K_p]
                         or keys[pygame.K_ESCAPE]):
-                    running, pause, totalPausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute,
-                                                                 pausedTimes)
-                    break
+                    running, pause, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
+                    pausedTimes.append(pausedTime)
+                if settingsButton.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+                    running, pause = settings_menu(mute)
 
         score += 1
         if score > highscore:
@@ -205,7 +209,7 @@ def main():
             save_object(highscore) if score >= highscore else None
             continue
 
-        draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt)
+        draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt, settingsButton)
 
     pygame.quit()
 

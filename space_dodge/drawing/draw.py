@@ -1,18 +1,23 @@
 import pygame
 
 from space_dodge.classes.animation import Animation
+from space_dodge.classes.button import Button
+from space_dodge.drawing.tutorial_and_information.settings import settings_menu
 from space_dodge.file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
     threeLives, twoLives, oneLife, background, bullet_texture, bullet_explosion_frames,
-    pauseButtonImage, muteImage, unmuteImage
+    pauseButtonImage, muteImage, unmuteImage, settingsIcon
 )
 
 # Create a mask for the bullet
 bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
-def draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt):
+def draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt, settingsButton):
     WINDOW.blit(background, (0, 0))
+
+    # Draw settings icon
+    WINDOW.blit(settingsButton.image, (settingsButton.x, settingsButton.y))
 
     # Draw bullets and add explosions
     for bullet in bullets:

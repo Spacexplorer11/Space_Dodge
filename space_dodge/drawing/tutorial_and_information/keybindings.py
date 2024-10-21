@@ -28,26 +28,18 @@ def keybindings_screen(pausedTimes):
                                        get_height() - keybindText4.get_height() - 160) / 2))
     WINDOW.blit(resumeText, (WIDTH / 2 - resumeText.get_width() / 2, 740))
     pygame.display.update()
-    info_screen_active = True
     pauseStartTime = time.time()
     keyPress = True
-    while info_screen_active:
-        pausedTime = time.time() - pauseStartTime
+    while True:
+        pausedTime = int(time.time() - pauseStartTime)
         for event in pygame.event.get():
             if event.type == pygame.KEYUP:
                 keyPress = False
             if event.type == pygame.QUIT:
                 running = False
-                info_screen_active = False
-                return running, info_screen_active
+                return running, False, 0.0
             if event.type == pygame.KEYDOWN and not keyPress:
-                keyPress = True
-                info_screen_active = False
                 if pausedTimes is not None:
-                    totalPausedTime = 0.0
-                    pausedTimes.append(round(pausedTime))
-                    for num in pausedTimes:
-                        totalPausedTime += num
-                    return totalPausedTime, pausedTime, keyPress, info_screen_active
+                    return True, False, pausedTime
                 startTime = time.time()
-                return startTime, info_screen_active, keyPress
+                return startTime

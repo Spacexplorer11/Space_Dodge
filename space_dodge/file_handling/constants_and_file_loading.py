@@ -64,6 +64,20 @@ def draw_loading_bar(screen, progress, width=392, height=30):
     p.display.update()
 
 
+# Decorator to calculate the pause time
+def pause_time(func):
+    def wrapper(*args, **kwargs):
+        import time
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        pausedTime = int(end_time - start_time)
+        if isinstance(result, tuple):
+            return result + (pausedTime,)
+        return result, pausedTime
+    return wrapper
+
+
 # Load all the files/variables with loading bar updates
 total_assets = 27  # Total number of assets to load
 loaded_assets = 0

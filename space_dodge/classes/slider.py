@@ -2,29 +2,38 @@ import pygame
 
 
 class Slider:
-    def __init__(self, x, y, width, height, min_value, max_value, value, line_image, circle_image):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.min_value = min_value
-        self.max_value = max_value
-        self.value = value
-        self.line_image = line_image
-        self.circle_image = circle_image
-        self.line_rect = line_image.get_rect(topleft=(x, y))
-        self.circle_rect = circle_image.get_rect(
-            center=(x + (value - min_value) / (max_value - min_value) * width, y + height // 2))
+    def __init__(self, pos: list, size: tuple, initial_val: float, min: int, max: int, title):
+        self.pos = pos
+        self.size = size
 
-    def update_slider(self):
-        pos = pygame.mouse.get_pos()
-        if self.line_rect.collidepoint(pos) and pygame.mouse.get_pressed()[0]:
-            self.value = (pos[0] - self.x) / self.width * (self.max_value - self.min_value) + self.min_value
-            self.value = max(self.min_value, min(self.max_value, self.value))
-            self.circle_rect.centerx = self.x + (self.value - self.min_value) / (
-                        self.max_value - self.min_value) * self.width
-        return self.value
+        self.slider_left_pos = self.pos[0] - (size[0] // 2)
+        self.slider_right_pos = self.pos[0] + (size[0] // 2)
+        self.slider_top_pos = self.pos[1] - (size[1] // 2)
 
-    def draw(self, surface):
-        surface.blit(self.line_image, self.line_rect.topleft)
-        surface.blit(self.circle_image, self.circle_rect.topleft)
+        self.min = min
+        self.max = max
+
+        # Calculate the initial position of the button based on the initial value percentage
+        self.initial_val = initial_val
+        self.button_x = int((self.slider_left_pos + self.initial_val * 100))
+
+        self.container_rect = pygame.Rect(self.slider_left_pos, self.slider_top_pos, size[0], size[1])
+        self.button_rect = pygame.Rect(self.button_x - 5, self.slider_top_pos, 10, size[1])
+
+        self.title = title
+        self.pos[0] = self.title.get_width() + self.pos[0]
+
+    def move_slider(self, mouse_pos):
+        self.button_rect.x = mouse_pos[0] - 5
+
+    def render(self, window):
+        pygame.draw.rect(window, (255, 255, 255), self.container_rect)
+        pygame.draw.rect(window, (0, 0, 0), self.button_rect)
+        window.blit(self.title, (self.slider_left_pos - self.title.get_width() - 10, self.pos[1] - self.title.get_height() / 2))
+        window.blit(pygame.font.SysFont("comicsans", 20).render(str(int(self.get_value())), 1, (255, 255, 255)), (self.slider_right_pos + 10, self.pos[1] - 10))
+
+    def get_value(self):
+        val_range = self.slider_right_pos - self.slider_left_pos - 1
+        button_val = self.button_rect.x - self.slider_left_pos
+
+        return (button_val / val_range) * (self.max - self.min) + self.min + 5
