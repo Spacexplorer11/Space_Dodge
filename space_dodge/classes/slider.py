@@ -29,8 +29,10 @@ class Slider:
     def render(self, window):
         pygame.draw.rect(window, (255, 255, 255), self.container_rect)
         pygame.draw.rect(window, (0, 0, 0), self.button_rect)
-        window.blit(self.title, (self.slider_left_pos - self.title.get_width() - 10, self.pos[1] - self.title.get_height() / 2))
-        window.blit(pygame.font.SysFont("comicsans", 20).render(str(int(self.get_value())), 1, (255, 255, 255)), (self.slider_right_pos + 10, self.pos[1] - 10))
+        window.blit(self.title,
+                    (self.slider_left_pos - self.title.get_width() - 10, self.pos[1] - self.title.get_height() / 2))
+        window.blit(pygame.font.SysFont("comicsans", 20).render(str(int(self.get_value())), 1, (255, 255, 255)),
+                    (self.slider_right_pos + 10, self.pos[1] - 10))
 
     def get_value(self):
         val_range = self.slider_right_pos - self.slider_left_pos - 1

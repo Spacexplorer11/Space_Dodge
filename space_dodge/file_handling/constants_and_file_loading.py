@@ -75,6 +75,7 @@ def pause_time(func):
         if isinstance(result, tuple):
             return result + (pausedTime,)
         return result, pausedTime
+
     return wrapper
 
 
