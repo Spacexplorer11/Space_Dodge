@@ -4,11 +4,12 @@ import time
 import pygame
 
 # Import all constant variables
-from file_handling.constants_and_file_loading import (FONT,
-                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW, settingsIcon)
+from space_dodge.file_handling.constants_and_file_loading import (FONT,
+                                                                  FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW,
+                                                                  settingsIcon)
 # Import all the files( images, sounds, etc. )
-from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, background,
-                                                      sadSound, GameOverSound, highscoreSound)
+from space_dodge.file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
+                                                                  sadSound, GameOverSound, highscoreSound)
 # Import the classes' modules
 from space_dodge.classes.bullet import Bullet
 from space_dodge.classes.button import Button
@@ -28,13 +29,11 @@ pygame.init()
 
 
 def main():
-    running = True  # Keeps the while loop running
     highscoreBreak = False  # Tells if the current score is bigger than the highscore
     mute = False  # Is the game muted or not
     lives = 3  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
     pausedTimes = []  # The total pause time
-    highscore_file_not_found = False  # Is the highscore file not found?
     last_time = time.time()
     explosions = []  # The list of explosions
     player = Player()  # Create the player object
@@ -53,12 +52,8 @@ def main():
 
     bullets = []  # The list of bullets
 
-    direction = 0  # The direction the player is facing( written in binary ) 0 = left, 1 = right
-
     # Load the high score from file
     highscore = load_highscore(ref("file_handling/highscore.pickle"))
-    if highscore == 0:
-        highscore_file_not_found = True
 
     # Draw the title screen
     running, startTime = draw_title()
@@ -100,7 +95,7 @@ def main():
         bulletCount += clock.tick(60)
 
         # The mask for the player
-        player_mask = pygame.mask.from_surface(player.direction(direction))
+        player_mask = pygame.mask.from_surface(player.image)
 
         # Event handling
         for event in pygame.event.get():
@@ -116,36 +111,33 @@ def main():
                 if keys[pygame.K_a] or keys[pygame.K_d]:
                     pass
                     break
-                if keys[pygame.K_m]:
+                if keys[pygame.K_m] or muteButton.clicked() or unmuteButton.clicked():
                     mute = not mute
                 if keys[pygame.K_k] or keys[pygame.K_i]:
                     running, pausedTime = keybindings_screen(pausedTimes)
                     pausedTimes.append(pausedTime)
-                if ((muteButton.rect.collidepoint(pygame.mouse.get_pos()) or unmuteButton.rect.collidepoint(
-                        pygame.mouse.get_pos()))
-                        and pygame.mouse.get_pressed()[0]):
-                    mute = not mute
-                if (pauseButton.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]) or (
+                if (pauseButton.clicked() or
                         keys[pygame.K_p]):
                     running, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                     pausedTimes.append(pausedTime)
-                if settingsButton.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+                if settingsButton.clicked():
                     running, pausedTime = settings_menu(mute)
                     pausedTimes.append(pausedTime)
 
         score += 1
-        if score > highscore:
-            highscore = score
-            highscoreBreak = True
-            if not highscoreSoundPlayed and not highscore_file_not_found:
-                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1,
-                                                  "green")
-                WINDOW.blit(highscoreBrokenText, (
-                    WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
-                pygame.display.update()
-                pygame.mixer.Sound.play(highscoreSound)
-                highscoreSoundPlayed = True
-                pygame.time.delay(1000)
+        if highscore != 1 and not highscore != score:
+            if score > highscore:
+                highscore = score
+                highscoreBreak = True
+                if not highscoreSoundPlayed:
+                    highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1,
+                                                      "green")
+                    WINDOW.blit(highscoreBrokenText, (
+                        WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
+                    pygame.display.update()
+                    pygame.mixer.Sound.play(highscoreSound)
+                    highscoreSoundPlayed = True
+                    pygame.time.delay(1000)
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
@@ -155,11 +147,11 @@ def main():
             bulletAddIncrement = max(400, bulletAddIncrement - 50)
             bulletCount = 0
 
-        if keys[pygame.K_a] and player.x - player.velocity >= 0:
-            direction = 0
+        if keys[pygame.K_a]:
+            player.direction = 0
             player.x -= player.velocity
-        if keys[pygame.K_d] and player.x + player.velocity + player.width <= WIDTH:
-            direction = 1
+        if keys[pygame.K_d]:
+            player.direction = 1
             player.x += player.velocity
 
         for bullet in bullets[:]:
@@ -173,18 +165,18 @@ def main():
                     bullets.clear()
                     lives -= 1
                     if lives > 0:
-                        WINDOW.blit(background, (0, 0))
+                        WINDOW.blit(game_background, (0, 0))
                         WINDOW.blit(lostLivesText if lives > 1 else lostLifeText,
                                     (50, HEIGHT / 2 - lostLivesText.get_height()))
                         pygame.display.update()
                         pygame.time.delay(1000)
                     else:
-                        WINDOW.blit(background, (0, 0))
+                        WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
                         if highscore >= score:
                             save_object(highscore)
                         pygame.mixer.music.fadeout(1000)
-                        WINDOW.blit(background, (0, 0))
+                        WINDOW.blit(game_background, (0, 0))
                         loseText = FONT_BIG.render("GAME OVER!", 1, "red")
                         highscoreText = FONT_MEDIUM.render(f"Your score was {score}.", 1, "white")
                         timeText = FONT_MEDIUM.render(f"You played for {round(elapsedTime)} seconds.", 1, "white")
@@ -207,8 +199,8 @@ def main():
             save_object(highscore) if score >= highscore else None
             continue
 
-        draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
-             settingsButton)
+        draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
+             muteButton, unmuteButton, settingsButton, pauseButton)
 
     pygame.quit()
 

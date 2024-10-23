@@ -143,9 +143,9 @@ except FileNotFoundError:
     draw_except("Lives")
 
 try:
-    background = t.scale(i.load(ref("assets/space_background.jpg")), (WIDTH, HEIGHT))
-    title_screen_image = t.scale(i.load(ref("assets/title_screen.jpg")), (WIDTH, HEIGHT))
-    welcome_screen_image = t.scale(i.load(ref("assets/welcome_screen.png")), (WIDTH, HEIGHT))
+    game_background = t.scale(i.load(ref("assets/space_background.jpg")), (WIDTH, HEIGHT))
+    title_screen_background = t.scale(i.load(ref("assets/title_screen.jpg")), (WIDTH, HEIGHT))
+    welcome_screen_background = t.scale(i.load(ref("assets/welcome_screen.png")), (WIDTH, HEIGHT))
     pause_background = t.scale(i.load(ref("assets/pause_background.png")), (WIDTH, HEIGHT))
     update_loading_bar(4)
 except FileNotFoundError:

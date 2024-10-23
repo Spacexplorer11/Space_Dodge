@@ -1,10 +1,9 @@
 import time
 
 import pygame
-from pygame.mixer_music import pause
 
 # Importing the crucial variables from the constants file
-from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_image, FONT, \
+from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
     FONT_SMALL
 
 keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "orange")
@@ -15,7 +14,7 @@ keybindText4 = FONT.render("Press I or K to bring up this screen.", 1, "orange")
 
 
 def keybindings_screen(pausedTimes):
-    WINDOW.blit(welcome_screen_image, (0, 0))
+    WINDOW.blit(welcome_screen_background, (0, 0))
     keybindText1Place = WIDTH / 2 - keybindText1.get_width() / 2, 300
     WINDOW.blit(keybindText1, keybindText1Place)
     WINDOW.blit(keybindText2, (WIDTH / 2 - keybindText2.get_width() / 2,

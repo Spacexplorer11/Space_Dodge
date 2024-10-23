@@ -1,12 +1,12 @@
 import pygame
 
 # Importing the crucial variables from the constants file
-from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_image, FONT, \
+from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
     FONT_SMALL
 
 
 def welcome_screen():
-    WINDOW.blit(welcome_screen_image, (0, 0))
+    WINDOW.blit(welcome_screen_background, (0, 0))
     welcomeText1 = FONT.render("Welcome to Space Dodge!", 1, "orange")
     welcomeText2 = FONT.render("Use A & D keys to move left & right!", 1, "orange")
     welcomeText3 = FONT.render("Try not to hit the bullets!", 1, "orange")

@@ -16,7 +16,7 @@ slider_title = pygame.font.SysFont("comicsans", 30).render("Volume", 1, (255, 25
 
 
 @pause_time
-def settings_menu(mute):
+def settings_menu(mute, music_path=None):
     pygame.mixer.music.load(ref("sounds/background_music/pause_screen/pause_music.mp3"))
     pygame.mixer.music.play(-1)
     slider = Slider(WINDOW, 350, 400, 100, 30, min=0, max=100, initial=pygame.mixer.music.get_volume() * 100)
@@ -45,7 +45,7 @@ def settings_menu(mute):
                 elif keys[pygame.K_ESCAPE]:
                     pygame.mixer.music.stop()
                     pygame.mixer.music.unload()
-                    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
+                    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3" if music_path is None else music_path))
                     pygame.mixer.music.play(-1)
                     return True
 

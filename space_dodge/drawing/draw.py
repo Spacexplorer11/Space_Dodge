@@ -3,17 +3,15 @@ import pygame
 from space_dodge.classes.animation import Animation
 from space_dodge.file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
-    threeLives, twoLives, oneLife, background, bullet_texture, bullet_explosion_frames,
-    pauseButtonImage, muteImage, unmuteImage
-)
+    threeLives, twoLives, oneLife, game_background, bullet_texture, bullet_explosion_frames)
 
 # Create a mask for the bullet
 bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
-def draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
-         settingsButton):
-    WINDOW.blit(background, (0, 0))
+def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
+         muteSymbol, unmuteSymbol, settingsButton, pauseButton):
+    WINDOW.blit(game_background, (0, 0))
 
     # Draw settings icon
     WINDOW.blit(settingsButton.image, (settingsButton.x, settingsButton.y))
@@ -36,19 +34,20 @@ def draw(player, bullets, direction, highscore, highscoreBreak, mute, lives, tim
     WINDOW.blit(timeText, (10, 10))
     WINDOW.blit(scoreText, (WIDTH - 270, 10))
     WINDOW.blit(FONT.render("Your high score", 1, "white"), (250, 10))
-    WINDOW.blit(pauseButtonImage, (scoreText.get_width() + 745, 19))
-    WINDOW.blit(muteImage if mute else unmuteImage, (timeText.get_width() + 10, 10))
+    WINDOW.blit(pauseButton.image, (scoreText.get_width() + 745, 19))
+    WINDOW.blit(muteSymbol.image if mute else unmuteSymbol.image, (timeText.get_width() + 10, 10))
     highScoreText = FONT.render(f" is {highscore}" if highscoreBreak else f" was {highscore}", 1, "white")
     WINDOW.blit(highScoreText, (500, 10))
 
     # Draw player
-    WINDOW.blit(player.direction(direction), (player.x, player.y))
+    WINDOW.blit(player.image, player.pos)
 
     # Draw lives
-    lives_images = {3: threeLives, 2: twoLives, 1: oneLife}
+    lives_images = {3: threeLives,
+                    2: twoLives, 1: oneLife}
     if lives in lives_images:
         WINDOW.blit(lives_images[lives], (780, 50))
     else:
-        WINDOW.blit(background, (0, 0))
+        WINDOW.blit(game_background, (0, 0))
 
     pygame.display.update()
