@@ -125,7 +125,7 @@ def main():
                     pausedTimes.append(pausedTime)
 
         score += 1
-        if highscore != 1 and not highscore != score:
+        if highscore != 1 and highscore != score:
             if score > highscore:
                 highscore = score
                 highscoreBreak = True
@@ -173,8 +173,8 @@ def main():
                     else:
                         WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
-                        if highscore >= score:
-                            save_object(highscore)
+                        if score >= highscore or highscore == 0:
+                            save_object(score)
                         pygame.mixer.music.fadeout(1000)
                         WINDOW.blit(game_background, (0, 0))
                         loseText = FONT_BIG.render("GAME OVER!", 1, "red")
