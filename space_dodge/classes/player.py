@@ -1,4 +1,4 @@
-from space_dodge.file_handling.constants_and_file_loading import HEIGHT, PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_VELOCITY, \
+from file_handling.constants_and_file_loading import HEIGHT, PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_VELOCITY, \
     playerL, playerR, WIDTH
 
 
