@@ -2,7 +2,7 @@ import random
 
 import pygame as p
 
-from space_dodge.file_handling.constants_and_file_loading import BULLET_WIDTH, WIDTH, BULLET_HEIGHT, BULLET_VELOCITY, \
+from file_handling.constants_and_file_loading import BULLET_WIDTH, WIDTH, BULLET_HEIGHT, BULLET_VELOCITY, \
     bullet_texture
 
 
