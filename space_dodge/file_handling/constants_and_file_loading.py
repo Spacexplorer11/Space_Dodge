@@ -6,8 +6,8 @@ from pygame import image as i
 from pygame import mixer as m
 from pygame import transform as t
 
-from space_dodge.drawing.exception_handling.draw_exception import draw_except
-from space_dodge.file_handling.utility import ref
+from drawing.exception_handling.draw_exception import draw_except
+from file_handling.utility import ref
 
 # This to simplify the code and make it more readable
 # For example, pygame.image.load("path") can be replaced with i.load("path"),
