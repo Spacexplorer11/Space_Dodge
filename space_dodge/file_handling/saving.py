@@ -1,6 +1,6 @@
 import pickle
 
-from space_dodge.file_handling.utility import ref
+from file_handling.utility import ref
 
 
 def save_object(score):
