@@ -28,7 +28,7 @@ The instructions to play the game are in-game.
 2. Download the zip file from the main page of the repository. [Click the green `Code` button and click `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
 3. Extract/unzip the file to a desired location.
 4. Open the terminal on your computer and navigate to the extracted folder.
-5. Type: `pip install pygame` to install pygame.
+5. Type: `pip install pygame` to install pygame. You also need to do `pip install pygame_widgets`.
 6. In the extracted folder, find `main.py`, and run this file.  
 You can also right-click it, click `copy path`, go to terminal/command prompt and type `python PATH`. Replace `PATH` with the path to the file.   
 The game should start, but if you have **any** trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
