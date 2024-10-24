@@ -3,7 +3,7 @@ import time
 import pygame
 
 # Importing the crucial variables from the constants file
-from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
+from file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
     FONT_SMALL
 
 keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "orange")
