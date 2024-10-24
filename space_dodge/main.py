@@ -4,24 +4,24 @@ import time
 import pygame
 
 # Import all constant variables
-from space_dodge.file_handling.constants_and_file_loading import (FONT,
+from file_handling.constants_and_file_loading import (FONT,
                                                                   FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW,
                                                                   settingsIcon)
 # Import all the files( images, sounds, etc. )
-from space_dodge.file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
+from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
                                                                   sadSound, GameOverSound, highscoreSound)
 # Import the classes' modules
-from space_dodge.classes.bullet import Bullet
-from space_dodge.classes.button import Button
-from space_dodge.classes.player import Player
-from space_dodge.drawing.draw import draw
-from space_dodge.drawing.pause_menu.pause_function import pause_menu
-from space_dodge.drawing.title_screen.draw_title_screen import draw_title
-from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
-from space_dodge.drawing.tutorial_and_information.settings import settings_menu
-from space_dodge.file_handling.loading_func import load_highscore
-from space_dodge.file_handling.saving import save_object
-from space_dodge.file_handling.utility import ref
+from classes.bullet import Bullet
+from classes.button import Button
+from classes.player import Player
+from drawing.draw import draw
+from drawing.pause_menu.pause_function import pause_menu
+from drawing.title_screen.draw_title_screen import draw_title
+from drawing.tutorial_and_information.keybindings import keybindings_screen
+from drawing.tutorial_and_information.settings import settings_menu
+from file_handling.loading_func import load_highscore
+from file_handling.saving import save_object
+from file_handling.utility import ref
 
 pygame.mixer.init()
 pygame.font.init()
