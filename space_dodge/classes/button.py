@@ -22,7 +22,6 @@ class Button:
         else:
             return self._image
 
-
     def update_rect(self, x):
         self.rect = p.Rect(x, self.y, self.width, self.height)
         self.x = x

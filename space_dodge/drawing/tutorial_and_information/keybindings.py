@@ -1,7 +1,6 @@
 import time
 
 import pygame
-
 # Importing the crucial variables from the constants file
 from file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
     FONT_SMALL
@@ -10,7 +9,6 @@ keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1
 keybindText2 = FONT.render("Use A & D keys to move left & right.", 1, "orange")
 keybindText3 = FONT.render("Press P or click the symbol to pause the game ", 1, "orange")
 keybindText4 = FONT.render("Press I or K to bring up this screen.", 1, "orange")
-
 
 
 def keybindings_screen(pausedTimes):
@@ -27,7 +25,8 @@ def keybindings_screen(pausedTimes):
                                HEIGHT / 2 - (
                                        keybindText1.get_height() - keybindText2.get_height() - keybindText3.
                                        get_height() - keybindText4.get_height() - 160) / 2))
-    resumeText = FONT_SMALL.render("Click any key to " + ("continue!" if pausedTimes is None else "resume!"), 1, "orange")
+    resumeText = FONT_SMALL.render("Click any key to " + ("continue!" if pausedTimes is None else "resume!"), 1,
+                                   "orange")
     WINDOW.blit(resumeText, (WIDTH / 2 - resumeText.get_width() / 2, 740))
     pygame.display.update()
     pauseStartTime = time.time()

@@ -3,13 +3,6 @@ import time
 
 import pygame
 
-# Import all constant variables
-from file_handling.constants_and_file_loading import (FONT,
-                                                                  FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW,
-                                                                  settingsIcon)
-# Import all the files( images, sounds, etc. )
-from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
-                                                                  sadSound, GameOverSound, highscoreSound)
 # Import the classes' modules
 from classes.bullet import Bullet
 from classes.button import Button
@@ -19,6 +12,13 @@ from drawing.pause_menu.pause_function import pause_menu
 from drawing.title_screen.draw_title_screen import draw_title
 from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.tutorial_and_information.settings import settings_menu
+# Import all constant variables
+from file_handling.constants_and_file_loading import (FONT,
+                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW,
+                                                      settingsIcon)
+# Import all the files( images, sounds, etc. )
+from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
+                                                      sadSound, GameOverSound, highscoreSound)
 from file_handling.loading_func import load_highscore
 from file_handling.saving import save_object
 from file_handling.utility import ref
@@ -53,7 +53,7 @@ def main():
     bullets = []  # The list of bullets
 
     # Load the high score from file
-    highscore = load_highscore(ref("file_handling/highscore.pickle"))
+    highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
 
     # Draw the title screen
     running, startTime = draw_title()
@@ -124,20 +124,22 @@ def main():
                     running, pausedTime = settings_menu(mute)
                     pausedTimes.append(pausedTime)
 
+        if highscore == 0 and not highscoreFileFound:
+            highscore = 1
+
         score += 1
-        if highscore != 1 and highscore != score:
-            if score > highscore:
-                highscore = score
-                highscoreBreak = True
-                if not highscoreSoundPlayed:
-                    highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1,
-                                                      "green")
-                    WINDOW.blit(highscoreBrokenText, (
-                        WIDTH / 2 - highscoreBrokenText.get_width() / 2, HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
-                    pygame.display.update()
-                    pygame.mixer.Sound.play(highscoreSound)
-                    highscoreSoundPlayed = True
-                    pygame.time.delay(1000)
+        if score > highscore:
+            highscore = score
+            highscoreBreak = True
+            if highscoreFileFound and not highscoreSoundPlayed:
+                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
+                WINDOW.blit(highscoreBrokenText, (
+                    WIDTH / 2 - highscoreBrokenText.get_width() / 2,
+                    HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
+                pygame.display.update()
+                pygame.mixer.Sound.play(highscoreSound)
+                highscoreSoundPlayed = True
+                pygame.time.delay(1000)
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):

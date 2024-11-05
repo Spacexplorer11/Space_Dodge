@@ -2,13 +2,12 @@ import threading
 
 import pygame
 import pygame_widgets
-from pygame_widgets.slider import Slider
-from pygame_widgets.textbox import TextBox
-
 from classes.button import Button
 from file_handling.constants_and_file_loading import (
     WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, pause_time)
 from file_handling.utility import ref
+from pygame_widgets.slider import Slider
+from pygame_widgets.textbox import TextBox
 
 mutePauseSymbol = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseSymbol = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
@@ -45,7 +44,8 @@ def settings_menu(mute, music_path=None):
                 elif keys[pygame.K_ESCAPE]:
                     pygame.mixer.music.stop()
                     pygame.mixer.music.unload()
-                    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3" if music_path is None else music_path))
+                    pygame.mixer.music.load(
+                        ref("sounds/background_music/background_music.mp3" if music_path is None else music_path))
                     pygame.mixer.music.play(-1)
                     return True
 
