@@ -1,9 +1,9 @@
 import pygame
 
-from classes.button import Button
-from file_handling.constants_and_file_loading import (
+from space_dodge.classes.button import Button
+from space_dodge.file_handling.constants_and_file_loading import (
     WINDOW, PAUSE_FONT, PAUSE_FONT_SMALL, pause_background, muteImage, unmuteImage, pause_time)
-from file_handling.utility import ref
+from space_dodge.file_handling.utility import ref
 
 mutePauseSymbol = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseSymbol = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
