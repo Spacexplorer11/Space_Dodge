@@ -1,7 +1,7 @@
 import pygame
 
-from classes.animation import Animation
-from file_handling.constants_and_file_loading import (
+from space_dodge.classes.animation import Animation
+from space_dodge.file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
     threeLives, twoLives, oneLife, game_background, bullet_texture, bullet_explosion_frames)
 
@@ -10,11 +10,8 @@ bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
 def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
-         muteSymbol, unmuteSymbol, settingsButton, pauseButton):
+         muteSymbol, unmuteSymbol, pauseButton):
     WINDOW.blit(game_background, (0, 0))
-
-    # Draw settings icon
-    WINDOW.blit(settingsButton.image, (settingsButton.x, settingsButton.y))
 
     # Draw bullets and add explosions
     for bullet in bullets:

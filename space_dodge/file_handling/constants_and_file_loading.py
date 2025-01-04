@@ -2,8 +2,9 @@ import logging
 import os
 
 import pygame as p
-from drawing.exception_handling.draw_exception import draw_except
-from file_handling.utility import ref
+
+from space_dodge.drawing.exception_handling.draw_exception import draw_except
+from space_dodge.file_handling.utility import ref
 from pygame import image as i
 from pygame import mixer as m
 from pygame import transform as t
@@ -79,7 +80,7 @@ def pause_time(func):
 
 
 # Load all the files/variables with loading bar updates
-total_assets = 27  # Total number of assets to load
+total_assets = 29  # Total number of assets to load
 loaded_assets = 0
 
 
@@ -146,7 +147,8 @@ try:
     title_screen_background = t.scale(i.load(ref("assets/title_screen.jpg")), (WIDTH, HEIGHT))
     welcome_screen_background = t.scale(i.load(ref("assets/welcome_screen.png")), (WIDTH, HEIGHT))
     pause_background = t.scale(i.load(ref("assets/pause_background.png")), (WIDTH, HEIGHT))
-    update_loading_bar(4)
+    game_background_blurred = t.scale(i.load(ref("assets/space_background_blurred.png")), (WIDTH, HEIGHT))
+    update_loading_bar(5)
 except FileNotFoundError:
     logger.exception('background not found')
     draw_except("background")
@@ -177,3 +179,10 @@ if not title_screen_music_check:
     logger.exception('Title screen music not found')
     draw_except("Music")
 update_loading_bar()
+
+try:
+    x_button_icon = t.scale(i.load(ref("assets/x_button_icon.png")), (60, 60))
+    update_loading_bar()
+except FileNotFoundError:
+    logger.exception('X button not found')
+    draw_except("Button")

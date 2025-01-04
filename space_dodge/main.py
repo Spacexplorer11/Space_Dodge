@@ -11,11 +11,9 @@ from drawing.draw import draw
 from drawing.pause_menu.pause_function import pause_menu
 from drawing.title_screen.draw_title_screen import draw_title
 from drawing.tutorial_and_information.keybindings import keybindings_screen
-from drawing.tutorial_and_information.settings import settings_menu
 # Import all constant variables
 from file_handling.constants_and_file_loading import (FONT,
-                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW,
-                                                      settingsIcon)
+                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
 # Import all the files( images, sounds, etc. )
 from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
                                                       sadSound, GameOverSound, highscoreSound)
@@ -40,8 +38,6 @@ def main():
     muteButton = Button(muteImage, 132, 10)  # Create the mute symbol object
     unmuteButton = Button(unmuteImage, 132, 10)  # Create the unmute symbol object
     pauseButton = Button(pauseButtonImage, 900, 10)  # Create the pause symbol object
-    settingsButton = Button(settingsIcon, WIDTH - settingsIcon.get_width() - 10,
-                            HEIGHT - settingsIcon.get_height())  # Create the settings symbol object
 
     clock = pygame.time.Clock()  # The clock for the game
 
@@ -120,9 +116,6 @@ def main():
                         keys[pygame.K_p]):
                     running, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                     pausedTimes.append(pausedTime)
-                if settingsButton.clicked():
-                    running, pausedTime = settings_menu(mute)
-                    pausedTimes.append(pausedTime)
 
         if highscore == 0 and not highscoreFileFound:
             highscore = 1
@@ -131,6 +124,7 @@ def main():
         if score > highscore:
             highscore = score
             highscoreBreak = True
+
             if highscoreFileFound and not highscoreSoundPlayed:
                 highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
                 WINDOW.blit(highscoreBrokenText, (
@@ -202,7 +196,7 @@ def main():
             continue
 
         draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
-             muteButton, unmuteButton, settingsButton, pauseButton)
+             muteButton, unmuteButton, pauseButton)
 
     pygame.quit()
 
