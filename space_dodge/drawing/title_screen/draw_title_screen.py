@@ -1,13 +1,13 @@
 import pygame
 
-from space_dodge.classes.button import Button
-from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
-from space_dodge.drawing.tutorial_and_information.settings import settings_menu
-from space_dodge.drawing.tutorial_and_information.welcome import welcome_screen
-from space_dodge.file_handling.constants_and_file_loading import (
+from classes.button import Button
+from drawing.tutorial_and_information.keybindings import keybindings_screen
+from drawing.tutorial_and_information.settings import settings_menu
+from drawing.tutorial_and_information.welcome import welcome_screen
+from file_handling.constants_and_file_loading import (
     WINDOW, start_button_image, muteImage, unmuteImage, title_screen_background, settingsIcon, WIDTH, HEIGHT
 )
-from space_dodge.file_handling.utility import ref
+from file_handling.utility import ref
 
 # Initialise pygame & pygame.mixer
 pygame.init()
