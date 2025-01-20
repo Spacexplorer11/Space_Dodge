@@ -1,7 +1,7 @@
 import pygame
 
-from space_dodge.classes.animation import Animation
-from space_dodge.file_handling.constants_and_file_loading import (
+from classes.animation import Animation
+from file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
     threeLives, twoLives, oneLife, game_background, bullet_texture, bullet_explosion_frames)
 

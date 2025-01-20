@@ -43,8 +43,11 @@ The instructions to play the game are in-game.
    The game should start, but if you have **any**
    trouble, [create an issue with the tag "help wanted"](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml).
 
+## What to do if anything goes wrong?
+You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml) and make sure to upload the mylog.log file if available. Make sure to upload screenshots or screen recordings of **any** errors. Thanks!
 > [!Tip]
-> You should try opening the `main.py` file in the default `IDLE`, and provide a screenshot of the error message when
+> If you can't find the mylog.log file, then
+> you should try opening the `main.py` file in the default `IDLE` ( right click `main.py` and open with python IDLE ), and provide a screenshot of the error message when
 > you run it in the `IDLE`, as this will severely help me solve the issue faster.
 
 ## Credits
