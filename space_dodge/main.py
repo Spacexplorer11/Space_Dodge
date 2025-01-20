@@ -195,7 +195,7 @@ def main():
             save_object(highscore) if score >= highscore else None
             continue
 
-        draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
+        draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions,
              muteButton, unmuteButton, pauseButton)
 
     pygame.quit()

@@ -2,10 +2,10 @@ import pygame
 
 from space_dodge.classes.button import Button
 from space_dodge.drawing.tutorial_and_information.keybindings import keybindings_screen
-from space_dodge.drawing.tutorial_and_information.settings import settings_menu
+from space_dodge.drawing.pause_menu.settings import settings_menu
 from space_dodge.drawing.tutorial_and_information.welcome import welcome_screen
 from space_dodge.file_handling.constants_and_file_loading import (
-    WINDOW, start_button_image, muteImage, unmuteImage, title_screen_background, settingsIcon, WIDTH, HEIGHT
+    WINDOW, start_button_image, muteImage, unmuteImage, title_screen_background, settings_icon_frames, WIDTH, HEIGHT
 )
 from space_dodge.file_handling.utility import ref
 
@@ -27,17 +27,17 @@ def draw_title():
     muteSymbol = Button(muteImage, 50, 200)
     unmuteSymbol = Button(unmuteImage, 50, 200)
     startButton = Button(start_button_image, 350, 300)
-    settingsButton = Button(settingsIcon, WIDTH - settingsIcon.get_width() - 10,
-                            HEIGHT - settingsIcon.get_height())
+    settingsButton = Button(settings_icon_frames, WIDTH - settings_icon_frames[1].get_width() - 10,
+                            HEIGHT - settings_icon_frames[1].get_height())
 
     while not start:
         WINDOW.blit(title_screen_background, (0, 0))
-        WINDOW.blit(startButton.image, startButton.pos)
+        startButton.draw()
         if mute:
             WINDOW.blit(muteSymbol.image, muteSymbol.pos)
         else:
             WINDOW.blit(unmuteSymbol.image, unmuteSymbol.pos)
-        WINDOW.blit(settingsButton.image, settingsButton.pos)
+        settingsButton.draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -50,7 +50,7 @@ def draw_title():
                     mute = not mute
                     pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
                 elif settingsButton.clicked():
-                    settings_menu(mute, music_path="sounds/background_music/title_screen/title_screen_music.mp3")
+                    settings_menu(mute)
 
         pygame.display.update()
 

@@ -20,7 +20,7 @@ def draw_except(error):
         "Sound Effects": "One or more of the sound effects weren't found",
         "Music": "Some background music files weren't found",
         "Bullet": "The bullet images weren't found",
-        "Bullet Animation": "The explosion frames weren't found"
+        "Animation": "The frames for an animation weren't found"
     }
 
     while run:

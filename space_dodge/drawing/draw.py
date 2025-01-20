@@ -9,7 +9,7 @@ from space_dodge.file_handling.constants_and_file_loading import (
 bullet_mask = pygame.mask.from_surface(bullet_texture)
 
 
-def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions, dt,
+def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions,
          muteSymbol, unmuteSymbol, pauseButton):
     WINDOW.blit(game_background, (0, 0))
 
@@ -18,14 +18,14 @@ def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scor
         WINDOW.blit(bullet_texture, (bullet.x, bullet.y))
         if bullet.y > HEIGHT - BULLET_HEIGHT - 10:
             explosions.append(
-                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()),
-                          duration=0.7))
+                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()), total_duration=0.75))
 
     # Update and draw explosions
-    for explosion in explosions:
-        explosion.update(dt)
+    for explosion in explosions[:]:
+        explosion.update()
         explosion.draw(WINDOW)
-        explosions = [explosion for explosion in explosions if not explosion.is_finished()]
+        if explosion.is_finished:
+            explosions.remove(explosion)
 
     # Draw texts and symbols
     WINDOW.blit(timeText, (10, 10))

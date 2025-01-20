@@ -58,6 +58,7 @@ The instructions to play the game are in-game.
     - The [unmute symbol](space_dodge/assets/unmute.png) can be
       found [here](https://lh3.googleusercontent.com/7mt9pf2gQYwXeU8d9y8Uow4p9lpVTMy0VJxoUA1jFNQuFB_G_UlLSGYq62D9Hs2bqFrqizUWtBMiViObGGIf5LREmA=s60)
     - The [x symbol](space_dodge/assets/x_button_icon.png) ( the one to exit the pop-up menus) can be found [here](https://static.vecteezy.com/system/resources/previews/024/780/371/non_2x/red-x-button-icon-sticker-clipart-ai-generated-free-png.png)
-    - The [pause button](space_dodge/assets/pause_rectangle.png) & [settings gear symbol](space_dodge/assets/settings_icon.png)
+    - The [pause button](space_dodge/assets/pause_rectangle.png)
     can be found in the SF Symbols app on Mac (It can be downloaded [here](https://developer.apple.com/sf-symbols/))
+    - The [Settings animated icon](space_dodge/assets/settings_icon_frames) [was created by Freepik - Flaticon](https://www.flaticon.com/free-animated-icons/settings)
 - All sounds were sourced from [Pixabay](https://pixabay.com) and [Uppbeat](https://uppbeat.io)

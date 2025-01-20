@@ -2,17 +2,16 @@ import time
 
 import pygame
 # Importing the crucial variables from the constants file
-from file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
-    FONT_SMALL
-
-keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "orange")
-keybindText2 = FONT.render("Use A & D keys to move left & right.", 1, "orange")
-keybindText3 = FONT.render("Press P or click the symbol to pause the game ", 1, "orange")
-keybindText4 = FONT.render("Press I or K to bring up this screen.", 1, "orange")
+from space_dodge.file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welcome_screen_background, FONT, \
+    FONT_SMALL, game_background_blurred
 
 
 def keybindings_screen(pausedTimes):
-    WINDOW.blit(welcome_screen_background, (0, 0))
+    keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "orange" if pausedTimes is None else "white")
+    keybindText2 = FONT.render("Use A & D keys to move left & right.", 1, "orange" if pausedTimes is None else "white")
+    keybindText3 = FONT.render("Press P or click the symbol to pause the game ", 1, "orange" if pausedTimes is None else "white")
+    keybindText4 = FONT.render("Press I or K to bring up this screen.", 1, "orange" if pausedTimes is None else "white")
+    WINDOW.blit(welcome_screen_background if pausedTimes is None else game_background_blurred, (0, 0))
     keybindText1Place = WIDTH / 2 - keybindText1.get_width() / 2, 300
     WINDOW.blit(keybindText1, keybindText1Place)
     WINDOW.blit(keybindText2, (WIDTH / 2 - keybindText2.get_width() / 2,
@@ -26,7 +25,7 @@ def keybindings_screen(pausedTimes):
                                        keybindText1.get_height() - keybindText2.get_height() - keybindText3.
                                        get_height() - keybindText4.get_height() - 160) / 2))
     resumeText = FONT_SMALL.render("Click any key to " + ("continue!" if pausedTimes is None else "resume!"), 1,
-                                   "orange")
+                                   "orange" if pausedTimes is None else "white")
     WINDOW.blit(resumeText, (WIDTH / 2 - resumeText.get_width() / 2, 740))
     pygame.display.update()
     pauseStartTime = time.time()
