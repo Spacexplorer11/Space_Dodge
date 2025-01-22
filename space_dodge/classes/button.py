@@ -1,7 +1,7 @@
 import pygame as p
 
-from space_dodge.file_handling.constants_and_file_loading import WINDOW
-from space_dodge.classes.animation import Animation  # Assuming you have an Animation class
+from file_handling.constants_and_file_loading import WINDOW
+from classes.animation import Animation
 
 
 class Button:
