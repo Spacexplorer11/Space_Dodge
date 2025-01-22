@@ -5,12 +5,12 @@ import pygame_widgets
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 
-from classes.button import Button
-from file_handling.constants_and_file_loading import (
+from space_dodge.classes.button import Button
+from space_dodge.file_handling.constants_and_file_loading import (
     WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, pause_time, x_button_icon)
 
-mutePauseSymbol = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
-unmutePauseSymbol = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
+mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
+unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
 slider_title = pygame.font.SysFont("comicsans", 30).render("Volume", 1, (255, 255, 255))
 xButton = Button(x_button_icon, 665, 175)  # Create the x button object
 
@@ -27,7 +27,7 @@ def settings_menu(mute):
     while pause:
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("SETTINGS MENU", 1, "white"), (250, 176))
-        WINDOW.blit(mutePauseSymbol.image if mute else unmutePauseSymbol.image, (180, 430))
+        WINDOW.blit(mutePauseButton.image if mute else unmutePauseButton.image, (180, 430))
         pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()
         WINDOW.blit(slider_title, (200, 390))
         xButton.draw()
@@ -39,8 +39,7 @@ def settings_menu(mute):
                 return False
             elif event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
                 keys = pygame.key.get_pressed()
-                if keys[pygame.K_m] or (unmutePauseSymbol.rect.collidepoint(pygame.mouse.get_pos())
-                                        or mutePauseSymbol.rect.collidepoint(pygame.mouse.get_pos())):
+                if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
                     return True

@@ -39,8 +39,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                 return False
             elif event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
                 keys = pygame.key.get_pressed()
-                if keys[pygame.K_m] or (unmutePauseButton.rect.collidepoint(
-                        pygame.mouse.get_pos()) or mutePauseButton.rect.collidepoint(pygame.mouse.get_pos())):
+                if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
                     pygame.mixer.music.stop()
