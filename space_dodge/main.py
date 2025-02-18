@@ -203,7 +203,7 @@ def main():
                         pygame.mixer.Sound.play(GameOverSound)
                         pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
-                        while not time.time() > startTime1 + 5:  # A while loop which waits for 1 second
+                        while not time.time() > startTime1 + 5:  # A while loop which waits for 5 seconds
                             for event in pygame.event.get():   # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
