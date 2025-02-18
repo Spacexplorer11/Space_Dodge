@@ -65,9 +65,8 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 - All images were generated using [Leonardo.ai](https://leonardo.ai)  with some exceptions:
     - The [mini-explosion gif](space_dodge/assets/explosion_gif_frames) when a bullet hits the ground, you can find
       it [here](https://en.picmix.com/stamp/Explode-Digital-Art-2334354)
-    - The [mute symbol](space_dodge/assets/mute.png) can be found [here](https://www.freepik.com/icon/mute_7971700)
-    - The [unmute symbol](space_dodge/assets/unmute.png) can be
-      found [here](https://lh3.googleusercontent.com/7mt9pf2gQYwXeU8d9y8Uow4p9lpVTMy0VJxoUA1jFNQuFB_G_UlLSGYq62D9Hs2bqFrqizUWtBMiViObGGIf5LREmA=s60)
+    - The [mute symbol](space_dodge/assets/mute.png) can be found [here](https://www.flaticon.com/free-icons/silent)
+    - The [unmute symbol](space_dodge/assets/unmute.png) can be found [here](https://www.flaticon.com/free-icons/enable-sound)
     - The [x symbol](space_dodge/assets/x_button_icon.png) ( the one to exit the pop-up menus) can be found [here](https://static.vecteezy.com/system/resources/previews/024/780/371/non_2x/red-x-button-icon-sticker-clipart-ai-generated-free-png.png)
     - The [pause button](space_dodge/assets/pause_rectangle.png)
     can be found in the SF Symbols app on Mac (It can be downloaded [here](https://developer.apple.com/sf-symbols/))
