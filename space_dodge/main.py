@@ -136,7 +136,14 @@ def main():
                 pygame.display.update()
                 pygame.mixer.Sound.play(highscoreSound)
                 highscoreSoundPlayed = True
-                pygame.time.delay(1000)
+                startTime1 = time.time()
+                while not time.time() > startTime1 + 1:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
+                            break
+                    if not running:
+                        break
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
@@ -168,7 +175,14 @@ def main():
                         WINDOW.blit(lostLivesText if lives > 1 else lostLifeText,
                                     (50, HEIGHT / 2 - lostLivesText.get_height()))
                         pygame.display.update()
-                        pygame.time.delay(1000)
+                        startTime1 = time.time()
+                        while not time.time() > startTime1 + 1:
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    running = False
+                                    break
+                            if not running:
+                                break
                     else:
                         WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
@@ -188,7 +202,14 @@ def main():
                         pygame.display.update()
                         pygame.mixer.Sound.play(GameOverSound)
                         pygame.mixer.Sound.play(sadSound)
-                        pygame.time.delay(5000)
+                        startTime1 = time.time()
+                        while not time.time() > startTime1 + 5:
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    running = False
+                                    break
+                            if not running:
+                                break
                         lives = 4
                         break
 
