@@ -28,8 +28,9 @@ pygame.init()
 
 def main():
     highscoreBreak = False  # Tells if the current score is bigger than the highscore
+    running = True  # Is the game running or not
     mute = False  # Is the game muted or not
-    lives = 3  # Self-explanatory
+    lives = 4  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
     pausedTimes = []  # The total pause time
     last_time = time.time()
@@ -51,20 +52,22 @@ def main():
     # Load the high score from file
     highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
 
-    # Draw the title screen
-    running, startTime = draw_title()
-
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
     lostLifeText = FONT_MEDIUM.render("You lost a life, you are now on 1 life!", 1, "red")
 
-    # Play the background music
-    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
-    pygame.mixer.music.set_volume(20)
-    pygame.mixer.music.play(-1)
-
     # The main game loop
     while running:
+
+        if lives == 4:
+            # Draw the title screen
+            running, startTime = draw_title()
+            lives = 3
+            # Play the background music
+            pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
+            pygame.mixer.music.set_volume(20)
+            pygame.mixer.music.play(-1)
+            continue
 
         # The time the game was paused & playing
         elapsedTime = time.time() - startTime
@@ -186,7 +189,7 @@ def main():
                         pygame.mixer.Sound.play(GameOverSound)
                         pygame.mixer.Sound.play(sadSound)
                         pygame.time.delay(5000)
-                        main()
+                        lives = 4
                         break
 
             pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()  # Pause or unpause the music
