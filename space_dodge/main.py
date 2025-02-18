@@ -137,8 +137,8 @@ def main():
                 pygame.mixer.Sound.play(highscoreSound)
                 highscoreSoundPlayed = True
                 startTime1 = time.time()
-                while not time.time() > startTime1 + 1:
-                    for event in pygame.event.get():
+                while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
+                    for event in pygame.event.get():   # but the game can still be quit during this time
                         if event.type == pygame.QUIT:
                             running = False
                             break
@@ -176,8 +176,8 @@ def main():
                                     (50, HEIGHT / 2 - lostLivesText.get_height()))
                         pygame.display.update()
                         startTime1 = time.time()
-                        while not time.time() > startTime1 + 1:
-                            for event in pygame.event.get():
+                        while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
+                            for event in pygame.event.get():   # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
                                     break
@@ -203,8 +203,8 @@ def main():
                         pygame.mixer.Sound.play(GameOverSound)
                         pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
-                        while not time.time() > startTime1 + 5:
-                            for event in pygame.event.get():
+                        while not time.time() > startTime1 + 5:  # A while loop which waits for 1 second
+                            for event in pygame.event.get():   # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
                                     break
