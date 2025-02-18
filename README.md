@@ -75,7 +75,12 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
     - The [Mute icon](space_dodge/assets/mute.png) [was created by Freepik - Flaticon](https://www.flaticon.com/free-icons/silent)
     - The [Unmute icon](space_dodge/assets/unmute.png) [was created by Freepik - Flaticon](https://www.flaticon.com/free-icons/enable-sound)
 - All sounds were sourced from [Pixabay](https://pixabay.com) and [Uppbeat](https://uppbeat.io)
+   - The [pause music](space_dodge/sounds/background_music/pause_screen/pause_music.mp3) is from uppbeat:   
+      https://uppbeat.io/t/aylex/evening-meal  
+   - The [main game music](space_dodge/sounds/background_music/background_music.mp3) ( not title screen ) is from uppbeat:  
+      https://uppbeat.io/t/qube/play  
+   - The other sounds are licensed under the [Pixabay License](https://pixabay.com/service/license-summary/)
 
 ## Thanks! 💜
 Thank you so much for playing Space Dodge! I'd really appreciate it if you starred my repository!
-[Back to the top ^](#description)
+[Back to the top ^](#space-dodge)
