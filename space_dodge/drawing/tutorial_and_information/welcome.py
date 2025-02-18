@@ -9,7 +9,7 @@ def welcome_screen():
     WINDOW.blit(welcome_screen_background, (0, 0))
     welcomeText1 = FONT.render("Welcome to Space Dodge!", 1, "orange")
     welcomeText2 = FONT.render("Use A & D keys to move left & right!", 1, "orange")
-    welcomeText3 = FONT.render("Try not to hit the bullets!", 1, "orange")
+    welcomeText3 = FONT.render("Try not to hit the bullets! You have 3 Lives!", 1, "orange")
     startText = FONT_SMALL.render("Click any key to continue!", 1, "orange")
     keybindingsInstructionText = FONT.render("Click I or K to check keybindings", 1, "orange")
     welcomeText1Place = WIDTH / 2 - welcomeText1.get_width() / 2, HEIGHT / 2 - welcomeText1.get_height() / 2

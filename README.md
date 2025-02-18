@@ -7,8 +7,8 @@ A game where you dodge bullets that are coming down from the top of the screen. 
 This is just a pygame project which I followed a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY) to
 make.  
 I have been adding new features such as sound effects, and lives and will try to add any suggestions!  
-Please leave them
-in [Issues under the "suggestion" tag](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=feature_request.yml).
+Please leave them in [Issues under the "suggestion" tag](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=feature_request.yml).
+If you have **any** feedback please fill out this [survey](https://tally.so/r/mOo7pA)
 
 > [!Note]  
 > This project **is** currently in **active development**, I work on it during my free time.  
@@ -72,6 +72,8 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
     - The [pause button](space_dodge/assets/pause_rectangle.png)
     can be found in the SF Symbols app on Mac (It can be downloaded [here](https://developer.apple.com/sf-symbols/))
     - The [Settings animated icon](space_dodge/assets/settings_icon_frames) [was created by Freepik - Flaticon](https://www.flaticon.com/free-animated-icons/settings)
+    - The [Mute icon](space_dodge/assets/mute.png) [was created by Freepik - Flaticon](https://www.flaticon.com/free-icons/silent)
+    - The [Unmute icon](space_dodge/assets/unmute.png) [was created by Freepik - Flaticon](https://www.flaticon.com/free-icons/enable-sound)
 - All sounds were sourced from [Pixabay](https://pixabay.com) and [Uppbeat](https://uppbeat.io)
 
 ## Thanks! 💜
