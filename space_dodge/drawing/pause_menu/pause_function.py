@@ -15,7 +15,7 @@ xButton = Button(x_button_icon, 665, 176)  # Create the x button object
 
 @pause_time
 def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
-    pygame.mixer.music.load(ref("sounds/background_music/pause_screen/pause_music.mp3"))
+    pygame.mixer.music.load(ref("assets/sounds/background_music/pause_screen/pause_music.mp3"))
     pygame.mixer.music.play(-1)
     pause = True
 
@@ -44,7 +44,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
                     pygame.mixer.music.stop()
                     pygame.mixer.music.unload()
-                    pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
+                    pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
                     pygame.mixer.music.play(-1)
                     return True
                 elif settingsButton.clicked():

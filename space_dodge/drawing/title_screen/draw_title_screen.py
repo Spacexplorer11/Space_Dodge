@@ -17,7 +17,7 @@ pygame.mixer.init()
 # Draw the title screen
 def draw_title():
     # Load the title screen music
-    pygame.mixer.music.load(ref("sounds/background_music/title_screen/title_screen_music.mp3"))
+    pygame.mixer.music.load(ref("assets/sounds/background_music/title_screen/title_screen_music.mp3"))
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(loops=-1)
     mute = False

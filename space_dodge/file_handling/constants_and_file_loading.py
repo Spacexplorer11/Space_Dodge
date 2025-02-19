@@ -110,16 +110,16 @@ except FileNotFoundError:
     draw_except("Button")
 
 try:
-    sadSound = m.Sound(ref("sounds/game_over/sad-trombone.mp3"))
-    GameOverSound = m.Sound(ref("sounds/game_over/game-over-sound.mp3"))
-    highscoreSound = m.Sound(ref("sounds/highscore/highscore.mp3"))
+    sadSound = m.Sound(ref("assets/sounds/game_over/sad-trombone.mp3"))
+    GameOverSound = m.Sound(ref("assets/sounds/game_over/game-over-sound.mp3"))
+    highscoreSound = m.Sound(ref("assets/sounds/highscore/highscore.mp3"))
     update_loading_bar(3)
 except FileNotFoundError:
     logger.exception('Sound not found')
     draw_except("Sound Effects")
 
-background_music_check = os.path.exists(ref("sounds/background_music/background_music.mp3"))
-pause_music_check = os.path.exists(ref("sounds/pause_screen/pause_music.mp3"))
+background_music_check = os.path.exists(ref("assets/sounds/background_music/background_music.mp3"))
+pause_music_check = os.path.exists(ref("assets/sounds/pause_screen/pause_music.mp3"))
 if not (background_music_check or pause_music_check):
     logger.exception('Music not found')
     draw_except("Music")
@@ -238,7 +238,7 @@ except FileNotFoundError:
     logger.exception('Start button image not found')
     draw_except("Button")
 
-title_screen_music_check = os.path.exists(ref("sounds/background_music/title_screen/title_screen_music.mp3"))
+title_screen_music_check = os.path.exists(ref("assets/sounds/background_music/title_screen/title_screen_music.mp3"))
 if not title_screen_music_check:
     logger.exception('Title screen music not found')
     draw_except("Music")

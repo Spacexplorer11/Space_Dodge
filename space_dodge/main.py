@@ -64,7 +64,7 @@ def main():
             running, startTime = draw_title()
             lives = 3
             # Play the background music
-            pygame.mixer.music.load(ref("sounds/background_music/background_music.mp3"))
+            pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
             pygame.mixer.music.play(-1)
             continue
