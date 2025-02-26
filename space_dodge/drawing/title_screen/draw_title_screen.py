@@ -41,7 +41,7 @@ def draw_title():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False, 0.0
+                return False, 0.0, mute
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if startButton.clicked():
                     start = True
@@ -54,11 +54,11 @@ def draw_title():
 
         pygame.display.update()
 
-    while True:
+    while start:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False, 0.0
+                return False, 0.0, mute
             elif event.type == pygame.KEYDOWN:
                 running, startTime = keybindings_screen(None)
-                return running, startTime
+                return running, startTime, mute
         welcome_screen()

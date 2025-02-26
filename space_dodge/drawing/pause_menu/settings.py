@@ -36,13 +36,13 @@ def settings_menu(mute):
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
-                return False
+                return mute
             elif event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
-                    return True
+                    return mute
 
         slider.listen(events)
         output.setText(slider.getValue())

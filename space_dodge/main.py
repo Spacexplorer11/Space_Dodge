@@ -61,7 +61,7 @@ def main():
 
         if lives == 4:
             # Draw the title screen
-            running, startTime = draw_title()
+            running, startTime, mute = draw_title()
             lives = 3
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
@@ -117,7 +117,7 @@ def main():
                     pausedTimes.append(pausedTime)
                 if (pauseButton.clicked() or
                         keys[pygame.K_p]):
-                    running, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
+                    running, pausedTime, mute = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                     pausedTimes.append(pausedTime)
 
         if highscore == 0 and not highscoreFileFound:
