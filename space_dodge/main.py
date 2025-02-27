@@ -63,6 +63,7 @@ def main():
             # Draw the title screen
             running, startTime, mute = draw_title(mute)
             lives = 3
+            pausedTimes.clear()
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
@@ -113,7 +114,7 @@ def main():
                 if keys[pygame.K_m] or muteButton.clicked() or unmuteButton.clicked():
                     mute = not mute
                 if keys[pygame.K_k] or keys[pygame.K_i]:
-                    running, pausedTime = keybindings_screen(pausedTimes)
+                    running, pausedTime = keybindings_screen(lives)
                     pausedTimes.append(pausedTime)
                 if (pauseButton.clicked() or
                         keys[pygame.K_p]):
