@@ -113,7 +113,7 @@ def main():
                 if keys[pygame.K_m] or muteButton.clicked() or unmuteButton.clicked():
                     mute = not mute
                 if keys[pygame.K_k] or keys[pygame.K_i]:
-                    running, pausedTime = keybindings_screen(pausedTimes)
+                    running, pausedTime = keybindings_screen(lives)
                     pausedTimes.append(pausedTime)
                 if (pauseButton.clicked() or
                         keys[pygame.K_p]):

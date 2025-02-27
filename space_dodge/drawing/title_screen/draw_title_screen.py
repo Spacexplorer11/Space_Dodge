@@ -59,6 +59,6 @@ def draw_title():
             if event.type == pygame.QUIT:
                 return False, 0.0
             elif event.type == pygame.KEYDOWN:
-                running, startTime = keybindings_screen(None)
+                running, startTime = keybindings_screen()
                 return running, startTime
         welcome_screen()
