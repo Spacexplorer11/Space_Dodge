@@ -81,6 +81,10 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
       https://uppbeat.io/t/qube/play  
    - The other sounds are licensed under the [Pixabay License](https://pixabay.com/service/license-summary/)
 
+## FAQ
+- Q: Why does the game freeze when I drag the window
+- A: Unfortunately, this is an operating system bug which pauses the main thread when you drag the window, causing the game to freeze.
+
 ## Thanks! 💜
 Thank you so much for playing Space Dodge! I'd really appreciate it if you starred my repository!
 [Back to the top ^](#space-dodge)
