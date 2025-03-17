@@ -62,7 +62,8 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 
 - The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).
 - After that, 100% of the code was written by me with help from GitHub Copilot.
-- All images were generated using [Leonardo.ai](https://leonardo.ai)  with some exceptions:
+- All images were generated using [Leonardo.ai](https://leonardo.ai) and the [Terms of Service](https://leonardo.ai/terms-of-service/) allow commercial use, you can read more [here](https://intercom.help/leonardo-ai/en/articles/8044018-commercial-usage)
+- Other media that was used is credited here:
     - The [mini-explosion gif](space_dodge/assets/explosion_gif_frames) when a bullet hits the ground, you can find
       it [here](https://en.picmix.com/stamp/Explode-Digital-Art-2334354)
     - The [mute symbol](space_dodge/assets/mute.png) can be found [here](https://www.flaticon.com/free-icons/silent)
