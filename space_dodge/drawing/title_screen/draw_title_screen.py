@@ -1,5 +1,5 @@
 import pygame
-
+import time
 from classes.button import Button
 from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.pause_menu.settings import settings_menu
@@ -30,6 +30,7 @@ def draw_title(mute):
                             HEIGHT - settings_icon_frames[1].get_height())
 
     while not start:
+        time.sleep(3 / 1000)
         WINDOW.blit(title_screen_background, (0, 0))
         startButton.draw()
         if mute:
