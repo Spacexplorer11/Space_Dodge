@@ -64,6 +64,9 @@ def main():
             running, startTime, mute = draw_title(mute)
             lives = 3
             pausedTimes.clear()
+            score = 0
+            # Load the high score from file
+            highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
