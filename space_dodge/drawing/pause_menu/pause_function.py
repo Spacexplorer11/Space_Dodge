@@ -6,6 +6,7 @@ from file_handling.constants_and_file_loading import (
     WINDOW, PAUSE_FONT, PAUSE_FONT_SMALL, pause_background, muteImage, unmuteImage, pause_time, settings_icon_frames,
     x_button_icon)
 from file_handling.utility import ref
+import time
 
 mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
@@ -15,6 +16,7 @@ xButton = Button(x_button_icon, 665, 176)  # Create the x button object
 
 @pause_time
 def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
+    time.sleep(3 / 1000)
     pygame.mixer.music.load(ref("assets/sounds/background_music/pause_screen/pause_music.mp3"))
     pygame.mixer.music.play(-1)
     pause = True
