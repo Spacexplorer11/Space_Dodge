@@ -1,5 +1,5 @@
 import pygame
-
+import time
 from classes.button import Button
 from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.pause_menu.settings import settings_menu
@@ -15,12 +15,11 @@ pygame.mixer.init()
 
 
 # Draw the title screen
-def draw_title():
+def draw_title(mute):
     # Load the title screen music
     pygame.mixer.music.load(ref("assets/sounds/background_music/title_screen/title_screen_music.mp3"))
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(loops=-1)
-    mute = False
     start = False
 
     # Define Button objects
@@ -31,6 +30,7 @@ def draw_title():
                             HEIGHT - settings_icon_frames[1].get_height())
 
     while not start:
+        time.sleep(3 / 1000)
         WINDOW.blit(title_screen_background, (0, 0))
         startButton.draw()
         if mute:
@@ -41,7 +41,7 @@ def draw_title():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False, 0.0
+                return False, 0.0, mute
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if startButton.clicked():
                     start = True
@@ -54,11 +54,11 @@ def draw_title():
 
         pygame.display.update()
 
-    while True:
+    while start:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False, 0.0
+                return False, 0.0, mute
             elif event.type == pygame.KEYDOWN:
-                running, startTime = keybindings_screen()
-                return running, startTime
+                running, startTime = keybindings_screen(4)
+                return running, startTime, mute
         welcome_screen()

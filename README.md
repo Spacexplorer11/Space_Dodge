@@ -61,8 +61,9 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 ## Credits
 
 - The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).
-- After that, 100% of the code was written by me with help from GitHub Copilot.
-- All images were generated using [Leonardo.ai](https://leonardo.ai)  with some exceptions:
+- After that, 100% of the code was written by me.
+- All images were generated using [Leonardo.ai](https://leonardo.ai) and the [Terms of Service](https://leonardo.ai/terms-of-service/) allow commercial use, you can read more [here](https://intercom.help/leonardo-ai/en/articles/8044018-commercial-usage)
+- Other media that was used is credited here:
     - The [mini-explosion gif](space_dodge/assets/explosion_gif_frames) when a bullet hits the ground, you can find
       it [here](https://en.picmix.com/stamp/Explode-Digital-Art-2334354)
     - The [mute symbol](space_dodge/assets/mute.png) can be found [here](https://www.flaticon.com/free-icons/silent)
@@ -79,6 +80,12 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
    - The [main game music](space_dodge/sounds/background_music/background_music.mp3) ( not title screen ) is from uppbeat:  
       https://uppbeat.io/t/qube/play  
    - The other sounds are licensed under the [Pixabay License](https://pixabay.com/service/license-summary/)
+
+## FAQ
+- Q: Why does the game freeze when I drag the window?
+- A: Unfortunately, this is an **operating system bug** which pauses the main thread when you drag the window, causing the game to freeze.
+- Q: Do you/will you ever support Linux?
+- A: Unfortunately, we do not support Linux at the moment **however**, we are looking to support it in the *near future*.
 
 ## Thanks! 💜
 Thank you so much for playing Space Dodge! I'd really appreciate it if you starred my repository!

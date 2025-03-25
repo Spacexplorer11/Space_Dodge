@@ -61,8 +61,9 @@ def main():
 
         if lives == 4:
             # Draw the title screen
-            running, startTime = draw_title()
+            running, startTime, mute = draw_title(mute)
             lives = 3
+            pausedTimes.clear()
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
@@ -117,7 +118,7 @@ def main():
                     pausedTimes.append(pausedTime)
                 if (pauseButton.clicked() or
                         keys[pygame.K_p]):
-                    running, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
+                    running, mute, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                     pausedTimes.append(pausedTime)
 
         if highscore == 0 and not highscoreFileFound:
@@ -134,7 +135,8 @@ def main():
                     WIDTH / 2 - highscoreBrokenText.get_width() / 2,
                     HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
                 pygame.display.update()
-                pygame.mixer.Sound.play(highscoreSound)
+                if not mute:
+                    pygame.mixer.Sound.play(highscoreSound)
                 highscoreSoundPlayed = True
                 startTime1 = time.time()
                 while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
@@ -200,8 +202,9 @@ def main():
                         WINDOW.blit(timeText, (WIDTH / 2 - timeText.get_width() / 2,
                                                HEIGHT / 2 + loseText.get_height() + timeText.get_height() + 100 / 2))
                         pygame.display.update()
-                        pygame.mixer.Sound.play(GameOverSound)
-                        pygame.mixer.Sound.play(sadSound)
+                        if not mute:
+                            pygame.mixer.Sound.play(GameOverSound)
+                            pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 5:  # A while loop which waits for 5 seconds
                             for event in pygame.event.get():   # but the game can still be quit during this time
@@ -212,7 +215,9 @@ def main():
                                 break
                         lives = 4
                         break
-
+            if pygame.mixer.music.get_busy() is False and mute is False:
+                pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
+                pygame.mixer.music.play(-1)
             pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()  # Pause or unpause the music
 
         if not running:

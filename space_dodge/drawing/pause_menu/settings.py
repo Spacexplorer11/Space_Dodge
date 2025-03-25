@@ -16,7 +16,6 @@ xButton = Button(x_button_icon, 665, 175)  # Create the x button object
 
 
 
-@pause_time
 def settings_menu(mute):
     slider = Slider(WINDOW, 350, 400, 100, 30, min=0, max=100, initial=pygame.mixer.music.get_volume() * 100)
     output = TextBox(WINDOW, 500, 395, 75, 50, fontSize=30)
@@ -28,6 +27,9 @@ def settings_menu(mute):
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("SETTINGS MENU", 1, "white"), (250, 176))
         WINDOW.blit(mutePauseButton.image if mute else unmutePauseButton.image, (180, 430))
+        if pygame.mixer.music.get_busy() is False and mute is False:
+            pygame.mixer.music.load("assets/sounds/background_music/pause_screen/pause_music.mp3")
+            pygame.mixer.music.play(-1)
         pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()
         WINDOW.blit(slider_title, (200, 390))
         xButton.draw()
@@ -36,13 +38,14 @@ def settings_menu(mute):
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
-                return False
+                pause = False
+                return pause, mute
             elif event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
-                    return True
+                    return pause, mute
 
         slider.listen(events)
         output.setText(slider.getValue())
