@@ -16,12 +16,12 @@ xButton = Button(x_button_icon, 665, 176)  # Create the x button object
 
 @pause_time
 def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
-    time.sleep(3 / 1000)
     pygame.mixer.music.load(ref("assets/sounds/background_music/pause_screen/pause_music.mp3"))
     pygame.mixer.music.play(-1)
     pause = True
 
     while pause:
+        time.sleep(3 / 1000)
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("PAUSE MENU", 1, "white"), (290, 176))
         WINDOW.blit(PAUSE_FONT.render(f"Time played: {round(elapsedTime)} secs", 1, "white"), (180, 250))
