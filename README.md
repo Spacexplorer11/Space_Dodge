@@ -85,7 +85,10 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 - Q: Why does the game freeze when I drag the window?
 - A: Unfortunately, this is an **operating system bug** which pauses the main thread when you drag the window, causing the game to freeze.
 - Q: Do you/will you ever support Linux?
-- A: We do support Linux, **however**at the moment there are no installation instructions, I will add these soon.
+- A: We do support Linux, **however** at the moment there are no installation instructions, I will add these soon.
+
+## Contact
+- If you would like to contact me, please message me on discord at `spacexplorer11` or email me at spacexplorer11@proton.me
 
 ## Thanks! 💜
 Thank you so much for playing Space Dodge! I'd really appreciate it if you starred my repository!
