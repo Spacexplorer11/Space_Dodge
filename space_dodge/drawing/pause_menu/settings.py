@@ -26,11 +26,13 @@ def settings_menu(mute):
     while pause:
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("SETTINGS MENU", 1, "white"), (250, 176))
-        WINDOW.blit(mutePauseButton.image if mute else unmutePauseButton.image, (180, 430))
+        if mute:
+            mutePauseButton.draw()
+        else:
+            unmutePauseButton.draw()
         if pygame.mixer.music.get_busy() is False and mute is False:
             pygame.mixer.music.load("assets/sounds/background_music/pause_screen/pause_music.mp3")
             pygame.mixer.music.play(-1)
-        pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()
         WINDOW.blit(slider_title, (200, 390))
         xButton.draw()
         slider.draw()
@@ -44,6 +46,7 @@ def settings_menu(mute):
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
+                    pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
                     return pause, mute
 
