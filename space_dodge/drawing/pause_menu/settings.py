@@ -26,7 +26,7 @@ def settings_menu(mute):
     pause = True
 
     while pause:
-        time.sleep(3 / 1000)
+        time.sleep(6.5 / 1000)
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("SETTINGS MENU", 1, "white"), (250, 176))
         if mute:
