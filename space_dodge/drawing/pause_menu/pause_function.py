@@ -6,6 +6,7 @@ from file_handling.constants_and_file_loading import (
     WINDOW, PAUSE_FONT, PAUSE_FONT_SMALL, pause_background, muteImage, unmuteImage, pause_time, settings_icon_frames,
     x_button_icon)
 from file_handling.utility import ref
+import time
 
 mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
@@ -20,6 +21,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
     pause = True
 
     while pause:
+        time.sleep(3 / 1000)
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("PAUSE MENU", 1, "white"), (290, 176))
         WINDOW.blit(PAUSE_FONT.render(f"Time played: {round(elapsedTime)} secs", 1, "white"), (180, 250))

@@ -2,6 +2,8 @@ import threading
 
 import pygame
 import pygame_widgets
+import time
+
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 
@@ -24,6 +26,7 @@ def settings_menu(mute):
     pause = True
 
     while pause:
+        time.sleep(6.5 / 1000)
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("SETTINGS MENU", 1, "white"), (250, 176))
         if mute:
