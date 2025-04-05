@@ -10,13 +10,6 @@ I have been adding new features such as sound effects, and lives and will try to
 Please leave them in [Issues under the "suggestion" tag](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=feature_request.yml).
 If you have **any** feedback please fill out this [survey](https://tally.so/r/mOo7pA)
 
-> [!Note]  
-> This project **is** currently in **active development**, I work on it during my free time.  
-> Any help would be **greatly appreciated!**  
-> Do **not** hesitate to open a pull request. I will review it as fast as possible (1-3 days).  
-> If you need help opening a pull request, please
-> follow [this link](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
-> or watch [this video](https://www.youtube.com/watch?v=nCKdihvneS0).
 
 ## Instructions to install the game
 
@@ -86,6 +79,23 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 - A: Unfortunately, this is an **operating system bug** which pauses the main thread when you drag the window, causing the game to freeze.
 - Q: Do you/will you ever support Linux?
 - A: We do support Linux, **however** at the moment there are no installation instructions, I will add these soon.
+
+## How to contribute
+
+- This project **is** currently in **active development**, I work on it during my free time.  
+- Any help would be **greatly appreciated!**  
+- Do **not** hesitate to open a pull request. I will review it as fast as possible (1-3 days).  
+- If you need help opening a pull request, please follow [this link](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) or watch [this video](https://www.youtube.com/watch?v=nCKdihvneS0).
+>[!Important]
+>All commits need to be **signed & verified**  
+>This is automatically done when using Github Web  
+>However, in your editor you may need to do extra steps  
+>You can follow this guide for your IDE:  
+> - [Pycharm](https://www.jetbrains.com/help/pycharm/2024.3/set-up-GPG-commit-signing.html?Set_up_GPG_commit_signing=&keymap=macOS#enable-commit-signing)  
+> - [VS Code & Visual Studio](https://blog.mark-burton.com/posts/2023-01-20-signing-git-commits-in-vscode-and-visualstudio)
+
+
+  
 
 ## Contact
 - If you would like to contact me, please message me on discord at `spacexplorer11` or email me at spacexplorer11@proton.me
