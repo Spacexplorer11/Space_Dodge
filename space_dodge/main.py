@@ -104,8 +104,8 @@ def main():
         for event in pygame.event.get():
             # Quit the game
             if event.type == pygame.QUIT:
-                if highscore >= score:
-                    save_object(highscore)
+                if score >= highscore:
+                    save_object(score)
                 running = False
                 break
             # Check if the mouse is clicked or a key is pressed
@@ -145,6 +145,8 @@ def main():
                 while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
                     for event in pygame.event.get():   # but the game can still be quit during this time
                         if event.type == pygame.QUIT:
+                            if score >= highscore:
+                                save_object(score)
                             running = False
                             break
                     if not running:
@@ -184,6 +186,8 @@ def main():
                         while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
                             for event in pygame.event.get():   # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
+                                    if score >= highscore:
+                                        save_object(score)
                                     running = False
                                     break
                             if not running:
@@ -224,7 +228,7 @@ def main():
             pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()  # Pause or unpause the music
 
         if not running:
-            save_object(highscore) if score >= highscore else None
+            save_object(score) if score >= highscore else None
             continue
 
         draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions,
