@@ -54,7 +54,7 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 ## Credits
 
 - The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).
-- After that, 100% of the code was written by me.
+- After that, most of the code was written by me, however not all, please view the contributors section on my repo for more info
 - All images were generated using [Leonardo.ai](https://leonardo.ai) and the [Terms of Service](https://leonardo.ai/terms-of-service/) allow commercial use, you can read more [here](https://intercom.help/leonardo-ai/en/articles/8044018-commercial-usage)
 - Other media that was used is credited here:
     - The [mini-explosion gif](space_dodge/assets/explosion_gif_frames) when a bullet hits the ground, you can find
