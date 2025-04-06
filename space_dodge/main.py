@@ -1,5 +1,15 @@
 # imports
 import time
+import sys
+import subprocess
+
+required_packages = ['pygame', 'pygame_widgets']  # List your packages here
+
+for package in required_packages:
+    try:
+        __import__(package)
+    except ImportError:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
 
 import pygame
 

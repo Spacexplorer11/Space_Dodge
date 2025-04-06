@@ -1,6 +1,6 @@
 # Space Dodge
 
-A game where you dodge bullets that are coming down from the top of the screen. It is only available on Windows and Mac.
+A game where you dodge bullets that are coming down from the top of the screen. It is available on Windows, Mac & Linux.
 
 ## Description
 
@@ -25,31 +25,17 @@ The first few steps for all OS's are
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
 > [!Caution]
 > Make sure it is the **official** python site (https://python.org)!
+
+> [!Important]
+> If you are on windows, please run `python` on its own in the terminal/command prompt and install python from the microsoft store as well
 2. Download the zip file from the main page of the repository. [Click the green `Code` button and click
    `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
 3. Extract/unzip the file to a desired location.
-4. Open the terminal / command prompt on your computer.
+4. Navigate to the folder where you extracted the files. Find main.py ( it is inside Space_Dodge-main/space_dodge/ )
+5. Right click it and open with python (launcher) not IDLE or run the command `python main.py` or `python3 main.py` (depending on your OS) to start the game.
+> [!Note]
+> It may take a few seconds to open the game, as it is installing necessary packages, so please be patient.
 
-## Please find your OS-specific installation instructions below:
-
-
-### Windows Installation
-After completing the above steps,  
-You will need to run `python` in terminal/command prompt on its own and download Python from
-the Microsoft store ( it will automatically open a window ) as well as from the website.  
-Then type: `pip install pygame` into the terminal to install pygame ( the game engine ). You also need to do `pip install pygame_widgets` separately.  
-In the extracted folder, find `main.py`, and run it ( right click and open with python not IDLE )  
-You can also right-click it, click `copy path`, go to terminal/command prompt and type `python PATH`. Replace `PATH`
-with the path to the file.  
-
-### Mac Installation
-After completing the above steps, go to terminal and run these commands consecutively ( one after another ):
-- `pip3 install --upgrade pip`
-- `python3 -m pip install -U pygame --user`
-- `python3 -m pip install -U pygame_widgets --user`  
-Then, in the extracted folder, find `main.py`, and run it ( right click and open with python not IDLE )
-You can also right-click it, click `copy path`, go to terminal/command prompt and type `python PATH`. Replace `PATH`
-with the path to the file.
 
 ## What to do if anything goes wrong?
 You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml) and make sure to upload the mylog.log file if available. Make sure to upload screenshots or screen recordings of **any** errors. Thanks!
