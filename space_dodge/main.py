@@ -3,6 +3,7 @@ import time
 import sys
 import subprocess
 
+# Check if the required packages are installed and install them if not
 required_packages = ['pygame', 'pygame_widgets']  # List your packages here
 
 for package in required_packages:
