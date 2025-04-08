@@ -72,12 +72,16 @@ def main():
             # Draw the title screen
             running, startTime, mute = draw_title(mute)
             lives = 3
+
+            # Reset the game variables
             pausedTimes.clear()
             score = 0
             highscores = load_highscore()  # The dictionary of highscores
             highscore = highscores[difficulty]
+            bulletAddIncrement = 2000  # The time between adding bullets
             if highscore == 0:
                 highscore = 1
+
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
