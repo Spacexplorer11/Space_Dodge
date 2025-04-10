@@ -14,7 +14,6 @@ If you have **any** feedback please fill out this [survey](https://tally.so/r/mO
 ## Instructions to install the game
 
 The instructions to play the game are in-game.
-The first few steps for all OS's are 
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
 > [!Caution]
 > Make sure it is the **official** python site (https://python.org)!
