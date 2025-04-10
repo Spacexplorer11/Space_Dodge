@@ -25,6 +25,9 @@ The first few steps for all OS's are
    `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
 3. Extract/unzip the file to a desired location.
 4. Navigate to the folder where you extracted the files. Find main.py ( it is inside Space_Dodge-main/space_dodge/ )
+>[!Important]
+> The script will automatically create a venv (virtual environment) in the same folder as the main.py file.
+> This avoids breaking system Python or relying on global packages.
 5. Right click it and open with python (launcher) not IDLE or run the command `python main.py` or `python3 main.py` (depending on your OS) to start the game.
 > [!Note]
 > It may take a few seconds to open the game, as it is installing necessary packages, so please be patient.
