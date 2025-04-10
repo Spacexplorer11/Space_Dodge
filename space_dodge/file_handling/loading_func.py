@@ -1,11 +1,13 @@
 import pickle
+from file_handling.utility import ref
 
 
-def load_highscore(file_path):
+def load_highscore():
     try:
-        with open(file_path, "rb") as f:
-            highscore = pickle.load(f)
-        return highscore, True
+        with open(ref("file_handling/highscores.pickle"), "rb") as f:
+            highscores = pickle.load(f)
+            print(highscores)
+        return highscores
     except FileNotFoundError:
         print("High score file not found.")
-        return 0, False
+        return {1: 0, 2: 0, 3: 0}
