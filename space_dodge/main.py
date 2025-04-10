@@ -17,14 +17,15 @@ if sys.prefix == sys.base_prefix:
         activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(venv_path, 'Scripts', 'python.exe')
         os.execv(activate_script, [activate_script] + sys.argv)
 
-    # Check if all required packages are installed in the virtual environment
-    required_packages = ['pygame', 'pygame_widgets']  # List your packages here
-    for package in required_packages:
-        try:
-            __import__(package)
-        except ImportError:
-            print(f"📦 Installing '{package}' inside virtual environment...")
-            subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+# Check if all required packages are installed in the virtual environment
+required_packages = ['pygame', 'pygame_widgets']  # List your packages here
+for package in required_packages:
+    try:
+        __import__(package)
+    except ImportError:
+        print(f"📦 Installing '{package}' inside virtual environment...")
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+
 import pygame
 
 # Import the classes' modules
