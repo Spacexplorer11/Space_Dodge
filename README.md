@@ -93,6 +93,7 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 >You can follow this guide for your IDE:  
 > - [Pycharm](https://www.jetbrains.com/help/pycharm/2024.3/set-up-GPG-commit-signing.html?Set_up_GPG_commit_signing=&keymap=macOS#enable-commit-signing)  
 > - [VS Code & Visual Studio](https://blog.mark-burton.com/posts/2023-01-20-signing-git-commits-in-vscode-and-visualstudio)
+> - [Using Git commands](https://gist.github.com/Spacexplorer11/3709702c972c33265dc83691e08919cb)
 
 
   
