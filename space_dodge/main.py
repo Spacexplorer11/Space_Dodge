@@ -1,5 +1,35 @@
-# imports
+# Imports
+import os
+import sys
+import subprocess
+import venv
 import time
+
+# Check if running inside a virtual environment
+if sys.prefix == sys.base_prefix:
+    venv_path = os.path.join(os.path.dirname(__file__), 'venv')
+
+    # If venv doesn't exist, create it and restart the script
+    if not os.path.isdir(venv_path):
+        print("🔧 Creating a virtual environment...")
+        venv.create(venv_path, with_pip=True)
+        print("⚙️ Restarting the script inside the virtual environment...")
+        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(venv_path, 'Scripts', 'python.exe')
+        os.execv(activate_script, [activate_script] + sys.argv)
+    else:
+        print("⚙️ Re-starting the script inside the virtual environment...")
+        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
+            venv_path, 'Scripts', 'python.exe')
+        os.execv(activate_script, [activate_script] + sys.argv)
+
+# Check if all required packages are installed in the virtual environment
+required_packages = ['pygame', 'pygame_widgets']  # List your packages here
+for package in required_packages:
+    try:
+        __import__(package)
+    except ImportError:
+        print(f"📦 Installing '{package}' inside virtual environment...")
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
 
 import pygame
 
