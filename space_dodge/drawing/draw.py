@@ -18,7 +18,7 @@ def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scor
         WINDOW.blit(bullet_texture, (bullet.x, bullet.y))
         if bullet.y > HEIGHT - BULLET_HEIGHT - 10:
             explosions.append(
-                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()), total_duration=0.75))
+                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()), fps=20))
 
     # Update and draw explosions
     for explosion in explosions[:]:

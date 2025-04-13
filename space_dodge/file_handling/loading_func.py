@@ -6,7 +6,6 @@ def load_highscore():
     try:
         with open(ref("file_handling/highscores.pickle"), "rb") as f:
             highscores = pickle.load(f)
-            print(highscores)
         return highscores
     except FileNotFoundError:
         print("High score file not found.")

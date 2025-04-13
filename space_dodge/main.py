@@ -1,7 +1,7 @@
 # imports
-import time
-import sys
 import subprocess
+import sys
+import time
 
 # Check if the required packages are installed and install them if not
 required_packages = ['pygame', 'pygame_widgets']  # List your packages here
@@ -171,7 +171,13 @@ def main():
                 bullet = Bullet()
                 bullets.append(bullet)
 
-            bulletAddIncrement = max(400, bulletAddIncrement - 50)
+            match difficulty:
+                case 1:
+                    bulletAddIncrement = max(800, bulletAddIncrement - 10)
+                case 2:
+                    bulletAddIncrement = max(400, bulletAddIncrement - 50)
+                case 3:
+                    bulletAddIncrement = max(200, bulletAddIncrement - 125)
             bulletCount = 0
 
         if keys[pygame.K_a]:
