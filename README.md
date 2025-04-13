@@ -10,18 +10,10 @@ I have been adding new features such as sound effects, and lives and will try to
 Please leave them in [Issues under the "suggestion" tag](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=feature_request.yml).
 If you have **any** feedback please fill out this [survey](https://tally.so/r/mOo7pA)
 
-> [!Note]  
-> This project **is** currently in **active development**, I work on it during my free time.  
-> Any help would be **greatly appreciated!**  
-> Do **not** hesitate to open a pull request. I will review it as fast as possible (1-3 days).  
-> If you need help opening a pull request, please
-> follow [this link](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
-> or watch [this video](https://www.youtube.com/watch?v=nCKdihvneS0).
 
 ## Instructions to install the game
 
 The instructions to play the game are in-game.
-The first few steps for all OS's are 
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
 > [!Caution]
 > Make sure it is the **official** python site (https://python.org)!
@@ -32,6 +24,9 @@ The first few steps for all OS's are
    `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
 3. Extract/unzip the file to a desired location.
 4. Navigate to the folder where you extracted the files. Find main.py ( it is inside Space_Dodge-main/space_dodge/ )
+>[!Important]
+> The script will automatically create a venv (virtual environment) in the same folder as the main.py file.
+> This avoids breaking system Python or relying on global packages.
 5. Right click it and open with python (launcher) not IDLE or run the command `python main.py` or `python3 main.py` (depending on your OS) to start the game.
 > [!Note]
 > It may take a few seconds to open the game, as it is installing necessary packages, so please be patient.
@@ -47,7 +42,7 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 ## Credits
 
 - The first basic concept and code was from a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY).
-- After that, 100% of the code was written by me.
+- After that, most of the code was written by me, however not all, please view the [contributors section](https://github.com/Spacexplorer11/Space_Dodge/graphs/contributors) on my repo for more info
 - All images were generated using [Leonardo.ai](https://leonardo.ai) and the [Terms of Service](https://leonardo.ai/terms-of-service/) allow commercial use, you can read more [here](https://intercom.help/leonardo-ai/en/articles/8044018-commercial-usage)
 - Other media that was used is credited here:
     - The [mini-explosion gif](space_dodge/assets/explosion_gif_frames) when a bullet hits the ground, you can find
@@ -72,6 +67,24 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 - A: Unfortunately, this is an **operating system bug** which pauses the main thread when you drag the window, causing the game to freeze.
 - Q: Do you/will you ever support Linux?
 - A: We do support Linux, **however** at the moment there are no installation instructions, I will add these soon.
+
+## How to contribute
+
+- This project **is** currently in **active development**, I work on it during my free time.  
+- Any help would be **greatly appreciated!**  
+- Do **not** hesitate to open a pull request. I will review it as fast as possible (1-3 days).  
+- If you need help opening a pull request, please follow [this link](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) or watch [this video](https://www.youtube.com/watch?v=nCKdihvneS0).
+>[!Important]
+>All commits need to be **signed & verified**  
+>This is automatically done when using Github Web  
+>However, in your editor you may need to do extra steps  
+>You can follow this guide for your IDE:  
+> - [Pycharm](https://www.jetbrains.com/help/pycharm/2024.3/set-up-GPG-commit-signing.html?Set_up_GPG_commit_signing=&keymap=macOS#enable-commit-signing)  
+> - [VS Code & Visual Studio](https://blog.mark-burton.com/posts/2023-01-20-signing-git-commits-in-vscode-and-visualstudio)
+> - [Using Git commands](https://gist.github.com/Spacexplorer11/3709702c972c33265dc83691e08919cb)
+
+
+  
 
 ## Contact
 - If you would like to contact me, please message me on discord at `spacexplorer11` or email me at spacexplorer11@proton.me
