@@ -1,124 +1,141 @@
-const screen_size = screenX * screenY;
+// Ensure Stats.js is loaded via script tag in HTML, or import it if using a module system
+// Example (HTML): <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r17/Stats.min.js"></script>
+function setupParticles() {
+  const screen_size = window.innerWidth * window.innerHeight;
 
-particlesJS("particles-js", {
-  "particles": {
+  console.log("Setting up particles..."); // Add this line
+  particlesJS("particles-js", {
+    "particles": {
     "number": {
-      "value": screen_size * 0.02,
-      "density": {
+      "value": Math.max(50, screen_size * 0.0002),
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {"value": "#ffffff"},
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {"nb_sides": 5},
+        "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+        }
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 2,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
         "enable": true,
-        "value_area": 800
-      }
-    },
-    "color": { "value": "#ffffff" },
-    "shape": {
-      "type": "circle",
-      "stroke": {
-        "width": 0,
-        "color": "#000000"
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.4,
+        "width": 1
       },
-      "polygon": { "nb_sides": 5 },
-      "image": {
-        "src": "img/github.svg",
-        "width": 100,
-        "height": 100
-      }
-    },
-    "opacity": {
-      "value": 0.5,
-      "random": false,
-      "anim": {
-        "enable": false,
-        "speed": 1,
-        "opacity_min": 0.1,
-        "sync": false
-      }
-    },
-    "size": {
-      "value": 3,
-      "random": true,
-      "anim": {
-        "enable": false,
-        "speed": 2,
-        "size_min": 0.1,
-        "sync": false
-      }
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 150,
-      "color": "#ffffff",
-      "opacity": 0.4,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 6,
-      "direction": "none",
-      "random": false,
-      "straight": false,
-      "out_mode": "out",
-      "bounce": false,
-      "attract": {
-        "enable": false,
-        "rotateX": 600,
-        "rotateY": 1200
-      }
-    }
-  },
-  "interactivity": {
-    "detect_on": "window",
-    "events": {
-      "onhover": {
+      "move": {
         "enable": true,
-        "mode": "grab"
-      },
-      "onclick": {
-        "enable": true,
-        "mode": "push"
-      },
-      "resize": true
+        "speed": 6,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
     },
-    "modes": {
-      "grab": {
-        "distance": 121.80465781011475,
-        "line_linked": { "opacity": 1 }
+    "interactivity": {
+      "detect_on": "window",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "grab"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
       },
-      "bubble": {
-        "distance": 400,
-        "size": 40,
-        "duration": 2,
-        "opacity": 8,
-        "speed": 3
-      },
-      "repulse": {
-        "distance": 32.481242082697264,
-        "duration": 0.4
-      },
-      "push": { "particles_nb": 4 },
-      "remove": { "particles_nb": 2 }
-    }
-  },
-  "retina_detect": true
-});
+      "modes": {
+        "grab": {
+          "distance": 121.80465781011475,
+          "line_linked": {"opacity": 1}
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 32.481242082697264,
+          "duration": 0.4
+        },
+        "push": {"particles_nb": 4},
+        "remove": {"particles_nb": 2}
+      }
+    },
+    "retina_detect": true
+  });
+}
+// var stats, update;
+// stats = new Stats();
+// stats.setMode(0);
+// stats.domElement.style.position = 'absolute';
+// stats.domElement.style.left = '0px';
+// stats.domElement.style.top = '0px';
+// document.body.appendChild(stats.domElement);
+//
+// update = function () {
+//   stats.begin();
+//   stats.end();
+//   if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+//     count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+//   }
+//   requestAnimationFrame(update);
+// };
+//
+// requestAnimationFrame(update);
 
-var stats, update;
-stats = new Stats();
-stats.setMode(0);
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.left = '0px';
-stats.domElement.style.top = '0px';
-document.body.appendChild(stats.domElement);
+window.onload = function () {
+  setupParticles();
 
-update = function () {
-  stats.begin();
-  stats.end();
-  if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-  }
-  requestAnimationFrame(update);
+  window.addEventListener('resize', () => {
+    if (window.pJSDom && window.pJSDom.length > 0) {
+      window.pJSDom[0].pJS.fn.vendors.destroypJS();
+      window.pJSDom = [];
+    }
+
+    setupParticles();
+  });
 };
-
-requestAnimationFrame(update);
 
 function openGameURL() {
   window.open('https://github.com/spacexplorer11/space_dodge?tab=readme-ov-file#space-dodge', '_blank');
@@ -127,4 +144,3 @@ function openGameURL() {
 function openProfile() {
   window.open('https://github.com/spacexplorer11', '_blank');
 }
-

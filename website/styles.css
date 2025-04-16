@@ -111,9 +111,6 @@ canvas {
     z-index: -1;
 }
 
-.js-count-particles {
-    font-size: 1.1em;
-}
 
 #stats {
     border-radius: 3px 3px 0 0;
