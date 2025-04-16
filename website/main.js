@@ -1,7 +1,9 @@
+const screen_size = screenX * screenY;
+
 particlesJS("particles-js", {
   "particles": {
     "number": {
-      "value": 180,
+      "value": screen_size * 0.02,
       "density": {
         "enable": true,
         "value_area": 800
@@ -118,6 +120,11 @@ update = function () {
 
 requestAnimationFrame(update);
 
-function startGame() {
+function openGameURL() {
   window.open('https://github.com/spacexplorer11/space_dodge?tab=readme-ov-file#space-dodge', '_blank');
 }
+
+function openProfile() {
+  window.open('https://github.com/spacexplorer11', '_blank');
+}
+
