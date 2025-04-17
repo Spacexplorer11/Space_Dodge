@@ -158,3 +158,8 @@ function startGame() {
 function openProfile() {
   window.open("https://github.com/spacexplorer11", "_blank");
 }
+
+// Function to open anchor links in a new tab
+  document.querySelectorAll('a').forEach(link => {
+    link.setAttribute('target', '_blank');
+  });
