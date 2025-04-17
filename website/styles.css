@@ -1,46 +1,30 @@
-#header, #header button {
+/* General styles for the entire document */
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    background-color: #000000;
+}
+
+/* Container styles */
+#container {
+    flex: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 4vh;
+}
+
+/* Header styles */
+#header {
     color: white;
     justify-content: center;
     align-items: center;
     text-align: center;
-}
-
-.start_button {
-    display: flex;
-    width: 20vw;
-    height: 20vh;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-}
-
-.start_button:hover {
-    width: 22vw;
-    height: 22vh;
-}
-
-button {
-    background: transparent;
-    border: none;
-}
-
-button:hover {
-    background: transparent;
-    border: none;
-    font-size: larger;
-}
-
-#container a:hover {
-    color: lightgreen;
-    text-decoration-line: underline;
-    text-decoration-style: wavy;
-}
-
-#container a:visited {
-    color: green;
-    text-decoration-line: underline;
 }
 
 #header a {
@@ -48,13 +32,24 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Footer styles */
+#footer {
+    background: grey;
+    padding: 5px;
+    text-align: center;
+}
+
+#footer_text {
+    color: black;
+}
+
+/* Paragraph styles */
 p {
     text-align: center;
-    font-size: large;
     color: white;
 }
 
-#content p:hover {
+#content p:hover, li:hover {
     color: green;
     text-decoration-line: underline;
     text-decoration-style: wavy;
@@ -66,40 +61,70 @@ p:hover em {
     text-decoration-style: wavy;
 }
 
-html {
-    height: 100%;
+/* Anchor styles */
+#content a:hover {
+    color: lightgreen;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
 }
 
-body {
-    margin: 0;
-    font: normal 75% Arial, Helvetica, sans-serif;
+#content a:visited {
+    color: purple;
+}
+
+#content a:link {
+    text-decoration-style: wavy;
+}
+
+a {
+    cursor: pointer;
+}
+
+/* Button styles */
+button {
+    background: transparent;
+    border: none;
+    font-size: larger;
+}
+
+button:hover {
+    background: transparent;
+    border: none;
+    font-size: larger;
+
+}
+
+/* Start button styles */
+.start_button {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 0;
-    background-color: #000000;
+    width: 50vmin;
+    height: 40vmin;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
 }
 
-#container {
-    flex: 1;
+.start_button:hover {
+    width: 52vmin;
+    height: 42vmin;
 }
 
-#footer {
-    background: grey;
-    padding: 5px;
+/* Warning header styles */
+#warning_header {
+    color: red;
     text-align: center;
+    font-size: xx-large;
 }
 
-#footer_text {
-    color: black;
+/* Warning symbol styles */
+#warning_symbol {
+    width: 80vw;
+    height: 50vh;
 }
 
-canvas {
-    display: block;
-    vertical-align: bottom;
-}
-
-/* ---- particles.js container ---- */
+/* Particles.js container styles */
 #particles-js {
     position: absolute;
     width: 100%;
@@ -111,11 +136,17 @@ canvas {
     z-index: -1;
 }
 
+/* Canvas styles */
+canvas {
+    display: block;
+    vertical-align: bottom;
+}
 
-#stats {
-    border-radius: 3px 3px 0 0;
-    overflow: hidden;
-    -webkit-user-select: none;
-    margin-top: 5px;
-    margin-left: 5px;
+/* Ordered list styles */
+li {
+    list-style-type: decimal;
+    margin-left: 10%;
+    margin-right: 10%;
+    color: white;
+    margin-bottom: 2vh;
 }

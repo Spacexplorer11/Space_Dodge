@@ -15,7 +15,7 @@
 <body>
 <div id="container">
     <div id="header">
-        <button onclick="openGameURL()"><h1>Space Dodge</h1></button>
+        <h1>Space Dodge</h1>
         <h2>by <a onclick="openProfile()">Akaalroop Singh</a>  <br><br></h2>
     </div>
     <div id="content">
@@ -25,7 +25,7 @@
     </div>
     <div class="start_button">
         <button class="start_button">
-            <img class="start_button" src="https://github.com/Spacexplorer11/Space_Dodge/blob/main/space_dodge/assets/start_button.png?raw=true" alt="Space Dodge Start Button" onclick="openGameURL()">
+            <img class="start_button" src="https://github.com/Spacexplorer11/Space_Dodge/blob/main/space_dodge/assets/start_button.png?raw=true" alt="Space Dodge Start Button" onclick="startGame()">
         </button>
     </div>
 
@@ -40,5 +40,10 @@
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" ></script>
 <!-- stats.js lib --> <script src="https://threejs.org/examples/js/libs/stats.min.js" ></script>
 <script src="main.js"></script>
-</body>
-</html>
+<!-- Make sure you start at the top of the page -->
+<script>
+  window.addEventListener('load', function () {
+    window.scrollTo(0, 0);
+  });
+</script>
+</body></html>

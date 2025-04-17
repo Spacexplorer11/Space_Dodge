@@ -7,7 +7,7 @@ function setupParticles() {
   particlesJS("particles-js", {
     "particles": {
     "number": {
-      "value": Math.max(50, screen_size * 0.0002),
+      "value": Math.max(50, screen_size * 0.00002),
         "density": {
           "enable": true,
           "value_area": 800
@@ -105,29 +105,11 @@ function setupParticles() {
     "retina_detect": true
   });
 }
-// var stats, update;
-// stats = new Stats();
-// stats.setMode(0);
-// stats.domElement.style.position = 'absolute';
-// stats.domElement.style.left = '0px';
-// stats.domElement.style.top = '0px';
-// document.body.appendChild(stats.domElement);
-//
-// update = function () {
-//   stats.begin();
-//   stats.end();
-//   if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-//     count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-//   }
-//   requestAnimationFrame(update);
-// };
-//
-// requestAnimationFrame(update);
 
 window.onload = function () {
   setupParticles();
 
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     if (window.pJSDom && window.pJSDom.length > 0) {
       window.pJSDom[0].pJS.fn.vendors.destroypJS();
       window.pJSDom = [];
@@ -137,10 +119,42 @@ window.onload = function () {
   });
 };
 
-function openGameURL() {
-  window.open('https://github.com/spacexplorer11/space_dodge?tab=readme-ov-file#space-dodge', '_blank');
+function getDeviceInfo() {
+  const ua = navigator.userAgent;
+
+  if (/android/i.test(ua)) return "Android";
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return "iOS";
+  if (/Macintosh/.test(ua)) return "macOS";
+  if (/Windows/.test(ua)) return "Windows";
+  if (/Linux/.test(ua)) return "Linux";
+
+  return "Unknown OS";
+}
+
+const Desktop = [
+    "Windows",
+    "macOS",
+    "Linux"
+]
+const Mobile = [
+  "Android",
+  "iOS"
+]
+
+function startGame() {
+    const device = getDeviceInfo();
+    if (Desktop.includes(device)) {
+      window.location.href = "instructions.html";
+    }
+    else if (Mobile.includes(device)) {
+        window.location.href = "mobile_error.html";
+    }
+    else {
+        alert("Your OS is not supported.");
+        window.location.href = "mobile_error.html";
+    }
 }
 
 function openProfile() {
-  window.open('https://github.com/spacexplorer11', '_blank');
+  window.open("https://github.com/spacexplorer11", "_blank");
 }
