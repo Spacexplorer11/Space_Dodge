@@ -1,5 +1,3 @@
-// Ensure Stats.js is loaded via script tag in HTML, or import it if using a module system
-// Example (HTML): <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r17/Stats.min.js"></script>
 function setupParticles() {
     const screen_size = window.innerWidth * window.innerHeight;
 

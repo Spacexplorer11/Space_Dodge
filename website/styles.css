@@ -1,14 +1,15 @@
 /* General styles for the entire document */
-html {
+html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior: none;
 }
 
 body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
-    padding: 0;
     background-color: #000000;
 }
 
@@ -139,22 +140,21 @@ button:hover {
     height: 50vh;
 }
 
-/* Particles.js container styles */
 #particles-js {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-    z-index: -1;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	pointer-events: none; /* So clicks pass through */
 }
 
-/* Canvas styles */
 canvas {
-    display: block;
-    vertical-align: bottom;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 /* Ordered list styles */
