@@ -4,49 +4,52 @@ title: Instructions
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Instructions</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+	<meta charset="UTF-8">
+	<title>Instructions</title>
+	<link href="styles.css" rel="stylesheet" type="text/css">
 	<script src="main.js"></script>
 </head>
 <body>
 <div id="header">
-	{% include back_arrow.html %}
-    <h1>Instructions to install</h1>
-    <h2>Have fun in just six steps!</h2>
+	<div id="header_row">
+		{% include back_arrow.html %}
+		<h1>Instructions to install</h1>
+	</div>
+	<h2>Have fun in just six steps!</h2>
 </div>
 <div id="container">
 	{% include github.html %}
-    <div id="content">
-        <ol>
-            <li>Download Python 3.13 or later from the official website: <a href="https://www.python.org/downloads/">Python
-                Downloads</a>.<br>
-                (If you are on windows, click to open <a href="https://www.microsoft.com/en-us/p/python-3/9p3sx8s0c0r4">Python
-                    3 on Microsoft Store</a> as well as downloading from the website)
-            </li>
-            <li>Install Python by running the downloaded installer. Make sure to check the box that says "Add Python to
-                PATH" during installation.
-            </li>
-            <li><a href="https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip">Download</a> the
-                game
-            </li>
-            <li>Extract/Unzip the file you downloaded.</li>
-            <li>Right click and run the file with Python Launcher (MacOS) or Python 3.13 (Windows/Linux).</li>
-            <li>Have fun!</li>
-        </ol>
-    </div>
+	<div id="content">
+		<ol>
+			<li>Download Python 3.13 or later from the official website: <a href="https://www.python.org/downloads/">Python
+				Downloads</a>.<br>
+				(If you are on windows, click to open <a href="https://www.microsoft.com/en-us/p/python-3/9p3sx8s0c0r4">Python
+					3 on Microsoft Store</a> as well as downloading from the website)
+			</li>
+			<li>Install Python by running the downloaded installer. Make sure to check the box that says "Add Python to
+				PATH" during installation.
+			</li>
+			<li><a href="https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip">Download</a> the
+				game
+			</li>
+			<li>Extract/Unzip the file you downloaded.</li>
+			<li>Right click and run the file with Python Launcher (MacOS) or Python 3.13 (Windows/Linux).</li>
+			<li>Have fun!</li>
+		</ol>
+	</div>
 </div>
 {% include footer.html %}
 <!-- particles.js container -->
 <div id="particles-js"></div>
 <!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" ></script>
-<!-- stats.js lib --> <script src="https://threejs.org/examples/js/libs/stats.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<!-- stats.js lib -->
+<script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
 <!-- Make sure you start at the top of the page -->
 <script>
-  window.addEventListener('load', function () {
-    window.scrollTo(0, 0);
-  });
+	window.addEventListener('load', function () {
+		window.scrollTo(0, 0);
+	});
 </script>
 </body>
 </html>

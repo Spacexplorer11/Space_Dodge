@@ -41,6 +41,7 @@ body {
     justify-content: center;
     gap: 2vmin;
     padding-left: 2vmin; /* optional: space from the left edge */
+    position: relative; /* This allows absolute positioning of children (back arrow) */
 }
 
 /* Footer styles */
@@ -171,19 +172,9 @@ li {
     height: 5vmin;
     margin: 2vh;
     cursor: pointer;
-
-}
-
-/* Arrow button styles */
-#arrow_button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
     position: absolute;
     top: 2vmin;
     left: 2vmin;
-    z-index: 10;
 }
 
 /* Github logo styles */
@@ -199,23 +190,22 @@ li {
 }
 
 
-/* Adjustments for mobile screens */
-@media (max-width: 600px) {
-    body {
-        flex-direction: column;
-        min-height: 100vmin;
-    }
+/* Mobile specific styling */
+body.mobile #container {
+    padding: 0;
+    margin: 0;
+}
 
-    #container {
-        flex: 1; /* Ensure container fills available space */
-        justify-content: flex-start; /* Start content from the top */
-    }
+body.mobile #header_row {
+    flex-direction: row; /* Stack items vertically on mobile */
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+}
 
-    #footer {
-        margin-top: auto; /* Push footer to the bottom */
-    }
-
-    #start_button {
-        margin-bottom: 10vh;  /* Push the start button up for spacing */
-    }
+body.mobile #header_row h1 {
+    margin-left: 3vh;
+    margin-top: 2vh; /* Add spacing if necessary */
+    text-align: left;
+    display: flex;
 }
