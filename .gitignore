@@ -243,3 +243,21 @@ fabric.properties
 
 **/highscore.pickle
 .idea
+
+# Ignore the generated site files (GitHub Pages will generate them)
+_site/
+
+# Jekyll cache
+.jekyll-cache/
+
+# Bundler config files
+.bundle/
+
+# Sass cache
+.sass-cache/
+
+# Ignore MacOS hidden files
+.DS_Store
+
+# Ignore Gemfile.lock for local environments
+Gemfile.lock

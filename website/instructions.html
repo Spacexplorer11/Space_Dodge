@@ -1,16 +1,22 @@
-<!DOCTYPE html>
+---
+title: Instructions
+---
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Instructions</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="main.js"></script>
 </head>
 <body>
 <div id="header">
+	{% include back_arrow.html %}
     <h1>Instructions to install</h1>
-    <h2>Please follow them step by step</h2>
+    <h2>Have fun in just six steps!</h2>
 </div>
 <div id="container">
+	{% include github.html %}
     <div id="content">
         <ol>
             <li>Download Python 3.13 or later from the official website: <a href="https://www.python.org/downloads/">Python
@@ -30,16 +36,12 @@
         </ol>
     </div>
 </div>
-<div id="footer">
-    <p id="footer_text">© 2025 <a href="https://github.com/spacexplorer11">Akaalroop Singh (Spacexplorer11)</a>. <br>
-            Space Dodge is licensed under the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU AGPL v3.0</a>.</p>
-    </div>
+{% include footer.html %}
 <!-- particles.js container -->
 <div id="particles-js"></div>
 <!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" ></script>
 <!-- stats.js lib --> <script src="https://threejs.org/examples/js/libs/stats.min.js" ></script>
-<script src="main.js"></script>
 <!-- Make sure you start at the top of the page -->
 <script>
   window.addEventListener('load', function () {
