@@ -36,9 +36,11 @@ jobs:
           '{contributors: $contributors, commit_count: $commits}' > website/stats/stats.json
 
     - name: Commit and push updated stats.json
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
+        git config user.name "Akaalroop Singh (Via Github Actions"
+        git config user.email "spacexplorer11@proton.me"
         git add website/stats/stats.json
-        git commit -m "Update stats.json" || echo "No changes to commit"
-        git push
+        git commit -S -m "Update stats.json" || echo "No changes to commit"
+        git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git
