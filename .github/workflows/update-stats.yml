@@ -35,12 +35,29 @@ jobs:
         jq -n --argjson contributors "$contributors" --argjson commits "$commit_count" \
           '{contributors: $contributors, commit_count: $commits}' > website/stats/stats.json
 
-    - name: Commit and push updated stats.json
+    - name: Commit changes to new branch and open PR
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git config user.name "Akaalroop Singh (GitHub Actions)"
         git config user.email "spacexplorer11@proton.me"
+
+        # Create a temporary branch
+        BRANCH_NAME="update-stats-$(date +%s)"
+        git checkout -b "$BRANCH_NAME"
+
+        # Commit the stats file
         git add website/stats/stats.json
-        git commit -m "Update stats.json (via GitHub Actions)" || echo "No changes to commit"
-        git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git
+        git commit -m "Update stats.json (via GitHub Actions)"
+
+        # Push to the new branch using the PAT
+        git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git "$BRANCH_NAME"
+
+        # Install GitHub CLI and create a PR
+        sudo apt-get install -y gh
+        echo "${GH_PAT}" | gh auth login --with-token
+        gh pr create --title "Update stats.json" --body "Automated update from GitHub Actions" --base main --head "$BRANCH_NAME"
+
+        # Approve, merge, and delete the branch
+        PR_URL=$(gh pr view "$BRANCH_NAME" --json url -q .url)
+        gh pr merge "$PR_URL" --squash --delete-branch --admin
