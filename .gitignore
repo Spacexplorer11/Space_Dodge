@@ -261,3 +261,6 @@ _site/
 
 # Ignore Gemfile.lock for local environments
 Gemfile.lock
+
+# Ignore the highscore file for the Space Dodge game
+/space_dodge/file_handling/highscores.pickle
