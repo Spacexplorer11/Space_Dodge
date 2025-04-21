@@ -44,16 +44,17 @@
 
 		// Redirect logic
 		const params = new URLSearchParams(window.location.search);
-		const allowedPages = ["contributors", "stats"]; // Whitelist of allowed pages
+		const allowedPages = {
+			"contributors": "/contributors.html",
+			"stats": "/stats.html"
+		}; // Whitelist of allowed pages with corresponding URLs
 		let from = params.get("from");
-		if (!allowedPages.includes(from)) {
-			from = "stats"; // Default page
-		}
+		const redirectUrl = allowedPages[from] || allowedPages["stats"]; // Default to "stats" if invalid
 
 	    // Auto-retry at UTC hour
 	    if (minutes === "00" && seconds === "00") {
 	      fetch("http://37.27.51.34:3004/stats")
-	        .then(res => res.ok && window.location.replace(`/${from}.html`))
+	        .then(res => res.ok && window.location.replace(redirectUrl))
 	        .catch(() => {});
 	    }
 	  }
