@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>This page is down</title>
+	<link href="styles.css" rel="stylesheet" type="text/css">
+	<script src="main.js"></script>
+</head>
+<body>
+<div id="container">
+
+	<div id="header">
+	<h1>Stats Unavailable</h1>
+		</div>
+	<div id="content">
+		<p>This page temporarily hit the GitHub API rate limit. The data should return soon.</p>
+
+		<div id="countdown">Hopefully it should be available soon…</div>
+
+		<div id="report-container">
+			<button id="report-button">Report this to the admin</button>
+		</div>
+	</div>
+
+	<script>
+	  const webhookUrl = "https://discord.com/api/webhooks/1363812397873106974/KgxBMz7bxDArK8IoGVCjm-Emp4orvG0rcSitbjZlI5Np4kA6gqpN5o2XferrfqsZk3JA";
+
+	  function updateCountdown() {
+	    const now = new Date();
+	    const nextHour = new Date(Date.UTC(
+	      now.getUTCFullYear(),
+	      now.getUTCMonth(),
+	      now.getUTCDate(),
+	      now.getUTCHours() + 1,
+	      0, 0
+	    ));
+
+	    const diff = nextHour - now;
+	    const minutes = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, "0");
+	    const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, "0");
+
+	    document.getElementById("countdown").textContent =
+			    `Hopefully it should be available in ${minutes}:${seconds}, thank you for your patience.`;
+
+		// Redirect logic
+		const params = new URLSearchParams(window.location.search);
+		const from = params.get("from") || "contributors";
+
+	    // Auto-retry at UTC hour
+	    if (minutes === "00" && seconds === "00") {
+	      fetch("http://37.27.51.34:3004/stats")
+	        .then(res => res.ok && window.location.replace(`/${from}.html`))
+	        .catch(() => {});
+	    }
+	  }
+
+	  setInterval(updateCountdown, 1000);
+	  updateCountdown();
+
+	  // Manual report button logic
+	  const button = document.getElementById("report-button");
+	  const container = document.getElementById("report-container");
+
+	  const now = new Date();
+	  const currentUtcHour = `${now.getUTCFullYear()}-${now.getUTCMonth()}-${now.getUTCDate()}-${now.getUTCHours()}`;
+	  const storageKey = "last-report-time";
+
+	  if (localStorage.getItem(storageKey) === currentUtcHour) {
+	    container.innerHTML = "<p>Already reported. Thank you!</p>";
+	  }
+
+	  button?.addEventListener("click", async () => {
+	    try {
+	      localStorage.setItem(storageKey, currentUtcHour);
+	      container.innerHTML = "<p>Reported! Thank you for helping.</p>";
+
+	      await fetch(webhookUrl, {
+	        method: "POST",
+	        headers: { "Content-Type": "application/json" },
+	        body: JSON.stringify({
+	          content: `<@1168126408808202273> \n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️\nYou have the hit rate limit on the GitHub api for this hour ( check the timestamp of this message ).\n** A user has reported this, please respond quickly. **\n<@1168126408808202273>\n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️`
+	        })
+	      });
+
+	    } catch (err) {
+	      container.innerHTML = "<p>Something went wrong, but we tried.</p>";
+	      console.error("Webhook failed", err);
+	    }
+	  });
+	</script>
+</div>
+{% include footer.html %}
+</body>
+</html>

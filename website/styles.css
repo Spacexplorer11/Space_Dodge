@@ -20,6 +20,7 @@ body {
     font-size: 4vh;
     display: flex;
     flex-direction: column;
+    color: white;
 }
 
 /* Header styles */
@@ -185,7 +186,7 @@ li {
     cursor: pointer;
     position: absolute;
     top: 2vmin;
-    right: 2vmin;
+    left: 2vmin;
     z-index: 10;
 }
 
@@ -208,4 +209,70 @@ body.mobile #header_row h1 {
     margin-top: 2vh; /* Add spacing if necessary */
     text-align: left;
     display: flex;
+}
+
+/* Contributor styles */
+#contributors {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 1em;
+}
+
+
+#contributors {
+    font-size: 5vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin: 5vmin
+}
+
+.contributor {
+    display: flex;
+    vertical-align: center;
+    align-items: center;
+    gap: 2vmin;
+    padding: 2vh;
+}
+
+.contributor img {
+    width: 10vmin;
+    height: 10vmin;
+}
+
+.contributor a {
+    color: white;
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.contributor span {
+    color: white;
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+/* Report button styles */
+#report-button {
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Countdown styles */
+#countdown {
+    font-size: 5vmin;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
 }

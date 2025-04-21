@@ -14,8 +14,7 @@ title: Home
 	<meta content="2575.5" name="CocoaVersion">
 </head>
 <body>
-<!-- particles.js container -->
-<div id="particles-js"></div>
+{% include particlesBg.html %}
 <div id="container">
 	{% include github.html %}
 	<div id="header">
@@ -38,13 +37,6 @@ title: Home
 	</div>
 </div>
 {% include footer.html %}
-<!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<!-- Make sure you start at the top of the page -->
-<script>
-	window.addEventListener('load', function () {
-		window.scrollTo(0, 0);
-	});
-</script>
+{% include startAtTop.html %}
 </body>
 </html>

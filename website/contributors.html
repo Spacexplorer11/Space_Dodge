@@ -1,0 +1,52 @@
+---
+title: Contributors
+---
+<script>
+  fetch("http://37.27.51.34:3004/stats")
+    .then(res => {
+      if (res.status === 403 || res.status === 429) {
+        // Send webhook first, then redirect
+        return fetch("https://discord.com/api/webhooks/1363490788243144765/LSk6A2k2H43nPbg74jcPJhPf0-eGS4zj96c_V_mE2y5ISKdB7KpJxS5_Rqv2y2VEmBqK", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: `<@1168126408808202273> \n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️\nYou have the hit rate limit on the GitHub API for this hour (check the timestamp of this message).\n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️`
+          })
+        }).finally(() => {
+          window.location.href = "/stats_down.html?from=contributors";
+        });
+      } else {
+        return res.json();
+      }
+    })
+    .then(data => {
+      if (!data) return;
+      fetchRepoStats(); // manually call your normal logic
+    })
+    .catch(() => {
+      window.location.href = "/stats_down.html?from=contributors";
+    });
+</script>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Contributors</title>
+	<link href="styles.css" rel="stylesheet" type="text/css">
+	<script src="main.js"></script>
+</head>
+<body>
+  <div id="header">
+	  <h1>Contributors</h1>
+	  <h2>Space Dodge is a collaborative project.</h2>
+	  <h2>This page is to thank our contributors!<br><br></h2>
+	  <h3>Contributors:</h3>
+  </div>
+  <div class="stats">
+	<div id="contributors"></div>
+  </div>
+  <div id="rate-limit-notice" style="margin-top: 20px; color: orange;"></div>
+</body>
+{% include footer.html %}
+{% include particlesBg.html %}
+{% include startAtTop.html %}
+</html>

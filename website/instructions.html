@@ -10,11 +10,9 @@ title: Instructions
 	<script src="main.js"></script>
 </head>
 <body>
+{% include particlesBg.html %}
 <div id="header">
-	<div id="header_row">
-		{% include back_arrow.html %}
-		<h1>Instructions to install</h1>
-	</div>
+	<h1>Instructions to install</h1>
 	<h2>Have fun in just six steps!</h2>
 </div>
 <div id="container">
@@ -39,17 +37,6 @@ title: Instructions
 	</div>
 </div>
 {% include footer.html %}
-<!-- particles.js container -->
-<div id="particles-js"></div>
-<!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<!-- stats.js lib -->
-<script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
-<!-- Make sure you start at the top of the page -->
-<script>
-	window.addEventListener('load', function () {
-		window.scrollTo(0, 0);
-	});
-</script>
+{% include startAtTop.html %}
 </body>
 </html>
