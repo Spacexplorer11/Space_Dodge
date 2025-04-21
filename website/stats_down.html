@@ -44,7 +44,11 @@
 
 		// Redirect logic
 		const params = new URLSearchParams(window.location.search);
-		const from = params.get("from") || "contributors";
+		const allowedPages = ["contributors", "stats"]; // Whitelist of allowed pages
+		let from = params.get("from");
+		if (!allowedPages.includes(from)) {
+			from = "stats"; // Default page
+		}
 
 	    // Auto-retry at UTC hour
 	    if (minutes === "00" && seconds === "00") {
