@@ -14,13 +14,19 @@ body {
 }
 
 /* Container styles */
-#container {
+.container {
     flex: 1;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 4vh;
     display: flex;
     flex-direction: column;
     color: white;
+    margin-left: 2vw;
+}
+
+.container.active_menu {
+    margin-right: 23vw;
+    transition: margin-right 0.3s ease-in-out;
 }
 
 /* Header styles */
@@ -52,6 +58,8 @@ body {
     padding: 5px;
     text-align: center;
     margin-top: auto;
+    z-index: 1000;
+    position: relative;
 }
 
 #footer_text {
@@ -76,8 +84,18 @@ p:hover em {
     text-decoration-style: wavy;
 }
 
+p:hover strong{
+    color: mediumpurple;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+}
+
 /* Anchor styles */
 a {
+    cursor: pointer;
+}
+
+a img {
     cursor: pointer;
 }
 
@@ -141,6 +159,8 @@ button:hover {
     height: 50vh;
 }
 
+/* Particle.js styles */
+
 #particles-js {
 	position: fixed;
 	top: 0;
@@ -151,6 +171,8 @@ button:hover {
 	pointer-events: none; /* So clicks pass through */
 }
 
+/* Canvas styles */
+
 canvas {
 	display: block;
 	position: absolute;
@@ -158,13 +180,19 @@ canvas {
 	left: 0;
 }
 
-/* Ordered list styles */
+/* List element styles */
 li {
     list-style-type: decimal;
     margin-left: 10%;
     margin-right: 10%;
     color: white;
     margin-bottom: 2vh;
+}
+
+li:hover strong{
+    color: mediumpurple;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
 }
 
 /* Back arrow styles */
@@ -192,7 +220,7 @@ li {
 
 
 /* Mobile specific styling */
-body.mobile #container {
+body.mobile .container {
     padding: 0;
     margin: 0;
 }
@@ -275,4 +303,97 @@ body.mobile #header_row h1 {
     color: white;
     text-align: center;
     margin-top: 20px;
+}
+
+/* Report container styles */
+#report-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Rate limit notice styles */
+#rate-limit-notice {
+    font-size: 2vmin;
+    text-align: center;
+    margin-top: 20px;
+    color: orange;
+}
+
+/* 🍔 Hamburger menu */
+
+/* 🍔 Hamburger base */
+#hamburger-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1001;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* 🍔 Slide-in menu */
+.hamburger-menu {
+  position: fixed;
+  top: 0;
+  right: -22vw;
+  width: 20vw;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  z-index: 200;
+  transition: right 0.3s ease-in-out;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.hamburger-menu nav {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ✅ Active state */
+.hamburger-menu.active {
+  right: 0;
+  transition: right 0.3s ease-in-out;
+}
+
+/* 🔥 Highlight current page */
+.hamburger-menu a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.hamburger-menu a.active-link {
+  font-weight: bold;
+  color: #5865F2; /* Discord blurple 💜 */
+}
+
+.hamburger-menu a.active-link::before {
+  content: '| ';
+  color: #5865F2;
+}
+
+/* Loading message styles */
+#loading-message {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 2em;
+  color: #888;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
 }
