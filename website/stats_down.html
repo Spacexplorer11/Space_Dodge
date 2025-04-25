@@ -7,7 +7,7 @@
 	<script src="main.js"></script>
 </head>
 <body>
-<div id="container">
+<div class="container">
 
 	<div id="header">
 	<h1>Stats Unavailable</h1>
@@ -23,8 +23,7 @@
 	</div>
 
 	<script>
-	  const webhookUrl = "https://discord.com/api/webhooks/1363812397873106974/KgxBMz7bxDArK8IoGVCjm-Emp4orvG0rcSitbjZlI5Np4kA6gqpN5o2XferrfqsZk3JA";
-
+		// Function to send a secure report
 	  function updateCountdown() {
 	    const now = new Date();
 	    const nextHour = new Date(Date.UTC(
@@ -44,16 +43,20 @@
 
 		// Redirect logic
 		const params = new URLSearchParams(window.location.search);
-		const allowedPages = ["contributors", "stats"]; // Whitelist of allowed pages
+		const allowedPages = {
+			"contributors": "contributors.html",
+			"stats": "stats.html"
+		}; // Whitelist of allowed pages with corresponding URLs
 		let from = params.get("from");
-		if (!allowedPages.includes(from)) {
-			from = "stats"; // Default page
-		}
+		const redirectUrl = allowedPages[from] || allowedPages["stats"]; // Default to "stats" if invalid
 
 	    // Auto-retry at UTC hour
 	    if (minutes === "00" && seconds === "00") {
-	      fetch("http://37.27.51.34:3004/stats")
-	        .then(res => res.ok && window.location.replace(`/${from}.html`))
+	      const tokenRes = fetch("https://proxy.spacexplorer11.hackclub.app/get-token");
+        const {token, timestamp} = tokenRes.json();
+
+    fetch(`https://proxy.spacexplorer11.hackclub.app/stats?token=${token}&timestamp=${timestamp}`)
+	        .then(res => res.ok && window.location.replace(redirectUrl))
 	        .catch(() => {});
 	    }
 	  }
@@ -78,18 +81,31 @@
 	      localStorage.setItem(storageKey, currentUtcHour);
 	      container.innerHTML = "<p>Reported! Thank you for helping.</p>";
 
-	      await fetch(webhookUrl, {
-	        method: "POST",
-	        headers: { "Content-Type": "application/json" },
-	        body: JSON.stringify({
-	          content: `<@1168126408808202273> \n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️\nYou have the hit rate limit on the GitHub api for this hour ( check the timestamp of this message ).\n** A user has reported this, please respond quickly. **\n<@1168126408808202273>\n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️`
-	        })
-	      });
+	      await sendSecureReport("user");
 
 	    } catch (err) {
 	      container.innerHTML = "<p>Something went wrong, but we tried.</p>";
 	      console.error("Webhook failed", err);
 	    }
+	  });
+
+	  window.addEventListener("DOMContentLoaded", () =>  {
+		if (areStatsAvailable()) {
+			// Redirect logic
+			const params = new URLSearchParams(window.location.search);
+			const allowedPages = {
+				"contributors": "contributors.html",
+				"stats": "stats.html"
+			}; // Whitelist of allowed pages with corresponding URLs
+			let from = params.get("from");
+			const redirectUrl = allowedPages[from] || allowedPages["contributors"]; // Default to "stats" if invalid
+			if (from in allowedPages) {
+				window.location.replace(redirectUrl)
+			}
+			else {
+				window.location.replace("index.html");
+			}
+		}
 	  });
 	</script>
 </div>
