@@ -35,7 +35,7 @@ function setupSSE() {
     console.log("Generated DEVICE_ID:", deviceId);
   }
 
-  // Attach it as a query-param so your Worker can read it
+  // Attach it as a query-param so the Worker can read it
   const url = new URL("https://github-backend.spacexplorer11.workers.dev/sse");
   url.searchParams.set("device_id", deviceId);
 
@@ -300,18 +300,6 @@ async function updateContributorsUI(data) {
 document.querySelectorAll('a').forEach(link => {
     link.setAttribute('target', '_blank');
 });
-
-// Sends a report to the server with the specified type
-async function sendSecureReport(type) {
-  const tokenRes = await fetch(`https://proxy.spacexplorer11.hackclub.app/get-secure-token/${type}`);
-  const { token } = await tokenRes.json();
-
-  await fetch("https://proxy.spacexplorer11.hackclub.app/proxy-discord", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token })
-  });
-}
 
 // === 🍔 Hamburger Menu (Main.js) ===
 
