@@ -2,6 +2,14 @@
 
 A game where you dodge bullets that are coming down from the top of the screen. It is available on Windows, Mac & Linux.
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/spacexplorer11/Space_Dodge/total?color=%23A97BFF)  
+![GitHub Closed Issues](https://img.shields.io/github/issues-closed/spacexplorer11/Space_Dodge?color="blue")  
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/spacexplorer11/Space_Dodge?color="red")
+
+
+  
+  
+
 ## Description
 
 This is just a pygame project which I followed a [YouTube tutorial](https://www.youtube.com/watch?v=waY3LfJhQLY) to
