@@ -270,6 +270,9 @@ async function updateContributorsUI(data) {
     withPct.sort((a,b) => b.percent - a.percent)[0].percent += diff;
   }
 
+  // sort contributors by percent descending
+  withPct.sort((a, b) => b.percent - a.percent);
+
   // render
   withPct.forEach(c => {
     const login    = c.login || c.author?.login;
@@ -286,7 +289,7 @@ async function updateContributorsUI(data) {
       <a href="${profile}" target="_blank" style="margin-right:6px">
         ${login}
       </a>
-      <span>${c.percent}%</span>
+      <span>${c.percent}% (${contribs} commit${contribs !== 1 ? 's' : ''})</span>
     `;
     container.appendChild(div);
   });
