@@ -297,6 +297,13 @@ async function updateContributorsUI(data) {
   // hide loading, show container
   document.getElementById("loading-message").style.display = "none";
   container.style.display = "block";
+      const disclaimer = document.createElement("p");
+    disclaimer.className = "container";
+disclaimer.innerHTML = `Just a heads up: the commits listed above may not add up to the <a href="https://github.com/spacexplorer11/Space_Dodge">total commits</a> due to how GitHub tracks contributors — but it's still <a href="https://github.com/Spacexplorer11/Space_Dodge/graphs/contributors">super accurate!</a>`;
+disclaimer.style.marginTop = "1em";
+disclaimer.style.fontSize = "0.9em";
+disclaimer.style.opacity = "0.75";
+container.appendChild(disclaimer);
 }
 
 // Ensures all anchor links open in a new tab
