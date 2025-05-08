@@ -1,7 +1,60 @@
-let lastValidTimestamp = null;
-let pollingInterval = 10000; // default
-let intervalId;
-let lastContributorsJSON = null; // global to track previous data
+// Utility: simple UUID v4
+function generateUUID() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11)
+    .replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const page = window.location.pathname.split("/").pop();
+
+  // Only hydrate & start SSE from the real pages
+  if (page === "contributors.html" || page === "stats.html") {
+    const stored = localStorage.getItem("lastGithubPayload");
+    if (stored) {
+      try {
+        updateContributorsUI(JSON.parse(stored));
+      } catch (e) {
+        console.error("Could not parse stored payload:", e);
+      }
+    }
+    setupSSE();
+  }
+
+  highlightActiveMenu();
+  isMobile();
+});
+
+function setupSSE() {
+  // Persist deviceId in localStorage instead of a cookie
+  let deviceId = localStorage.getItem("DEVICE_ID");
+  if (!deviceId) {
+    deviceId = generateUUID();
+    localStorage.setItem("DEVICE_ID", deviceId);
+    console.log("Generated DEVICE_ID:", deviceId);
+  }
+
+  // Attach it as a query-param so your Worker can read it
+  const url = new URL("https://github-backend.spacexplorer11.workers.dev/sse");
+  url.searchParams.set("device_id", deviceId);
+
+  const sse = new EventSource(url.toString());
+  sse.onopen = () => console.log("SSE opened");
+  sse.onerror = err => console.error("SSE error:", err);
+
+  sse.onmessage = e => {
+    let payload;
+    try {
+      payload = JSON.parse(e.data);
+    } catch {
+      console.warn("Non-JSON event:", e.data);
+      return;
+    }
+    localStorage.setItem("lastGithubPayload", e.data);
+    updateContributorsUI(payload);
+  };
+}
 
 // Particle.js initialization and dynamic adjustment based on screen size
 function setupParticles() {
@@ -174,172 +227,73 @@ function backToStart() {
     window.location.href = "index.html";
 }
 
-async function fetchRepoStats() {
-    try {
-        if (document.getElementById("contributors").innerHTML === "") {
-              document.getElementById("loading-message").style.display = "block";
-              document.getElementById("contributors").style.display = "none";
-        }
-        const tokenRes = await fetch("https://proxy.spacexplorer11.hackclub.app/get-token");
-        const {token, timestamp} = await tokenRes.json();
+async function updateContributorsUI(data) {
+  // 1) use the same key your Worker is emitting
+  const commitCount = data.commit_count;
+  const contributors = data.contributors;
 
-        const response = await fetch(`https://proxy.spacexplorer11.hackclub.app/stats?token=${token}&timestamp=${timestamp}`);
-        if (response.ok) {
-            lastValidTimestamp = Date.now();
-             // ✅ Clear the notice if it was shown previously
-              const notice = document.getElementById("rate-limit-notice");
-              if (notice) {
-                notice.textContent = "";
-              }
-        }
+  // 2) update the count display
+  const commitDisplay = document.getElementById("commit-count");
+  if (commitDisplay) {
+    commitDisplay.textContent = commitCount;
+  }
 
-        const data = await response.json();
+  // 3) bail if no container
+  const container = document.getElementById("contributors");
+  if (!container) return;
 
-        // Extract the commit count and contributors from the JSON
-        const commitCount = data.commit_count;
-        const contributors = data.contributors;
+  // 4) clear out old rows so we never double‐append
+  container.innerHTML = "";
 
-        // Check if the commit count element exists before updating
-        const commitDisplay = document.getElementById("commit-count");
-        if (commitDisplay) {
-            commitDisplay.textContent = commitCount;
-        } else {
-            console.warn("commit-count element not found.");
-        }
+  // 5) the rest of your logic is unchanged
+  const validContributors = (contributors || []).filter(c =>
+    (c.contributions ?? c.total) != null &&
+    (c.login || c.author?.login)
+  );
 
-        // Check if the contributor container exists before updating
-        const contributorContainer = document.getElementById("contributors");
-        if (contributorContainer) {
-            let validContributors = contributors.filter(c =>
-                (c.contributions ?? c.total) != null &&
-                (c.login || c.author?.login)
-            );
+  const totalContribs = validContributors.reduce(
+    (sum, c) => sum + (c.contributions ?? c.total), 0
+  );
 
-            // Now recalculate commit count just from valid contributors
-            const validCommitCount = validContributors.reduce((sum, c) =>
-                sum + (c.contributions ?? c.total), 0
-            );
-
-            let contributorsWithPercent = validContributors
-                .map(c => {
-                    const contribs = c.contributions ?? c.total;
-                    const percent = validCommitCount > 0
-                        ? Math.round((contribs / validCommitCount) * 1000) / 10
-                        : 0;
-                    return {
-                        ...c,
-                        percent: isNaN(percent) ? 0 : percent
-                    };
-                });
-
-            // Adjust to make sure total = 100%
-            let totalPercent = contributorsWithPercent.reduce((sum, c) => sum + c.percent, 0);
-            const diff = Math.round((100 - totalPercent) * 10) / 10;
-
-            if (diff !== 0) {
-                const largestContributor = contributorsWithPercent.reduce((max, c) =>
-                    c.percent > max.percent ? c : max, contributorsWithPercent[0]
-                );
-
-                largestContributor.percent += diff;
-
-                // Ensure the percentages are recalculated and valid
-                contributorsWithPercent = contributorsWithPercent
-                    .filter(c =>
-                        (c.contributions ?? c.total) &&
-                        (c.login || c.author?.login) &&
-                        (c.avatar_url || c.author?.avatar_url) &&
-                        (c.html_url || c.author?.html_url)
-                    )
-                    .map(c => ({
-                        login: c.login || c.author?.login,
-                        html_url: c.html_url || c.author?.html_url,
-                        avatar_url: c.avatar_url || c.author?.avatar_url,
-                        contributions: c.contributions ?? c.total,
-                        percent: c.percent
-                    }));
-            }
-
-            // Compare contributorsWithPercent JSON to lastContributorsJSON to avoid flashing
-            const contributorsWithPercentJSON = JSON.stringify(contributorsWithPercent);
-            if (contributorsWithPercentJSON === lastContributorsJSON) {
-                console.log("No change in data — skipping update.");
-                document.getElementById("loading-message").style.display = "none";
-                document.getElementById("contributors").style.display = "block";
-                return;
-            }
-            lastContributorsJSON = contributorsWithPercentJSON; // cache the new value
-
-            contributorsWithPercent.forEach(c => {
-                const login = c.login || c.author?.login;
-                const avatar = c.avatar_url || c.author?.avatar_url;
-                const profile = c.html_url || c.author?.html_url;
-                const contributions = c.contributions ?? c.total;
-
-                if (login && avatar && profile && contributions != null && !isNaN(c.percent)) {
-                    const div = document.createElement("div");
-                    div.className = "contributor";
-
-                    const img = document.createElement("img");
-                    img.src = avatar;
-                    img.alt = login;
-                    img.width = 32;
-                    img.height = 32;
-                    img.style.borderRadius = "50%";
-                    img.style.marginRight = "8px";
-
-                    const name = document.createElement("a");
-                    name.href = profile;
-                    name.textContent = login;
-                    name.style.marginRight = "6px";
-                    name.target = "_blank";
-
-                    const perc = document.createElement("span");
-                    perc.textContent = `${c.percent}%`;
-
-                    div.appendChild(img);
-                    div.appendChild(name);
-                    div.appendChild(perc);
-                    document.getElementById("loading-message").style.display = "none";
-                    document.getElementById("contributors").style.display = "block";
-                    contributorContainer.appendChild(div);
-                }
-            });
-        }
-    else
-        {
-            console.warn("contributors element not found.");
-        }
-    }
-    catch (error) {
-        if (lastValidTimestamp) {
-            displayRateLimitNotice(lastValidTimestamp); // ✅ Show fallback
-            return; // ⛔ Don’t clear anything
-        }
-        const loading_message = document.getElementById("loading-message");
-        loading_message.style.display = "none";
-        console.error("Failed to fetch GitHub stats:", error);
-            }
-}
-
-function displayRateLimitNotice(timestamp) {
-  const notice = document.getElementById("rate-limit-notice");
-  const date = new Date(timestamp);
-
-  const locale = navigator.language || "en-GB"; // use British or user's local style
-  const formatted = date.toLocaleString(locale, {
-    timeZone: "UTC",
-    hour: "2-digit",
-    minute: "2-digit",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour12: false
+  let withPct = validContributors.map(c => {
+    const contribs = c.contributions ?? c.total;
+    const pct = totalContribs > 0
+      ? Math.round((contribs/totalContribs)*1000)/10
+      : 0;
+    return { ...c, percent: isNaN(pct) ? 0 : pct };
   });
 
-  if (notice) {
-    notice.textContent = `Note: This data is from ${formatted} UTC due to temporary API limits.`;
+  // adjust to exactly 100%
+  let sumPct = withPct.reduce((s, c) => s + c.percent, 0);
+  const diff = Math.round((100 - sumPct)*10)/10;
+  if (diff !== 0 && withPct.length) {
+    withPct.sort((a,b) => b.percent - a.percent)[0].percent += diff;
   }
+
+  // render
+  withPct.forEach(c => {
+    const login    = c.login || c.author?.login;
+    const avatar   = c.avatar_url || c.author?.avatar_url;
+    const profile  = c.html_url   || c.author?.html_url;
+    const contribs = c.contributions ?? c.total;
+    if (!login||!avatar||!profile||contribs==null) return;
+
+    const div = document.createElement("div");
+    div.className = "contributor";
+    div.innerHTML = `
+      <img src="${avatar}" alt="${login}" width="32" height="32"
+           style="border-radius:50%;margin-right:8px">
+      <a href="${profile}" target="_blank" style="margin-right:6px">
+        ${login}
+      </a>
+      <span>${c.percent}%</span>
+    `;
+    container.appendChild(div);
+  });
+
+  // hide loading, show container
+  document.getElementById("loading-message").style.display = "none";
+  container.style.display = "block";
 }
 
 // Ensures all anchor links open in a new tab
@@ -387,75 +341,3 @@ function highlightActiveMenu() {
     }
   });
 }
-
-// Simple fetch function which returns boolean, used for checking if stats are available
-async function areStatsAvailable() {
-  try {
-    const tokenRes = await fetch("https://proxy.spacexplorer11.hackclub.app/get-token");
-    const { token, timestamp } = await tokenRes.json();
-
-    const statsRes = await fetch(`https://proxy.spacexplorer11.hackclub.app/stats?token=${token}&timestamp=${timestamp}`);
-    return statsRes.ok;
-  } catch (err) {
-    console.error("Stats availability check failed:", err);
-    return false;
-  }
-}
-
-// Report Fingerprint
-async function reportFingerprint() {
-  const metadata = {
-    ua: navigator.userAgent,
-    screen: `${screen.width}x${screen.height}`,
-    platform: navigator.platform,
-    timestamp: Math.floor(Date.now() / 10000) * 10  // round to 10s
-  };
-
-// This data is automatically deleted after 5 minutes on the server
-  try {
-    await fetch("https://proxy.spacexplorer11.hackclub.app/log-fingerprint", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(metadata)
-    });
-  } catch (err) {
-    console.warn("Could not send fingerprint:", err);
-  }
-}
-
-// Automatic function to adjust the polling interval based on active users
-async function startPolling() {
-  try {
-    const res = await fetch("https://proxy.spacexplorer11.hackclub.app/active-users");
-    const { active } = await res.json();
-
-    // Adjust polling interval based on load
-    if ((active * 360) > 5000 ) {
-      pollingInterval = Math.max(10000, Math.round((active * 360) / 5000) * 1000);
-    }
-
-    console.log(`🛰️ Adjusted polling interval to ${pollingInterval}ms for ${active} users`);
-
-    // Get current UTC seconds
-    const now = new Date();
-    const seconds = now.getUTCSeconds();
-    const msUntilNextTick = (10 - (seconds % 10)) * 1000;
-
-    console.log(`🕒 Waiting ${msUntilNextTick}ms to sync with UTC tick...`);
-
-    // Delay until next UTC 10s mark
-    setTimeout(() => {
-      fetchRepoStats(); // initial call
-      intervalId = setInterval(fetchRepoStats, pollingInterval);
-    }, msUntilNextTick);
-  } catch (err) {
-    console.warn("Could not fetch active user count:", err);
-  }
-}
-
-// Run this on load
-window.addEventListener("DOMContentLoaded", () => {
-  highlightActiveMenu();
-  isMobile();
-  startPolling();
-});

@@ -3,59 +3,48 @@ title: Privacy Policy
 ---
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Privacy Policy</title>
-	<link rel="stylesheet" href="styles.css">
-	<script src="main.js"></script>
+  <meta charset="UTF-8">
+  <title>Privacy Policy</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js"></script>
 </head>
 <body>
 {% include particlesBg.html %}
 {% include github.html %}
 {% include hamburgerMenu.html %}
 <div class="container">
-	<div id="header">
-<h2>Privacy Policy</h2>
-		</div>
-<div id="content">
-<p>
-This website collects <strong>minimal, anonymous data</strong> to help prevent abuse and manage server load.
-</p>
+  <div id="header">
+    <h1>Privacy Policy</h1>
+  </div>
+  <div id="content">
+    <p>
+      This website collects <strong>nothing</strong> from you. It is a static site that does not require any personal information to function.
+    </p>
 
-<h3>What is collected</h3>
-<ul>
-  <li>Your browser’s <strong>User-Agent</strong> (e.g. browser + device type)</li>
-  <li>Your <strong>IP address</strong> (used only for anti-spam detection)</li>
-  <li>The time you visited certain pages</li>
-</ul>
+    <h3>Your privacy is our top priority</h3>
+    <ul>
+      <li>This site does <strong>not</strong> use tracking cookies for analytics or advertising.</li>
+      <li>We do <strong>not</strong> collect any personal information (like your name, email, etc.).</li>
+      <li>There are <strong>no ads</strong> or third-party analytics services watching you.</li>
+      <li>We use <strong>localStorage</strong> to temporarily save non-personal data (your GitHub stats) to improve performance. This data never leaves your device.</li>
+      <li>We set a single cookie named <code>DEVICE_ID</code> (<em>Max-Age: 1 year</em>) to prevent automated abuse of our live-update (SSE) endpoint. The cookie is:
+        <ul>
+          <li>Strictly non-personal (randomly generated value).</li>
+          <li>Used only for rate-limiting connections to the server.</li>
+          <li>Not shared with any third parties.</li>
+        </ul>
+      </li>
+    </ul>
 
-<h3>Why?</h3>
-<p>
-To detect spam or abuse (like bots hitting the site too often), and to balance traffic so things don’t break.
-</p>
-
-<h3>Your Privacy is Respected</h3>
-<ul>
-  <li>This site does <strong>not</strong> use tracking cookies.</li>
-  <li>We do <strong>not</strong> collect any personal information (like your name, email, etc.).</li>
-  <li>There are <strong>no ads</strong> or third-party analytics services watching you.</li>
-  <li>However, we use local storage to temporarily save non-personal data like our GitHub stats to improve performance.
-	  This data never leaves your device and is deleted when you close the tab.</li>
-</ul>
-
-<h3>Security</h3>
-<p>
-Your data is not shared with anyone and is only stored in temporary memory on our server. It is <strong>never</strong> logged permanently.
-	However, if we detect abuse through our systems, your IP may be stored to allow us to block you from using our services.
-	This is only in extreme situations, and we will not share this information with anyone.
-</p>
-
-<h3>Questions?</h3>
-<p>
-Contact me at <code><a href="mailto:spacexplorer11@proton.me">spacexplorer11@proton.me</a></code> if you have any questions!
-</p>
+    <h3>Questions?</h3>
+    <p>
+      Contact me at
+      <code><a href="mailto:spacexplorer11@proton.me">spacexplorer11@proton.me</a></code>
+      if you have any questions!
+    </p>
+  </div>
 </div>
-</div>
-</body>
 {% include footer.html %}
 {% include startAtTop.html %}
+</body>
 </html>
