@@ -45,6 +45,10 @@ canvas {
     flex: 1;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 4vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin-left: 2vw;
 }
 
 .container.active_menu {
@@ -52,6 +56,27 @@ canvas {
     transition: margin-right 0.3s ease-in-out;
 }
 
+.container a:hover{
+    color: lightgreen;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+}
+
+.container a {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+}
+
+/* Content styles */
+#content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    color: white;
+}
 /* Contributor styles */
 #contributors {
     display: flex;
@@ -322,6 +347,7 @@ p:hover strong {
     text-decoration-line: underline;
     text-decoration-style: wavy;
 }
+
 
 /* Particle.js styles */
 #particles-js {
