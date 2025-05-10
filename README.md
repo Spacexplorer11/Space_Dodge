@@ -28,11 +28,10 @@ The instructions to play the game are in-game.
 
 > [!Important]
 > If you are on windows, please run `python` on its own in the terminal/command prompt and install python from the microsoft store as well
-2. Download the zip file from the main page of the repository. [Click the green `Code` button and click
-   `Download Zip`](https://github.com/Spacexplorer11/Space_Dodge/archive/refs/heads/main.zip)
+2. Download the latest release [here](https://github.com/spacexplorer11/Space_Dodge/releases/latest/download/Space_Dodge.zip)
 3. Extract/unzip the file to a desired location.
 4. Navigate to the folder where you extracted the files. Find main.py ( it is inside Space_Dodge-main/space_dodge/ )
->[!Important]
+>[!Note]
 > The script will automatically create a venv (virtual environment) in the same folder as the main.py file.
 > This avoids breaking system Python or relying on global packages.
 5. Right click it and open with python (launcher) not IDLE or run the command `python main.py` or `python3 main.py` (depending on your OS) to start the game.
@@ -44,7 +43,7 @@ The instructions to play the game are in-game.
 You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issues/new?template=help_wanted.yml) and make sure to upload the mylog.log file if available. Make sure to upload screenshots or screen recordings of **any** errors. Thanks!
 > [!Tip]
 > If you can't find the mylog.log file, then
-> you should try opening the `main.py` file in the default `IDLE` ( right click `main.py` and open with python IDLE ), and provide a screenshot of the error message when
+> you should try opening the `main.py` file in the default `IDLE` (right click `main.py` and open with python IDLE), and provide a screenshot of the error message when
 > you run it in the `IDLE`, as this will severely help me solve the issue faster.
 
 ## Credits
