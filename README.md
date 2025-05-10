@@ -30,7 +30,7 @@ The instructions to play the game are in-game.
 > If you are on windows, please run `python` on its own in the terminal/command prompt and install python from the microsoft store as well
 2. Download the latest release [here](https://github.com/spacexplorer11/Space_Dodge/releases/latest/download/Space_Dodge.zip)
 3. Extract/unzip the file to a desired location.
-4. Navigate to the folder where you extracted the files. Find main.py ( it is inside Space_Dodge-main/space_dodge/ )
+4. Navigate to the folder where you extracted the files. Find main.py (it is inside the space_dodge folder)
 >[!Note]
 > The script will automatically create a venv (virtual environment) in the same folder as the main.py file.
 > This avoids breaking system Python or relying on global packages.
@@ -72,8 +72,6 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 ## FAQ
 - Q: Why does the game freeze when I drag the window?
 - A: Unfortunately, this is an **operating system bug** which pauses the main thread when you drag the window, causing the game to freeze.
-- Q: Do you/will you ever support Linux?
-- A: We do support Linux, **however** at the moment there are no installation instructions, I will add these soon.
 
 ## How to contribute
 
@@ -83,7 +81,7 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
 - If you need help opening a pull request, please follow [this link](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) or watch [this video](https://www.youtube.com/watch?v=nCKdihvneS0).
 >[!Important]
 >All commits need to be **signed & verified**  
->This is automatically done when using Github Web  
+>This is automatically done when using Github Web/Github Codespaces  
 >However, in your editor you may need to do extra steps  
 >You can follow this guide for your IDE:  
 > - [Pycharm](https://www.jetbrains.com/help/pycharm/2024.3/set-up-GPG-commit-signing.html?Set_up_GPG_commit_signing=&keymap=macOS#enable-commit-signing)  
