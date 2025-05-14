@@ -298,7 +298,7 @@ async function updateContributorsUI(data) {
   document.getElementById("loading-message").style.display = "none";
   container.style.display = "block";
       const disclaimer = document.createElement("p");
-    disclaimer.className = "container";
+    disclaimer.id = "disclaimer";
 disclaimer.innerHTML = `Just a heads up: the commits listed above may not add up to the <a href="https://github.com/spacexplorer11/Space_Dodge">total commits</a> due to how GitHub tracks contributors — but it's still <a href="https://github.com/Spacexplorer11/Space_Dodge/graphs/contributors">super accurate!</a>`;
 disclaimer.style.marginTop = "1em";
 disclaimer.style.fontSize = "0.9em";
@@ -316,18 +316,18 @@ document.querySelectorAll('a').forEach(link => {
 // Toggle menu state
 function toggleMenu() {
     const menu = document.getElementById("hamburger-menu");
-    const containers = document.querySelectorAll(".container");
+    const container = document.getElementById("content");
 
     menu.classList.toggle("active");
 
-    containers.forEach(container => {
+    if (container) {
         container.classList.toggle("active_menu"); // Match the CSS class
-    });
+    }
 }
 
 // Set active marker based on current page
 function highlightActiveMenu() {
-  const links = document.querySelectorAll(".hamburger-menu a");
+  const links = document.querySelectorAll("#hamburger-menu a");
   const currentPage = window.location.pathname.split("/").pop();
 
   links.forEach(link => {
