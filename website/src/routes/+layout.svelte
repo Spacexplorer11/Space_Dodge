@@ -4,7 +4,6 @@
 	import { afterNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { menuOpen } from '$lib/stores/menu.js';
-	export const prerender = true;
 
 	// Set active marker based on current page
 function highlightActiveMenu() {
