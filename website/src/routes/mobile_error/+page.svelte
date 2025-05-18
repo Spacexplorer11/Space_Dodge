@@ -1,18 +1,6 @@
----
-title: Mobile Error
----
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Unavailable on your device</title>
-	<link href="styles.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<script src="main.js"></script>
 <div id="container">
 	<div id="warning_header">
 		<div id="header">
-			{% include back_arrow.html %}
 			<h1> Unavailable on your device</h1>
 		</div>
 		<h2>Space Dodge is <b>not available</b> on mobile devices.</h2>
@@ -21,7 +9,3 @@ title: Mobile Error
 		     src="https://cdn.pixabay.com/photo/2012/04/24/12/29/no-symbol-39767_1280.png">
 	</div>
 </div>
-{% include footer.html %}
-{% include startAtTop.html %}
-</body>
-</html>

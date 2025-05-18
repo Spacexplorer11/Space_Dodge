@@ -1,18 +1,4 @@
----
-title: Privacy Policy
----
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Privacy Policy</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="main.js"></script>
-</head>
-<body>
-{% include particlesBg.html %}
-{% include github.html %}
 <div id="container">
-	{% include hamburgerMenu.html %}
   <div id="header">
     <h1>Privacy Policy</h1>
   </div>
@@ -43,7 +29,3 @@ title: Privacy Policy
     </p>
   </div>
 </div>
-{% include footer.html %}
-{% include startAtTop.html %}
-</body>
-</html>

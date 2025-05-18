@@ -1,23 +1,8 @@
----
-title: Instructions
----
-
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Instructions</title>
-	<link href="styles.css" rel="stylesheet" type="text/css">
-	<script src="main.js"></script>
-</head>
-<body>
-{% include particlesBg.html %}
+<div id="container">
 <div id="header">
 	<h1>Instructions to install</h1>
 	<h2>Have fun in just seven steps!</h2>
 </div>
-<div id="container">
-	{% include github.html %}
-	{% include hamburgerMenu.html %}
 	<div id="content">
 		<ol>
 			<li>Download Python 3.13 or later from the official website: <a href="https://www.python.org/downloads/">Python
@@ -39,7 +24,3 @@ title: Instructions
 		</ol>
 	</div>
 </div>
-{% include footer.html %}
-{% include startAtTop.html %}
-</body>
-</html>

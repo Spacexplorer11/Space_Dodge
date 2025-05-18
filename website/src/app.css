@@ -24,6 +24,7 @@ button {
     border: none;
     font-size: larger;
     padding: 0;
+    cursor: pointer;
 }
 
 button:hover {
@@ -49,11 +50,11 @@ canvas {
     flex-direction: column;
     color: white;
     margin-left: 2vw;
+    transition: margin-right 0.3s ease;
 }
 
 #container.active_menu {
     margin-right: 23vw;
-    transition: margin-right 0.3s ease-in-out;
 }
 
 #container a:hover{
@@ -239,7 +240,7 @@ body.mobile #header_row h1 {
 #hamburger-menu {
     position: fixed;
     top: 0;
-    right: -22vw;
+    right: -23vw;
     width: 20vw;
     height: 100%;
     background: rgba(0, 0, 0, 0.9);
@@ -260,7 +261,6 @@ body.mobile #header_row h1 {
 /* ✅ Active state */
 #hamburger-menu.active {
     right: 0;
-    transition: right 0.3s ease-in-out;
 }
 
 /* 🔥 Highlight current page */
@@ -268,7 +268,7 @@ body.mobile #header_row h1 {
     text-decoration: none;
     color: white;
     font-size: 1.1rem;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
 }
 
 #hamburger-menu a.active-link {
