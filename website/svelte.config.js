@@ -1,10 +1,10 @@
 import adapter from '@sveltejs/adapter-static';
-
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-	kit: {
-      adapter: adapter()
+import * as process from ".svelte-kit/ambient.js";
+export default {
+  kit: {
+    adapter: adapter(),
+    paths: {
+      base: process.env.NODE_ENV === "production" ? "/Space_Dodge" : "",
     }
-};
-
-export default config;
+  }
+}
