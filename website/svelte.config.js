@@ -1,5 +1,4 @@
 import adapter from '@sveltejs/adapter-static';
-import * as process from ".svelte-kit/ambient.js";
 export default {
   kit: {
     adapter: adapter(),
