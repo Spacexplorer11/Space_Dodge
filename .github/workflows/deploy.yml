@@ -9,6 +9,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: read    # required by deploy-pages@v4
 
 jobs:
   deploy:
@@ -19,10 +20,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4                      # updated to v4 :contentReference[oaicite:5]{index=5}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4                   # updated to v4 :contentReference[oaicite:6]{index=6}
         with:
           node-version: '18'
 
@@ -35,13 +36,13 @@ jobs:
         run: npm run build
 
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v5               # updated to v5 :contentReference[oaicite:7]{index=7}
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3        # updated to v3 :contentReference[oaicite:8]{index=8}
         with:
           path: website/build
 
       - name: Deploy to GitHub Pages
         id: deploy-pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4                 # updated to v4 :contentReference[oaicite:9]{index=9}
