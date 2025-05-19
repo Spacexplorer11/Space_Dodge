@@ -4,6 +4,8 @@
 	import { afterNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { menuOpen } from '$lib/stores/menu.js';
+	import Particles, { particlesInit } from '@tsparticles/svelte';
+    import { loadSlim } from '@tsparticles/slim';
 
 	// Set active marker based on current page
 function highlightActiveMenu() {
@@ -37,9 +39,6 @@ function highlightActiveMenu() {
 			updateLayout();
 		});
 	});
-import Particles, { particlesInit } from '@tsparticles/svelte';
-    //import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
-    import { loadSlim } from '@tsparticles/slim'; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 
     let particlesConfig = {
         particles: {
