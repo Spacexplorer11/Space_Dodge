@@ -2,6 +2,7 @@
 	import { goto } from "$app/navigation";
 		import { base } from "$app/paths";
 	import { onMount } from "svelte";
+	import { afterNavigate } from '$app/navigation';
 
 // Array of desktop and mobile OS types
 const Desktop = [
@@ -40,6 +41,10 @@ const Mobile = [
 onMount (() => {
 checkMobile()
 	});
+
+afterNavigate(() => {
+	checkMobile();
+});
 </script>
 <div id="container">
 <div id="header">
