@@ -1,5 +1,6 @@
 <script>
 	import { base } from '$app/paths';
+	import { goto } from "$app/navigation";
 	// Array of desktop and mobile OS types
 const Desktop = [
     "Windows",
@@ -27,12 +28,12 @@ const Mobile = [
 	function startGame() {
     const device = getDeviceInfo();
     if (Desktop.includes(device)) {
-        window.location.href = `${base}/instructions`;
+        goto(`${base}/instructions`);
     } else if (Mobile.includes(device)) {
-        window.location.href = `${base}/mobile_error`;
+        goto(`${base}/mobile_error`);
     } else {
         alert("Your OS is not supported.");
-        window.location.href = `${base}/mobile_error`;
+        goto(`${base}/mobile_error`);
     }
 }
 </script>
