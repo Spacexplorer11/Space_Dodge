@@ -1,3 +1,30 @@
+<script>
+	import {goto} from "$app/navigation";
+		import {base} from "$app/paths";
+
+	// Function to get the device information
+		function getDeviceInfo() {
+    const ua = navigator.userAgent;
+
+    if (/android/i.test(ua)) return "Android";
+    if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return "iOS";
+    if (/Macintosh/.test(ua)) return "macOS";
+    if (/Windows/.test(ua)) return "Windows";
+    if (/Linux/.test(ua)) return "Linux";
+
+    return "Unknown OS";
+}
+	// Navigates to game instructions or error page based on device
+	function startGame() {
+    const device = getDeviceInfo();
+	if (Mobile.includes(device)) {
+        goto(`${base}/mobile_error`);
+    } else if (!Desktop.includes(device)) {
+        alert("Your OS is not supported.");
+        goto(`${base}/mobile_error`);
+    }
+}
+</script>
 <div id="container">
 <div id="header">
 	<h1>Instructions to install</h1>

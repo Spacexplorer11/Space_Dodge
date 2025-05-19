@@ -37,9 +37,9 @@
 <div id="hamburger-menu">
   <nav>
     <a href="{base}/">Home</a>
+	  <a href="{base}/instructions">Instructions</a>
     <a href="{base}/contributors">Contributors</a>
   <!--  <a href="/stats">Stats</a> -->
-    <a href="{base}/instructions">Instructions</a>
   <!--  <a href="/about">About</a> -->
 	<a href="{base}/privacy_policy">Privacy Policy</a>
   </nav>
