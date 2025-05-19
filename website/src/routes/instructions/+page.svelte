@@ -1,6 +1,7 @@
 <script>
-	import {goto} from "$app/navigation";
-		import {base} from "$app/paths";
+	import { goto } from "$app/navigation";
+		import { base } from "$app/paths";
+	import { onMount } from "svelte";
 
 	// Function to get the device information
 		function getDeviceInfo() {
@@ -15,7 +16,7 @@
     return "Unknown OS";
 }
 	// Navigates to game instructions or error page based on device
-	function startGame() {
+	function checkMobile() {
     const device = getDeviceInfo();
 	if (Mobile.includes(device)) {
         goto(`${base}/mobile_error`);
@@ -24,6 +25,10 @@
         goto(`${base}/mobile_error`);
     }
 }
+
+onMount (() => {
+checkMobile()
+	});
 </script>
 <div id="container">
 <div id="header">
