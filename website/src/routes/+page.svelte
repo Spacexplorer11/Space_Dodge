@@ -1,6 +1,7 @@
 <script>
 	import { base } from '$app/paths';
 	import { goto } from "$app/navigation";
+
 	// Array of desktop and mobile OS types
 const Desktop = [
     "Windows",

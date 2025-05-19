@@ -3,6 +3,17 @@
 		import { base } from "$app/paths";
 	import { onMount } from "svelte";
 
+// Array of desktop and mobile OS types
+const Desktop = [
+    "Windows",
+    "macOS",
+    "Linux"
+]
+const Mobile = [
+    "Android",
+    "iOS"
+]
+
 	// Function to get the device information
 		function getDeviceInfo() {
     const ua = navigator.userAgent;
