@@ -7,17 +7,6 @@ a img {
     cursor: pointer;
 }
 
-/* Back arrow styles */
-#back_arrow {
-    width: 8vmin;
-    height: 5vmin;
-    margin: 2vh;
-    cursor: pointer;
-    position: absolute;
-    top: 2vmin;
-    left: 2vmin;
-}
-
 /* Button styles */
 button {
     background: transparent;
@@ -32,14 +21,6 @@ button:hover {
     border: none;
     font-size: larger;
     transform: scale(1.15);
-}
-
-/* Canvas styles */
-canvas {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 /* Container styles */
@@ -79,59 +60,6 @@ canvas {
     margin-bottom: 5vh;
     color: white;
 }
-/* Contributor styles */
-/* Contributor styles */
-#contributors {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 1em;
-}
-
-#contributors {
-    font-size: 5vmin;
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    margin: 5vmin;
-}
-
-.contributor {
-    display: flex;
-    vertical-align: center;
-    align-items: center;
-    gap: 2vmin;
-    padding: 2vh;
-}
-
-.contributor img {
-    width: 10vmin;
-    height: 10vmin;
-}
-
-.contributor a {
-    color: white;
-    text-decoration-line: underline;
-    text-decoration-style: dashed;
-    margin-top: 16px;
-    margin-bottom: 16px;
-}
-
-.contributor span {
-    color: white;
-    text-decoration-line: underline;
-    text-decoration-style: dashed;
-    margin-top: 16px;
-    margin-bottom: 16px;
-}
-
-/* Countdown styles */
-#countdown {
-    font-size: 5vmin;
-    color: white;
-    text-align: center;
-    margin-top: 20px;
-}
 
 /* Footer styles */
 #footer {
@@ -167,25 +95,6 @@ body {
     background-color: #000000;
 }
 
-body.mobile .container {
-    padding: 0;
-    margin: 0;
-}
-
-body.mobile #header_row {
-    flex-direction: row; /* Stack items vertically on mobile */
-    text-align: left;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-body.mobile #header_row h1 {
-    margin-left: 3vh;
-    margin-top: 2vh; /* Add spacing if necessary */
-    text-align: left;
-    display: flex;
-}
-
 /* Github logo styles */
 #github_logo {
     width: 5vmin;
@@ -209,16 +118,6 @@ body.mobile #header_row h1 {
 #header a {
     color: white;
     text-decoration: underline;
-}
-
-#header_row {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    gap: 2vmin;
-    padding-left: 2vmin; /* optional: space from the left edge */
-    position: relative; /* This allows absolute positioning of children (back arrow) */
 }
 
 /* 🍔 Hamburger menu */
@@ -296,41 +195,6 @@ li:hover strong {
     text-decoration-style: wavy;
 }
 
-/* Loading message styles */
-#loading-message {
-    text-align: center;
-    font-size: 1.2em;
-    margin-top: 2em;
-    color: #888;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
-
-/* Mobile specific styling */
-body.mobile #container {
-    padding: 0;
-    margin: 0;
-}
-
-body.mobile #header_row {
-    flex-direction: row; /* Stack items vertically on mobile */
-    text-align: left;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-body.mobile #header_row h1 {
-    margin-left: 3vh;
-    margin-top: 2vh; /* Add spacing if necessary */
-    text-align: left;
-    display: flex;
-}
-
 /* Paragraph styles */
 p {
     text-align: center;
@@ -353,37 +217,4 @@ p:hover strong {
     color: mediumpurple;
     text-decoration-line: underline;
     text-decoration-style: wavy;
-}
-
-/* Start button styles */
-.start_button {
-    display: flex;
-    width: 50vmin;
-    height: 40vmin;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.start_button:hover {
-    transform: scale(1.02) translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
-
-/* Warning header styles */
-#warning_header {
-    color: red;
-    text-align: center;
-    font-size: xx-large;
-    padding-left: 2px;
-}
-
-/* Warning symbol styles */
-#warning_symbol {
-    width: 80vw;
-    height: 50vh;
 }

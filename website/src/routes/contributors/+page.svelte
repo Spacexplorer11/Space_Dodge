@@ -33,3 +33,66 @@
   </div>
   </div>
 </div>
+<style>
+	/* Contributor styles */
+#contributors {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 1em;
+}
+
+#contributors {
+    font-size: 5vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin: 5vmin;
+}
+
+.contributor {
+    display: flex;
+    vertical-align: center;
+    align-items: center;
+    gap: 2vmin;
+    padding: 2vh;
+}
+
+.contributor img {
+    width: 10vmin;
+    height: 10vmin;
+}
+
+.contributor a {
+    color: white;
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.contributor span {
+    color: white;
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+/* Loading message styles */
+#loading-message {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 2em;
+    color: #888;
+    animation: pulse 2s infinite;
+}
+
+/* Pulse animation */
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+</style>

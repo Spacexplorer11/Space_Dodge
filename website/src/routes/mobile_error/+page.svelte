@@ -9,3 +9,18 @@
 		     src="https://cdn.pixabay.com/photo/2012/04/24/12/29/no-symbol-39767_1280.png">
 	</div>
 </div>
+<style>
+	/* Warning header styles */
+#warning_header {
+    color: red;
+    text-align: center;
+    font-size: xx-large;
+    padding-left: 2px;
+}
+
+/* Warning symbol styles */
+#warning_symbol {
+    width: 80vw;
+    height: 50vh;
+}
+</style>

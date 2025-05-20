@@ -57,3 +57,23 @@ const Mobile = [
 		</button>
 	</div>
 </div>
+<style>
+	/* Start button styles */
+.start_button {
+    display: flex;
+    width: 50vmin;
+    height: 40vmin;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.start_button:hover {
+    transform: scale(1.02) translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+</style>
