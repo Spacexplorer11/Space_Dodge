@@ -52,5 +52,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                     return True, mute
                 elif settingsButton.clicked():
                     pause, mute = settings_menu(mute)
+                    if pause is False:
+                        return False, mute
 
         pygame.display.update()

@@ -2,12 +2,12 @@ import pygame as p
 
 
 class Animation:
-    def __init__(self, x, y, frames, total_duration):
+    def __init__(self, x, y, frames, fps=30):
         self.x = x
         self.y = y
         self.frames = frames
-        self.total_duration = total_duration
-        self.frame_duration = total_duration * 1000 / len(frames)
+        self.total_duration = len(frames) / fps
+        self.frame_duration = self.total_duration * 1000 / len(frames)
         self.current_frame = 0
         self.time_accumulator = 0
         self.last_update_time = p.time.get_ticks()
