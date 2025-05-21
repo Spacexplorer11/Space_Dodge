@@ -75,6 +75,7 @@ function highlightActiveMenu() {
     });
 </script>
 
+<div id="font" class="space-grotesk">
 <Menu/>
 <Github_icon></Github_icon>
 {@render children()}
@@ -86,3 +87,4 @@ function highlightActiveMenu() {
 	on:particlesLoaded="{onParticlesLoaded}"
 />
 <Footer></Footer>
+	</div>
