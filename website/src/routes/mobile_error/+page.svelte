@@ -1,3 +1,7 @@
+<script>
+	import {base} from "$app/paths";
+</script>
+
 <div id="warning_header">
 	<div id="header">
 		<h1> Unavailable on your device</h1>
