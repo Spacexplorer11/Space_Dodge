@@ -1,7 +1,6 @@
 <script>
   import { contributorsWithPct } from '$lib/stores/repo_data.js';
 </script>
-<div id="container">
 <div id="header">
 	  <h1>Contributors</h1>
 	  <h2>Space Dodge is a collaborative project.</h2>
@@ -32,7 +31,6 @@
     </p>
   </div>
   </div>
-</div>
 <style>
 	/* Contributor styles */
 #contributors {

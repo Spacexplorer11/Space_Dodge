@@ -38,7 +38,6 @@ const Mobile = [
     }
 }
 </script>
-<div id="container">
 	<div id="header">
 		<h1>Space Dodge</h1>
 		<h2>by <a href="https://github.com/spacexplorer11">Akaalroop Singh</a>. <br><br></h2>
@@ -53,10 +52,9 @@ const Mobile = [
 		<button class="start_button" on:click={startGame}>
 			<img alt="Space Dodge Start Button"
 			     class="start_button"
-			     src="https://github.com/Spacexplorer11/Space_Dodge/blob/main/space_dodge/assets/start_button.png?raw=true">
+			     src="/start_button.png">
 		</button>
 	</div>
-</div>
 <style>
 	/* Start button styles */
 .start_button {

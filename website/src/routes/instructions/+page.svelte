@@ -46,7 +46,6 @@ afterNavigate(() => {
 	checkMobile();
 });
 </script>
-<div id="container">
 <div id="header">
 	<h1>Instructions to install</h1>
 	<h2>Have fun in just seven steps!</h2>
@@ -71,4 +70,3 @@ afterNavigate(() => {
 			<li>Have fun!</li>
 		</ol>
 	</div>
-</div>
