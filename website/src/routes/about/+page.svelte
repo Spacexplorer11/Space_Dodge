@@ -30,7 +30,6 @@
 	I haven't been able to spend as much time as I would like on Space Dodge, but I have plenty of more ideas planned
 	for it! Whenever I feel like coding,
 	and I haven't gotten an active project with a deadline, I work on Space Dodge, my first ever passion project ❤️</p>
-<body></body>
 <style>
 	.header {
 		display: flex;
