@@ -1,7 +1,12 @@
+<script>
+	import {base} from '$app/paths';
+</script>
+
 <div class="header"><h1>About Space Dodge <br><br></h1></div>
 <p>Space Dodge is a simple singleplayer game made by <a href="https://github.com/spacexplorer11">Akaalroop Singh.</a>
 	The original concept is from this <a href="https://www.youtube.com/watch?v=waY3LfJhQLY">youtube tutorial.</a>
-	However, every single feature after that was hand-coded by me and my <a href="/contributors">contributors.</a></p>
+	However, every single feature after that was hand-coded by me and my <a href="{base}/contributors">contributors.</a>
+</p>
 
 <div class="header"><h2>Why did I make it?</h2></div>
 <p>Space Dodge was made a project to assist my skills in python! I wanted to start doing more text-based
