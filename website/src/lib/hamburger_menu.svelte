@@ -7,17 +7,16 @@
 		const container = document.getElementById("container");
 
 
-		switch (menu, container) {
-			case (menu.classList.contains("active") && !container.classList.contains("active_menu")):
-				container.classList.toggle("active_menu");
-				break;
-			case (!menu.classList.contains("active") && container.classList.contains("active_menu")):
-				menu.classList.toggle("active");
-				break;
-			default:
-			case ((menu.classList.contains("active") && container.classList.contains("active_menu")) || (!menu.classList.contains("active") && !container.classList.contains("active_menu"))) :
-				menu.classList.toggle("active");
-				container.classList.toggle("active_menu");
+		const menuIsActive = menu.classList.contains("active");
+		const containerIsActive = container.classList.contains("active_menu");
+
+		if (menuIsActive && !containerIsActive) {
+			container.classList.toggle("active_menu");
+		} else if (!menuIsActive && containerIsActive) {
+			menu.classList.toggle("active");
+		} else {
+			menu.classList.toggle("active");
+			container.classList.toggle("active_menu");
 		}
 		if (menu.classList.contains("active")) {
 			menuOpen.set(true);
@@ -38,8 +37,8 @@
 		<a href="{base}/">Home</a>
 		<a href="{base}/instructions">Instructions</a>
 		<a href="{base}/contributors">Contributors</a>
+		<a href="{base}/about">About</a>
 		<!--  <a href="/stats">Stats</a> -->
-		<!--  <a href="/about">About</a> -->
 		<a href="{base}/privacy_policy">Privacy Policy</a>
 	</nav>
 </div>
