@@ -29,7 +29,7 @@
 	}
 </script>
 
-<button id="hamburger-toggle" on:click={toggleMenu}>☰</button>
+<button id="hamburger-toggle" class="default_hover" on:click={toggleMenu}>☰</button>
 
 <!-- 🍔 Slide-in Menu -->
 <div id="hamburger-menu">

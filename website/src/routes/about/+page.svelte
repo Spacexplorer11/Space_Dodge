@@ -7,7 +7,9 @@
 	The original concept is from this <a href="https://www.youtube.com/watch?v=waY3LfJhQLY">youtube tutorial.</a>
 	However, every single feature after that was hand-coded by me and my <a href="{base}/contributors">contributors.</a>
 </p>
+<div id="demo">
 
+</div>
 <div class="header"><h2>Why did I make it?</h2></div>
 <p>Space Dodge was made a project to assist my skills in python! I wanted to start doing more text-based
 	programming rather than scratch's block based. I wanted to start with a game, as a fun way to boost my motivation to
