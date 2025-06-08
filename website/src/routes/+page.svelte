@@ -129,7 +129,7 @@
 	}
 
 	.clicked {
-		transform: translateX(52vw);
+		transform: translateX(min(52vw, 800px));
 		transition: transform 1s ease;
 	}
 
