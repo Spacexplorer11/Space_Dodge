@@ -2,6 +2,7 @@
 	import {base} from '$app/paths';
 </script>
 
+<div id="content">
 <div class="header"><h1>About Space Dodge <br><br></h1></div>
 <p>Space Dodge is a simple singleplayer game made by <a href="https://github.com/spacexplorer11">Akaalroop Singh.</a>
 	The original concept is from this <a href="https://www.youtube.com/watch?v=waY3LfJhQLY">youtube tutorial.</a>
@@ -32,6 +33,7 @@
 	I haven't been able to spend as much time as I would like on Space Dodge, but I have plenty of more ideas planned
 	for it! Whenever I feel like coding,
 	and I haven't gotten an active project with a deadline, I work on Space Dodge, my first ever passion project ❤️</p>
+</div>
 <style>
 	.header {
 		display: flex;

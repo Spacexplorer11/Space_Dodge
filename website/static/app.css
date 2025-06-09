@@ -41,7 +41,7 @@ button.default_hover:hover {
 }
 
 #container a:hover{
-    color: lightgreen;
+    color: dodgerblue;
     text-decoration-line: underline;
     text-decoration-style: wavy;
 }
@@ -49,7 +49,7 @@ button.default_hover:hover {
 #container a {
     text-decoration: underline;
     text-decoration-style: wavy;
-    color: orange;
+    color: royalblue;
 }
 
 /* Content styles */
@@ -174,13 +174,11 @@ p {
 }
 
 #content p:hover, li:hover {
-    color: green;
-    text-decoration-line: underline;
-    text-decoration-style: wavy;
+    color: teal;
 }
 
 p:hover em {
-    color: pink;
+    color: cornflowerblue;
     text-decoration-line: underline;
     text-decoration-style: wavy;
 }
