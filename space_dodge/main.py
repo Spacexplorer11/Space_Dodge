@@ -70,6 +70,7 @@ def main():
     muteButton = Button(muteImage, 132, 10)  # Create the mute symbol object
     unmuteButton = Button(unmuteImage, 132, 10)  # Create the unmute symbol object
     pauseButton = Button(pauseButtonImage, 900, 10)  # Create the pause symbol object
+    firstTime = True  # Is this the first time the game is started?
 
     clock = pygame.time.Clock()  # The clock for the game
 
@@ -92,7 +93,7 @@ def main():
 
         if lives == 4:
             # Draw the title screen
-            running, startTime, mute = draw_title(mute)
+            running, startTime, mute = draw_title(mute, firstTime)
             lives = 3
             pausedTimes.clear()
             score = 0
@@ -252,6 +253,7 @@ def main():
                             if not running:
                                 break
                         lives = 4
+                        firstTime = False
                         break
             if pygame.mixer.music.get_busy() is False and mute is False:
                 pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
