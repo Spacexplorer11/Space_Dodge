@@ -1,9 +1,9 @@
 # Imports
 import os
-import sys
 import subprocess
-import venv
+import sys
 import time
+import venv
 
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
@@ -23,13 +23,9 @@ if sys.prefix == sys.base_prefix:
         os.execv(activate_script, [activate_script] + sys.argv)
 
 # Check if all required packages are installed in the virtual environment
-required_packages = ['pygame', 'pygame_widgets']  # List your packages here
-for package in required_packages:
-    try:
-        __import__(package)
-    except ImportError:
-        print(f"📦 Installing '{package}' inside virtual environment...")
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+requirements_file = os.path.join(os.path.dirname(__file__), 'requirements.txt')
+print("📦 Installing all required packages from requirements.txt...")
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', requirements_file])
 
 import pygame
 
@@ -63,6 +59,7 @@ def main():
     lives = 4  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
     pausedTimes = []  # The total pause time
+    startTime = time.time()  # The time the game started (will be overwritten by title screen)
     last_time = time.time()
     explosions = []  # The list of explosions
     player = Player()  # Create the player object
