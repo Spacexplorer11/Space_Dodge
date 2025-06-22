@@ -1,15 +1,13 @@
 import threading
+import time
 
 import pygame
 import pygame_widgets
-import time
-
-from pygame_widgets.slider import Slider
-from pygame_widgets.textbox import TextBox
-
 from classes.button import Button
 from file_handling.constants_and_file_loading import (
     WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, pause_time, x_button_icon)
+from pygame_widgets.slider import Slider
+from pygame_widgets.textbox import TextBox
 
 mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
@@ -54,7 +52,7 @@ def settings_menu(mute):
                     return pause, mute
 
         slider.listen(events)
-        output.setText(slider.getValue())
+        output.setText(str(slider.getValue()))
 
         pygame_widgets.update(events)
 
