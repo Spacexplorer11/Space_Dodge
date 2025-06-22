@@ -1,12 +1,15 @@
-import pygame
 import time
+
+import pygame
 from classes.button import Button
-from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.pause_menu.settings import settings_menu
+from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.tutorial_and_information.welcome import welcome_screen
 from file_handling.constants_and_file_loading import (
     WINDOW, start_button_image, muteImage, unmuteImage, title_screen_background, settings_icon_frames, WIDTH, HEIGHT
 )
+# Set up logging
+from file_handling.constants_and_file_loading import logger
 from file_handling.utility import ref
 
 # Initialise pygame & pygame.mixer

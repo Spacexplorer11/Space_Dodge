@@ -5,6 +5,8 @@ import sys
 import time
 import venv
 
+from file_handling.constants_and_file_loading import logger
+
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
     venv_path = os.path.join(os.path.dirname(__file__), 'venv')
@@ -12,12 +14,16 @@ if sys.prefix == sys.base_prefix:
     # If venv doesn't exist, create it and restart the script
     if not os.path.isdir(venv_path):
         print("🔧 Creating a virtual environment...")
+        logger.info(f"Creating a virtual environment at {venv_path}")
         venv.create(venv_path, with_pip=True)
         print("⚙️ Restarting the script inside the virtual environment...")
-        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(venv_path, 'Scripts', 'python.exe')
+        logger.info("Restarting the script inside the virtual environment")
+        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
+            venv_path, 'Scripts', 'python.exe')
         os.execv(activate_script, [activate_script] + sys.argv)
     else:
         print("⚙️ Re-starting the script inside the virtual environment...")
+        logger.info("Re-starting the script inside the virtual environment")
         activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
             venv_path, 'Scripts', 'python.exe')
         os.execv(activate_script, [activate_script] + sys.argv)
@@ -26,6 +32,7 @@ if sys.prefix == sys.base_prefix:
 requirements_file = os.path.join(os.path.dirname(__file__), 'requirements.txt')
 if os.path.isfile(requirements_file) and os.path.abspath(requirements_file).startswith(os.getcwd()):
     print("📦 Installing all required packages from requirements.txt...")
+    logger.info(f"Installing required packages from {requirements_file}")
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', requirements_file])
 else:
 
@@ -92,6 +99,7 @@ def main():
 
         if lives == 4:
             # Draw the title screen
+            logger.info("Drawing the title screen")
             running, startTime, mute = draw_title(mute)
             lives = 3
             pausedTimes.clear()
@@ -102,6 +110,7 @@ def main():
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
             pygame.mixer.music.play(-1)
+            logger.info("Main game loop started")
             continue
 
         # The time the game was paused & playing
@@ -138,6 +147,7 @@ def main():
                 if score >= highscore:
                     save_object(score)
                 running = False
+                pygame.mixer.music.stop()
                 break
             # Check if the mouse is clicked or a key is pressed
             elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
@@ -174,7 +184,7 @@ def main():
                 highscoreSoundPlayed = True
                 startTime1 = time.time()
                 while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                    for event in pygame.event.get():   # but the game can still be quit during this time
+                    for event in pygame.event.get():  # but the game can still be quit during this time
                         if event.type == pygame.QUIT:
                             if score >= highscore:
                                 save_object(score)
@@ -215,7 +225,7 @@ def main():
                         pygame.display.update()
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                            for event in pygame.event.get():   # but the game can still be quit during this time
+                            for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     if score >= highscore:
                                         save_object(score)
@@ -245,7 +255,7 @@ def main():
                             pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 5:  # A while loop which waits for 5 seconds
-                            for event in pygame.event.get():   # but the game can still be quit during this time
+                            for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
                                     break

@@ -6,6 +6,8 @@ import pygame_widgets
 from classes.button import Button
 from file_handling.constants_and_file_loading import (
     WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, pause_time, x_button_icon)
+# Set up logging
+from file_handling.constants_and_file_loading import logger
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 
@@ -13,7 +15,6 @@ mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
 slider_title = pygame.font.SysFont("comicsans", 30).render("Volume", 1, (255, 255, 255))
 xButton = Button(x_button_icon, 665, 175)  # Create the x button object
-
 
 
 def settings_menu(mute):

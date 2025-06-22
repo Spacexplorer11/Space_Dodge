@@ -7,7 +7,8 @@ from file_handling.constants_and_file_loading import WINDOW, WIDTH, HEIGHT, welc
 
 
 def keybindings_screen(lives):
-    keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1, "orange" if lives == 4 else "white")
+    keybindText1 = FONT.render("Press M to mute/unmute or just click the symbol.", 1,
+                               "orange" if lives == 4 else "white")
     keybindText2 = FONT.render("Use A & D keys to move left & right.", 1, "orange" if lives == 4 else "white")
     keybindText3 = FONT.render("Press P or click the symbol to pause the game ", 1, "orange" if lives == 4 else "white")
     keybindText4 = FONT.render("Press I or K to bring up this screen.", 1, "orange" if lives == 4 else "white")

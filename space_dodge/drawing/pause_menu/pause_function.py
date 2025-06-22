@@ -1,12 +1,14 @@
-import pygame
+import time
 
+import pygame
 from classes.button import Button
 from drawing.pause_menu.settings import settings_menu
 from file_handling.constants_and_file_loading import (
     WINDOW, PAUSE_FONT, PAUSE_FONT_SMALL, pause_background, muteImage, unmuteImage, pause_time, settings_icon_frames,
     x_button_icon)
+# Set up logging
+from file_handling.constants_and_file_loading import logger
 from file_handling.utility import ref
-import time
 
 mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
