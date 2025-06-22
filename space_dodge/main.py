@@ -23,13 +23,23 @@ if sys.prefix == sys.base_prefix:
         os.execv(activate_script, [activate_script] + sys.argv)
 
 # Check if all required packages are installed in the virtual environment
-requirements_file = os.path.join(os.path.dirname(__file__), 'requirements.txt')
-if os.path.isfile(requirements_file) and os.path.abspath(requirements_file).startswith(os.getcwd()):
-    print("📦 Installing all required packages from requirements.txt...")
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', requirements_file])
-else:
+# Construct and validate requirements.txt path more securely
+script_dir = os.path.dirname(os.path.abspath(__file__))
+requirements_file = os.path.join(script_dir, 'requirements.txt')
 
-    raise FileNotFoundError("requirements.txt not found or not in allowed directory.")
+# Ensure the file exists and is within the expected directory
+if (os.path.isfile(requirements_file) and
+    os.path.commonpath([script_dir, requirements_file]) == script_dir):
+    print("📦 Installing all required packages from requirements.txt...")
+    # Use absolute path and validate it's the expected file
+    subprocess.check_call([
+        sys.executable, '-m', 'pip', 'install',
+        '-r', os.path.abspath(requirements_file)
+    ])
+else:
+    raise FileNotFoundError(
+        f"requirements.txt not found in script directory: {script_dir}"
+    )
 
 import pygame
 
