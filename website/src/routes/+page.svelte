@@ -52,8 +52,9 @@
 	<p>It can only be played on a computer using a keyboard, <em>Windows, MacOS & Linux</em> are supported
 	</p>
 </div>
-<div class="demo-button">
-	<button class="demo-button" onmouseenter={() => hovering = true} onmouseleave={() => hovering = false}
+<!-- lines 55–56 in +page.svelte -->
+<div class="demo-button-container">
+    <button class="demo-button" onmouseenter={() => hovering = true} onmouseleave={() => hovering = false}
 	        onclick={() => clicked = true} ontransitionend={() => {
     if (clicked) goto(`${base}/about#demo`); // Navigate to demo page after click
   }}>
