@@ -1,5 +1,6 @@
 # Imports
 import os
+import pathlib
 import subprocess
 import sys
 import time
@@ -14,7 +15,8 @@ if sys.prefix == sys.base_prefix:
         print("🔧 Creating a virtual environment...")
         venv.create(venv_path, with_pip=True)
         print("⚙️ Restarting the script inside the virtual environment...")
-        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(venv_path, 'Scripts', 'python.exe')
+        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
+            venv_path, 'Scripts', 'python.exe')
         os.execv(activate_script, [activate_script] + sys.argv)
     else:
         print("⚙️ Re-starting the script inside the virtual environment...")
@@ -28,14 +30,13 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 requirements_file = os.path.join(script_dir, 'requirements.txt')
 
 # Ensure the file exists and is within the expected directory
-if (os.path.isfile(requirements_file) and
-    os.path.commonpath([script_dir, requirements_file]) == script_dir):
+req_path = pathlib.Path(requirements_file).resolve()
+if req_path.is_file() and script_dir in str(req_path):
     print("📦 Installing all required packages from requirements.txt...")
-    # Use absolute path and validate it's the expected file
-    subprocess.check_call([
-        sys.executable, '-m', 'pip', 'install',
-        '-r', os.path.abspath(requirements_file)
-    ])
+    result = subprocess.run(
+        [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
+        check=True
+    )
 else:
     raise FileNotFoundError(
         f"requirements.txt not found in script directory: {script_dir}"
@@ -185,7 +186,7 @@ def main():
                 highscoreSoundPlayed = True
                 startTime1 = time.time()
                 while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                    for event in pygame.event.get():   # but the game can still be quit during this time
+                    for event in pygame.event.get():  # but the game can still be quit during this time
                         if event.type == pygame.QUIT:
                             if score >= highscore:
                                 save_object(score)
@@ -226,7 +227,7 @@ def main():
                         pygame.display.update()
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                            for event in pygame.event.get():   # but the game can still be quit during this time
+                            for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     if score >= highscore:
                                         save_object(score)
@@ -256,7 +257,7 @@ def main():
                             pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 5:  # A while loop which waits for 5 seconds
-                            for event in pygame.event.get():   # but the game can still be quit during this time
+                            for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
                                     break
