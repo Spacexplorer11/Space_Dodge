@@ -56,13 +56,19 @@ def draw_title(mute, firstTime):
         pygame.display.update()
 
     if firstTime:
-        while start:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return False, 0.0, mute
-                elif event.type == pygame.KEYDOWN:
-                    running, startTime = keybindings_screen(4)
-                    return running, startTime, mute
-            welcome_screen()
+        return _handle_first_time_flow(mute)
     else:
         return True, time.time(), mute
+
+def _handle_first_time_flow(mute):
+    """Handle the first-time user experience with welcome screen and keybindings."""
+    start = True
+    while start:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False, 0.0, mute
+            if event.type == pygame.KEYDOWN:  # Simplified from 'elif' after 'return'
+                running, startTime = keybindings_screen(4)
+                return running, startTime, mute
+        welcome_screen()
+        time.sleep(1/60)  # Add frame-rate limiting to prevent excessive CPU usage
