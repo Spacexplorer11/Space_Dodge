@@ -57,11 +57,11 @@ def draw_title(mute, firstTime):
 
     if firstTime:
         return _handle_first_time_flow(mute)
-    else:
-        return True, time.time(), mute
+    return True, time.time(), mute
+
 
 def _handle_first_time_flow(mute):
-    """Handle the first-time user experience with welcome screen and keybindings."""
+    # Handle the first-time user experience with welcome screen and keybindings.
     start = True
     while start:
         for event in pygame.event.get():
