@@ -14,5 +14,5 @@ def load_highscore():
         return score, True
     except (FileNotFoundError, json.JSONDecodeError) as ex:
         print("❌ Failed to load JSON highscore:", ex)
-        logger.exception("Error saving JSON highscore:", exc_info=ex)
+        logger.exception("Error loading JSON highscore:", exc_info=ex)
         return 0, False
