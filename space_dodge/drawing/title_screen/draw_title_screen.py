@@ -15,45 +15,60 @@ pygame.init()
 pygame.mixer.init()
 
 
-# Draw the title screen
-def draw_title(mute, firstTime):
-    # Load the title screen music
+def _play_title_music():
     pygame.mixer.music.load(ref("assets/sounds/background_music/title_screen/title_screen_music.mp3"))
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(loops=-1)
-    start = False
 
-    # Define Button objects
+
+def _create_buttons():
     muteSymbol = Button(muteImage, 50, 200)
     unmuteSymbol = Button(unmuteImage, 50, 200)
     startButton = Button(start_button_image, 350, 300)
     settingsButton = Button(settings_icon_frames, WIDTH - settings_icon_frames[1].get_width() - 10,
                             HEIGHT - settings_icon_frames[1].get_height())
+    return startButton, muteSymbol, unmuteSymbol, settingsButton
+
+
+def _draw_title_screen(mute, startButton, muteSymbol, unmuteSymbol, settingsButton):
+    WINDOW.blit(title_screen_background, (0, 0))
+    startButton.draw()
+    if mute:
+        WINDOW.blit(muteSymbol.image, muteSymbol.pos)
+    else:
+        WINDOW.blit(unmuteSymbol.image, unmuteSymbol.pos)
+    settingsButton.draw()
+
+
+def _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return True, mute  # Will return False, 0.0, mute in main
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if startButton.clicked():
+                pygame.mixer.music.stop()
+                return True, mute
+            elif muteSymbol.clicked() or unmuteSymbol.clicked():
+                mute = not mute
+                pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
+            elif settingsButton.clicked():
+                settings_menu(mute)
+    return False, mute
+
+
+# Draw the title screen
+def draw_title(mute, firstTime):
+    _play_title_music()
+    startButton, muteSymbol, unmuteSymbol, settingsButton = _create_buttons()
+    start = False
 
     while not start:
         time.sleep(3 / 1000)
-        WINDOW.blit(title_screen_background, (0, 0))
-        startButton.draw()
-        if mute:
-            WINDOW.blit(muteSymbol.image, muteSymbol.pos)
-        else:
-            WINDOW.blit(unmuteSymbol.image, unmuteSymbol.pos)
-        settingsButton.draw()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False, 0.0, mute
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if startButton.clicked():
-                    start = True
-                    pygame.mixer.music.stop()
-                elif muteSymbol.clicked() or unmuteSymbol.clicked():
-                    mute = not mute
-                    pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
-                elif settingsButton.clicked():
-                    settings_menu(mute)
-
+        _draw_title_screen(mute, startButton, muteSymbol, unmuteSymbol, settingsButton)
         pygame.display.update()
+        start, mute = _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute)
+        if start is True and pygame.event.peek(pygame.QUIT):
+            return False, 0.0, mute
 
     if firstTime:
         return _handle_first_time_flow(mute)

@@ -31,8 +31,9 @@ requirements_file = os.path.join(script_dir, 'requirements.txt')
 
 # Ensure the file exists and is within the expected directory
 req_path = pathlib.Path(requirements_file).resolve()
-if req_path.is_file() and script_dir in str(req_path):
+if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requirements.txt":
     print("📦 Installing all required packages from requirements.txt...")
+    # Safe static command with validated file path
     result = subprocess.run(
         [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
         check=True
