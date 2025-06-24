@@ -67,8 +67,6 @@ def draw_title(mute, firstTime):
         _draw_title_screen(mute, startButton, muteSymbol, unmuteSymbol, settingsButton)
         pygame.display.update()
         start, mute = _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute)
-        if start is True and pygame.event.peek(pygame.QUIT):
-            return False, 0.0, mute
 
     if firstTime:
         return _handle_first_time_flow(mute)
