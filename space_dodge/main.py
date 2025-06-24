@@ -1,5 +1,6 @@
 # Imports
 import os
+import pathlib
 import subprocess
 import sys
 import time
@@ -29,14 +30,24 @@ if sys.prefix == sys.base_prefix:
         os.execv(activate_script, [activate_script] + sys.argv)
 
 # Check if all required packages are installed in the virtual environment
-requirements_file = os.path.join(os.path.dirname(__file__), 'requirements.txt')
-if os.path.isfile(requirements_file) and os.path.abspath(requirements_file).startswith(os.getcwd()):
+# Construct and validate requirements.txt path more securely
+script_dir = os.path.dirname(os.path.abspath(__file__))
+requirements_file = os.path.join(script_dir, 'requirements.txt')
+
+# Ensure the file exists and is within the expected directory
+req_path = pathlib.Path(requirements_file).resolve()
+if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requirements.txt":
     print("📦 Installing all required packages from requirements.txt...")
     logger.info(f"Installing required packages from {requirements_file}")
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', requirements_file])
+    # Safe static command with validated file path
+    result = subprocess.run(
+        [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
+        check=True
+    )
 else:
-
-    raise FileNotFoundError("requirements.txt not found or not in allowed directory.")
+    raise FileNotFoundError(
+        f"requirements.txt not found in script directory: {script_dir}"
+    )
 
 import pygame
 
@@ -77,6 +88,7 @@ def main():
     muteButton = Button(muteImage, 132, 10)  # Create the mute symbol object
     unmuteButton = Button(unmuteImage, 132, 10)  # Create the unmute symbol object
     pauseButton = Button(pauseButtonImage, 900, 10)  # Create the pause symbol object
+    firstTime = True  # Is this the first time the game is started?
 
     clock = pygame.time.Clock()  # The clock for the game
 
@@ -100,7 +112,7 @@ def main():
         if lives == 4:
             # Draw the title screen
             logger.info("Drawing the title screen")
-            running, startTime, mute = draw_title(mute)
+            running, startTime, mute = draw_title(mute, firstTime)
             lives = 3
             pausedTimes.clear()
             score = 0
@@ -262,6 +274,7 @@ def main():
                             if not running:
                                 break
                         lives = 4
+                        firstTime = False
                         break
             if pygame.mixer.music.get_busy() is False and mute is False:
                 pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
