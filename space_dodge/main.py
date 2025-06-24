@@ -1,9 +1,27 @@
 # Imports
 import os
-import sys
 import subprocess
-import venv
+import sys
 import time
+import venv
+
+# Import the classes' modules
+from classes.bullet import Bullet
+from classes.button import Button
+from classes.player import Player
+from drawing.draw import draw
+from drawing.pause_menu.pause_function import pause_menu
+from drawing.title_screen.draw_title_screen import draw_title
+from drawing.tutorial_and_information.keybindings import keybindings_screen
+# Import all constant variables
+from file_handling.constants_and_file_loading import (FONT,
+                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
+# Import all the files( images, sounds, etc. )
+from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
+                                                      sadSound, GameOverSound, highscoreSound)
+from file_handling.loading import load_highscore
+from file_handling.saving import save_object
+from file_handling.utility import ref
 
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
@@ -32,24 +50,6 @@ for package in required_packages:
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
 
 import pygame
-
-# Import the classes' modules
-from classes.bullet import Bullet
-from classes.button import Button
-from classes.player import Player
-from drawing.draw import draw
-from drawing.pause_menu.pause_function import pause_menu
-from drawing.title_screen.draw_title_screen import draw_title
-from drawing.tutorial_and_information.keybindings import keybindings_screen
-# Import all constant variables
-from file_handling.constants_and_file_loading import (FONT,
-                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
-# Import all the files( images, sounds, etc. )
-from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
-                                                      sadSound, GameOverSound, highscoreSound)
-from file_handling.loading_func import load_highscore
-from file_handling.saving import save_object
-from file_handling.utility import ref
 
 pygame.mixer.init()
 pygame.font.init()
@@ -80,7 +80,7 @@ def main():
     bullets = []  # The list of bullets
 
     # Load the high score from file
-    highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
+    highscore, highscoreFileFound = load_highscore()
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -96,7 +96,7 @@ def main():
             pausedTimes.clear()
             score = 0
             # Load the high score from file
-            highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
+            highscore, highscoreFileFound = load_highscore()
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
