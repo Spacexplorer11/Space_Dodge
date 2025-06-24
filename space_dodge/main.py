@@ -80,7 +80,14 @@ def main():
     bullets = []  # The list of bullets
 
     highscores = load_highscore()  # The dictionary of highscores
-    highscore = highscores[str(difficulty)]
+    if isinstance(highscores, dict):
+        highscore = highscores[str(difficulty)]
+    else:
+        # Handle legacy single-value format or error case
+        # If it's a valid score (int > 0), treat as Normal difficulty (2)
+        legacy_score = highscores if isinstance(highscores, int) and highscores > 0 else 0
+        highscores = {"1": 0, "2": legacy_score, "3": 0}
+        highscore = highscores[str(difficulty)]
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -98,7 +105,14 @@ def main():
             highscoreBreak = False  # Tells if the current score is bigger than the highscore
             # Load the high score from file
             highscores = load_highscore()  # The dictionary of highscores
-            highscore = highscores[str(difficulty)]
+            if isinstance(highscores, dict):
+                highscore = highscores[str(difficulty)]
+            else:
+                # Handle legacy single-value format or error case
+                # If it's a valid score (int > 0), treat as Normal difficulty (2)
+                legacy_score = highscores if isinstance(highscores, int) and highscores > 0 else 0
+                highscores = {"1": 0, "2": legacy_score, "3": 0}
+                highscore = highscores[str(difficulty)]
             bulletAddIncrement = 2000  # The time between adding bullets
             bulletCount = 0  # Tells us when to add the bullet
             explosions.clear()  # Clear the list of explosions
@@ -158,22 +172,24 @@ def main():
                     pausedTimes.append(pausedTime)
 
         score += 1
-        if score >= highscore and not highscoreBreak:  # If the score is bigger than the highscore
+        if score >= highscore:  # If the score is bigger than the highscore
             highscore = score
+            if not highscoreBreak:
+                highscoreBrokenText = FONT.render(
+                    f"You broke your previous highscore of {highscores[str(difficulty)]}!", 1, "green")
+                WINDOW.blit(highscoreBrokenText, (
+                    WIDTH / 2 - highscoreBrokenText.get_width() / 2,
+                    HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
+                pygame.display.update()
+                if not mute:
+                    pygame.mixer.Sound.play(highscoreSound)
+                startTime1 = time.time()
+                while not time.time() > startTime1 + 1 and running:  # A while loop which waits for 1 second
+                    for event in pygame.event.get():  # but the game can still be quit during this time
+                        if event.type == pygame.QUIT:
+                            running = False
+                            break
             highscoreBreak = True
-            highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score}!", 1, "green")
-            WINDOW.blit(highscoreBrokenText, (
-                WIDTH / 2 - highscoreBrokenText.get_width() / 2,
-                HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
-            pygame.display.update()
-            if not mute:
-                pygame.mixer.Sound.play(highscoreSound)
-            startTime1 = time.time()
-            while not time.time() > startTime1 + 1 and running:  # A while loop which waits for 1 second
-                for event in pygame.event.get():  # but the game can still be quit during this time
-                    if event.type == pygame.QUIT:
-                        running = False
-                        break
                 
 
         if bulletCount > bulletAddIncrement:

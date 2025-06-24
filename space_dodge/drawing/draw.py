@@ -32,7 +32,7 @@ def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scor
     WINDOW.blit(scoreText, (WIDTH - 270, 10))
     WINDOW.blit(FONT.render("Your high score", 1, "white"), (250, 10))
     WINDOW.blit(pauseButton.image, (scoreText.get_width() + 745, 19))
-    WINDOW.blit(muteSymbol.image if mute else unmuteSymbol.image, (timeText.get_width() + 10, 10))
+    WINDOW.blit(muteSymbol.image if mute else unmuteSymbol.image, (timeText.get_width() + 20, 10))
     highScoreText = FONT.render(f" is {highscore}" if highscoreBreak else f" was {highscore}", 1, "white")
     WINDOW.blit(highScoreText, (500, 10))
 

@@ -6,7 +6,7 @@ import pygame
 import pygame_widgets
 from classes.button import Button
 from file_handling.constants_and_file_loading import (
-    WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, pause_time, x_button_icon)
+    WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, x_button_icon)
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 
@@ -43,7 +43,6 @@ def _process_volume_updates():
 
 
 def settings_menu(mute):
-    time.sleep(3 / 1000)
     slider = Slider(WINDOW, 350, 400, 100, 30, min=0, max=100, initial=pygame.mixer.music.get_volume() * 100)
     output = TextBox(WINDOW, 500, 395, 75, 50, fontSize=30)
 
@@ -57,7 +56,7 @@ def settings_menu(mute):
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("SETTINGS MENU", 1, "white"), (250, 176))
 
-        if mute or pygame.mixer.music.get_volume() == 0:
+        if mute:
             mutePauseButton.draw()
         else:
             unmutePauseButton.draw()
