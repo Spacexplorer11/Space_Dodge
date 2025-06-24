@@ -5,7 +5,6 @@ import pathlib
 import subprocess
 import sys
 import time
-import venv
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -33,53 +32,44 @@ def validate_requirements_file(path):
             # Skip comments and empty lines
             if not line or line.startswith('#'):
                 continue
-            # Basic checks for suspicious characters
+            # Reject lines with dangerous characters to prevent injection
             if any(c in line for c in [';', '&', '|', '`', '$', '>', '<']):
                 logger.error(f"Requirements file {path} contains invalid characters: {line}")
                 raise ValueError(f"Invalid character in requirements file line: {line}")
 
 
-# Check if running inside a virtual environment
-if sys.prefix == sys.base_prefix:
-    venv_path = os.path.join(os.path.dirname(__file__), 'venv')
-
-    # If venv doesn't exist, create it and restart the script
-    if not os.path.isdir(venv_path):
-        print("🔧 Creating a virtual environment...")
-        logger.info(f"Creating a virtual environment at {venv_path}")
-        venv.create(venv_path, with_pip=True)
-        print("⚙️ Restarting the script inside the virtual environment...")
-        logger.info("Restarting the script inside the virtual environment")
-        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
-            venv_path, 'Scripts', 'python.exe')
-        os.execv(activate_script, [activate_script] + sys.argv)
-    else:
-        print("⚙️ Re-starting the script inside the virtual environment...")
-        logger.info("Re-starting the script inside the virtual environment")
-        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
-            venv_path, 'Scripts', 'python.exe')
-        os.execv(activate_script, [activate_script] + sys.argv)
-
-# Check if all required packages are installed in the virtual environment
-# Construct and validate requirements.txt path more securely
-script_dir = os.path.dirname(os.path.abspath(__file__))
-requirements_file = os.path.join(script_dir, 'requirements.txt')
-
-# Ensure the file exists and is within the expected directory
-req_path = pathlib.Path(requirements_file).resolve()
-if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requirements.txt":
-    print("📦 Installing all required packages from requirements.txt...")
-    logger.info(f"Installing required packages from {requirements_file}")
-    # Safe static command with validated file path
+def install_requirements(req_path):
+    """
+    Runs pip install on requirements.txt safely after validating its content.
+    This subprocess call uses a list (not shell=True), so no shell injection is possible.
+    The input file is validated to ensure no dangerous characters exist.
+    """
     validate_requirements_file(req_path)
+
+    logger.info(f"Installing required packages from {req_path}")
+    print("📦 Installing all required packages from requirements.txt...")
+
     result = subprocess.run(
         [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
         check=True
     )
+    return result
+
+
+# In your main flow:
+script_dir = os.path.dirname(os.path.abspath(__file__))
+requirements_file = os.path.join(script_dir, 'requirements.txt')
+
+req_path = pathlib.Path(requirements_file).resolve()
+if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requirements.txt":
+    try:
+        install_requirements(req_path)
+    except ValueError as ve:
+        logger.critical(f"Requirements file validation failed: {ve}")
+        sys.exit(1)
 else:
-    raise FileNotFoundError(
-        f"requirements.txt not found in script directory: {script_dir}"
-    )
+    raise FileNotFoundError(f"requirements.txt not found in script directory: {script_dir}")
+
 import pygame
 
 # Import the classes' modules
