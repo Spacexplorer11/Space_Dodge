@@ -14,7 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -243,3 +242,47 @@ fabric.properties
 
 **/highscore.pickle
 .idea
+
+# Ignore the generated site files (GitHub Pages will generate them)
+_site/
+
+# Jekyll cache
+.jekyll-cache/
+
+# Bundler config files
+.bundle/
+
+# Sass cache
+.sass-cache/
+
+# Ignore MacOS hidden files
+.DS_Store
+
+# Ignore Gemfile.lock for local environments
+Gemfile.lock
+
+# Ignore the highscore file for the Space Dodge game
+/space_dodge/file_handling/highscores.pickle
+
+# Svelte
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+Thumbs.db
+
+# Env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
