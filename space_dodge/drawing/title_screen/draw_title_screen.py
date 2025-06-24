@@ -44,7 +44,7 @@ def _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True, mute  # Will return False, 0.0, mute in main
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if startButton.clicked():
                 pygame.mixer.music.stop()
                 return True, mute
