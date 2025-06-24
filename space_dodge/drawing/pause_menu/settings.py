@@ -39,9 +39,6 @@ def settings_menu(mute):
         if pygame.mixer.music.get_busy() is False and mute is False:
             pygame.mixer.music.load("assets/sounds/background_music/pause_screen/pause_music.mp3")
             pygame.mixer.music.play(-1)
-        if pygame.mixer.music.get_volume() == 0:
-            mute = True
-            pygame.mixer.music.pause()
         WINDOW.blit(slider_title, (200, 390))
         xButton.draw()
         slider.draw()
