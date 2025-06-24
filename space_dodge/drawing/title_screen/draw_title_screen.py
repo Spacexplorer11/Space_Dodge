@@ -54,7 +54,9 @@ def _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, 
                 mute = not mute
                 pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
             if settingsButton.clicked():
+                logger.info("Settings menu entered from title screen")
                 settings_menu(mute)
+                logger.info("Settings menu exited to title screen")
     return False, mute
 
 
@@ -71,6 +73,7 @@ def draw_title(mute, firstTime):
         start, mute = _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute)
 
     if firstTime:
+        logger.info("First-time user flow initiated")
         return _handle_first_time_flow(mute)
     return True, time.time(), mute
 
@@ -82,7 +85,7 @@ def _handle_first_time_flow(mute):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False, 0.0, mute
-            if event.type == pygame.KEYDOWN:  # Simplified from 'elif' after 'return'
+            if event.type == pygame.KEYDOWN:
                 running, startTime = keybindings_screen(4)
                 return running, startTime, mute
         welcome_screen()

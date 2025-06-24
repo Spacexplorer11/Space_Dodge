@@ -1,18 +1,8 @@
-import logging
-
 import pygame
 from classes.animation import Animation
 from file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
     threeLives, twoLives, oneLife, game_background, bullet_texture, bullet_explosion_frames)
-
-# Set up logging
-logging.basicConfig(
-    filename='mylog.log',
-    filemode='a',
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.DEBUG
-)
 
 # Create a mask for the bullet
 bullet_mask = pygame.mask.from_surface(bullet_texture)

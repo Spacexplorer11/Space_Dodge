@@ -65,7 +65,7 @@ from file_handling.constants_and_file_loading import (FONT,
 # Import all the files( images, sounds, etc. )
 from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
                                                       sadSound, GameOverSound, highscoreSound)
-from file_handling.loading_func import load_highscore
+from file_handling.loading import load_highscore
 from file_handling.saving import save_object
 from file_handling.utility import ref
 
@@ -100,7 +100,7 @@ def main():
     bullets = []  # The list of bullets
 
     # Load the high score from file
-    highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
+    highscore, highscoreFileFound = load_highscore()
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -117,7 +117,7 @@ def main():
             pausedTimes.clear()
             score = 0
             # Load the high score from file
-            highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
+            highscore, highscoreFileFound = load_highscore()
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
@@ -137,11 +137,11 @@ def main():
         # Get the keys pressed
         keys = pygame.key.get_pressed()
 
-        # The text for the time and score( it's updated every frame )
+        # The text for the time and score (it's updated every frame)
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
         scoreText = FONT.render(f"Score: {score}", 1, "white")
 
-        # The rectangles for the symbols( it's updated every frame )
+        # The rectangles for the symbols (it's updated every frame)
         muteButton.update_rect(timeText.get_width() + 10)
         unmuteButton.update_rect(timeText.get_width() + 10)
         pauseButton.update_rect(scoreText.get_width() + 745)
@@ -159,6 +159,7 @@ def main():
                 if score >= highscore:
                     save_object(score)
                 running = False
+                logger.info("Game exited by user")
                 pygame.mixer.music.stop()
                 break
             # Check if the mouse is clicked or a key is pressed
@@ -230,6 +231,7 @@ def main():
                 if player_mask.overlap(bullet.mask, offset):
                     bullets.clear()
                     lives -= 1
+                    logger.info(f"Player hit by bullet, lives left: {lives}")
                     if lives > 0:
                         WINDOW.blit(game_background, (0, 0))
                         WINDOW.blit(lostLivesText if lives > 1 else lostLifeText,
@@ -246,6 +248,7 @@ def main():
                             if not running:
                                 break
                     else:
+                        logger.info("Player lost all lives, game over")
                         WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
                         if score >= highscore or highscore == 0:

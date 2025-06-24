@@ -6,7 +6,6 @@ from drawing.pause_menu.settings import settings_menu
 from file_handling.constants_and_file_loading import (
     WINDOW, PAUSE_FONT, PAUSE_FONT_SMALL, pause_background, muteImage, unmuteImage, pause_time, settings_icon_frames,
     x_button_icon)
-# Set up logging
 from file_handling.constants_and_file_loading import logger
 from file_handling.utility import ref
 
@@ -18,6 +17,7 @@ xButton = Button(x_button_icon, 665, 176)  # Create the x button object
 
 @pause_time
 def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
+    logger.info("Pause menu started")
     pygame.mixer.music.load(ref("assets/sounds/background_music/pause_screen/pause_music.mp3"))
     pygame.mixer.music.play(-1)
     pause = True
@@ -46,6 +46,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                 if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
                 elif keys[pygame.K_ESCAPE] or xButton.clicked():
+                    logger.info("Pause menu exited")
                     pygame.mixer.music.stop()
                     pygame.mixer.music.unload()
                     if not mute:
@@ -53,6 +54,8 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                         pygame.mixer.music.play(-1)
                     return True, mute
                 elif settingsButton.clicked():
+                    logger.info("Settings menu entered")
                     pause, mute = settings_menu(mute)
+                    logger.info("Settings menu exited")
 
         pygame.display.update()
