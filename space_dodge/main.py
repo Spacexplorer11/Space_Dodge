@@ -60,9 +60,9 @@ def main():
     highscoreBreak = False  # Tells if the current score is bigger than the highscore
     running = True  # Is the game running or not
     mute = False  # Is the game muted or not
-    lives = 4  # Self-explanatory
-    highscoreSoundPlayed = False  # Has the highscore sound been played?
+    lives = 4  # It is set to 4 so that the game starts with the title screen
     pausedTimes = []  # The total pause time
+    difficulty = 2  # The difficulty of the game, Easy = 1, Normal = 2, Hard = 3
     last_time = time.time()
     explosions = []  # The list of explosions
     player = Player()  # Create the player object
@@ -79,8 +79,8 @@ def main():
 
     bullets = []  # The list of bullets
 
-    # Load the high score from file
-    highscore, highscoreFileFound = load_highscore()
+    highscores = load_highscore()  # The dictionary of highscores
+    highscore = highscores[str(difficulty)]
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -95,8 +95,13 @@ def main():
             lives = 3
             pausedTimes.clear()
             score = 0
+            highscoreBreak = False  # Tells if the current score is bigger than the highscore
             # Load the high score from file
-            highscore, highscoreFileFound = load_highscore()
+            highscores = load_highscore()  # The dictionary of highscores
+            highscore = highscores[str(difficulty)]
+            bulletAddIncrement = 2000  # The time between adding bullets
+            bulletCount = 0  # Tells us when to add the bullet
+            explosions.clear()  # Clear the list of explosions
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
@@ -134,8 +139,6 @@ def main():
         for event in pygame.event.get():
             # Quit the game
             if event.type == pygame.QUIT:
-                if score >= highscore:
-                    save_object(score)
                 running = False
                 break
             # Check if the mouse is clicked or a key is pressed
@@ -154,33 +157,24 @@ def main():
                     running, mute, pausedTime = pause_menu(score, elapsedTime, highscore, highscoreBreak, mute)
                     pausedTimes.append(pausedTime)
 
-        if highscore == 0 and not highscoreFileFound:
-            highscore = 1
-
         score += 1
-        if score > highscore:
+        if score >= highscore and not highscoreBreak:  # If the score is bigger than the highscore
             highscore = score
             highscoreBreak = True
-
-            if highscoreFileFound and not highscoreSoundPlayed:
-                highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score - 1}!", 1, "green")
-                WINDOW.blit(highscoreBrokenText, (
-                    WIDTH / 2 - highscoreBrokenText.get_width() / 2,
-                    HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
-                pygame.display.update()
-                if not mute:
-                    pygame.mixer.Sound.play(highscoreSound)
-                highscoreSoundPlayed = True
-                startTime1 = time.time()
-                while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                    for event in pygame.event.get():  # but the game can still be quit during this time
-                        if event.type == pygame.QUIT:
-                            if score >= highscore:
-                                save_object(score)
-                            running = False
-                            break
-                    if not running:
+            highscoreBrokenText = FONT.render(f"You broke your previous highscore of {score}!", 1, "green")
+            WINDOW.blit(highscoreBrokenText, (
+                WIDTH / 2 - highscoreBrokenText.get_width() / 2,
+                HEIGHT / 2 - highscoreBrokenText.get_height() / 2))
+            pygame.display.update()
+            if not mute:
+                pygame.mixer.Sound.play(highscoreSound)
+            startTime1 = time.time()
+            while not time.time() > startTime1 + 1 and running:  # A while loop which waits for 1 second
+                for event in pygame.event.get():  # but the game can still be quit during this time
+                    if event.type == pygame.QUIT:
+                        running = False
                         break
+                
 
         if bulletCount > bulletAddIncrement:
             for _ in range(3):
@@ -213,20 +207,21 @@ def main():
                                     (50, HEIGHT / 2 - lostLivesText.get_height()))
                         pygame.display.update()
                         startTime1 = time.time()
-                        while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
+                        while not time.time() > startTime1 + 1 and running:  # A while loop which waits for 1 second
                             for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     if score >= highscore:
-                                        save_object(score)
+                                        highscores[str(difficulty)] = score
+                                        save_object(highscores)
                                     running = False
                                     break
-                            if not running:
-                                break
+
                     else:
                         WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
                         if score >= highscore or highscore == 0:
-                            save_object(score)
+                            highscores[str(difficulty)] = score
+                            save_object(highscores)
                         pygame.mixer.music.fadeout(1000)
                         WINDOW.blit(game_background, (0, 0))
                         loseText = FONT_BIG.render("GAME OVER!", 1, "red")
@@ -243,13 +238,11 @@ def main():
                             pygame.mixer.Sound.play(GameOverSound)
                             pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
-                        while not time.time() > startTime1 + 5:  # A while loop which waits for 5 seconds
+                        while not time.time() > startTime1 + 5 and running:  # A while loop which waits for 5 seconds
                             for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
                                     break
-                            if not running:
-                                break
                         lives = 4
                         break
             if pygame.mixer.music.get_busy() is False and mute is False:
@@ -258,7 +251,9 @@ def main():
             pygame.mixer.music.pause() if mute else pygame.mixer.music.unpause()  # Pause or unpause the music
 
         if not running:
-            save_object(score) if score >= highscore else None
+            if score >= highscore:
+                highscores[str(difficulty)] = score
+                save_object(highscores)
             continue
 
         draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scoreText, explosions,
