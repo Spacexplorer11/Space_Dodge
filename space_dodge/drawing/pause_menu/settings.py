@@ -50,7 +50,6 @@ def settings_menu(mute):
     pause = True
     last_volume = slider.getValue()  # Track last volume for debouncing
 
-
     while pause:
         time.sleep(6.5 / 1000)
         WINDOW.blit(pause_background, (0, 0))
@@ -92,7 +91,3 @@ def settings_menu(mute):
             last_volume = current_volume
 
         pygame.display.update()
-
-
-def update_volume(volume):
-    pygame.mixer.music.set_volume(volume)
