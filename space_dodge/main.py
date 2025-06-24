@@ -6,6 +6,8 @@ import sys
 import time
 import venv
 
+from file_handling.constants_and_file_loading import logger
+
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
     venv_path = os.path.join(os.path.dirname(__file__), 'venv')
@@ -13,13 +15,16 @@ if sys.prefix == sys.base_prefix:
     # If venv doesn't exist, create it and restart the script
     if not os.path.isdir(venv_path):
         print("🔧 Creating a virtual environment...")
+        logger.info(f"Creating a virtual environment at {venv_path}")
         venv.create(venv_path, with_pip=True)
         print("⚙️ Restarting the script inside the virtual environment...")
+        logger.info("Restarting the script inside the virtual environment")
         activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
             venv_path, 'Scripts', 'python.exe')
         os.execv(activate_script, [activate_script] + sys.argv)
     else:
         print("⚙️ Re-starting the script inside the virtual environment...")
+        logger.info("Re-starting the script inside the virtual environment")
         activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
             venv_path, 'Scripts', 'python.exe')
         os.execv(activate_script, [activate_script] + sys.argv)
@@ -33,6 +38,7 @@ requirements_file = os.path.join(script_dir, 'requirements.txt')
 req_path = pathlib.Path(requirements_file).resolve()
 if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requirements.txt":
     print("📦 Installing all required packages from requirements.txt...")
+    logger.info(f"Installing required packages from {requirements_file}")
     # Safe static command with validated file path
     result = subprocess.run(
         [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
@@ -59,7 +65,7 @@ from file_handling.constants_and_file_loading import (FONT,
 # Import all the files( images, sounds, etc. )
 from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
                                                       sadSound, GameOverSound, highscoreSound)
-from file_handling.loading_func import load_highscore
+from file_handling.loading import load_highscore
 from file_handling.saving import save_object
 from file_handling.utility import ref
 
@@ -94,7 +100,7 @@ def main():
     bullets = []  # The list of bullets
 
     # Load the high score from file
-    highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
+    highscore, highscoreFileFound = load_highscore()
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -105,16 +111,18 @@ def main():
 
         if lives == 4:
             # Draw the title screen
+            logger.info("Drawing the title screen")
             running, startTime, mute = draw_title(mute, firstTime)
             lives = 3
             pausedTimes.clear()
             score = 0
             # Load the high score from file
-            highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
+            highscore, highscoreFileFound = load_highscore()
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
             pygame.mixer.music.play(-1)
+            logger.info("Main game loop started")
             continue
 
         # The time the game was paused & playing
@@ -129,11 +137,11 @@ def main():
         # Get the keys pressed
         keys = pygame.key.get_pressed()
 
-        # The text for the time and score( it's updated every frame )
+        # The text for the time and score (it's updated every frame)
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
         scoreText = FONT.render(f"Score: {score}", 1, "white")
 
-        # The rectangles for the symbols( it's updated every frame )
+        # The rectangles for the symbols (it's updated every frame)
         muteButton.update_rect(timeText.get_width() + 10)
         unmuteButton.update_rect(timeText.get_width() + 10)
         pauseButton.update_rect(scoreText.get_width() + 745)
@@ -151,6 +159,8 @@ def main():
                 if score >= highscore:
                     save_object(score)
                 running = False
+                logger.info("Game exited by user")
+                pygame.mixer.music.stop()
                 break
             # Check if the mouse is clicked or a key is pressed
             elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
@@ -221,6 +231,7 @@ def main():
                 if player_mask.overlap(bullet.mask, offset):
                     bullets.clear()
                     lives -= 1
+                    logger.info(f"Player hit by bullet, lives left: {lives}")
                     if lives > 0:
                         WINDOW.blit(game_background, (0, 0))
                         WINDOW.blit(lostLivesText if lives > 1 else lostLifeText,
@@ -237,6 +248,7 @@ def main():
                             if not running:
                                 break
                     else:
+                        logger.info("Player lost all lives, game over")
                         WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
                         if score >= highscore or highscore == 0:
