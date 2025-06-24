@@ -41,7 +41,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False, mute
-            elif event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
+            if event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_m] or unmutePauseButton.clicked() or mutePauseButton.clicked():
                     mute = not mute
@@ -53,7 +53,7 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                         pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
                         pygame.mixer.music.play(-1)
                     return True, mute
-                elif settingsButton.clicked():
+                if settingsButton.clicked():
                     logger.info("Settings menu entered")
                     pause, mute = settings_menu(mute)
                     logger.info("Settings menu exited")

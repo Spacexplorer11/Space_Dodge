@@ -42,21 +42,32 @@ def _draw_title_screen(mute, startButton, muteSymbol, unmuteSymbol, settingsButt
     settingsButton.draw()
 
 
+def _handle_quit_event(event):
+    return event.type == pygame.QUIT
+
+
+def _handle_mouse_click(event, startButton, muteSymbol, unmuteSymbol, settingsButton, mute):
+    if startButton.clicked():
+        pygame.mixer.music.stop()
+        return True, mute
+    if muteSymbol.clicked() or unmuteSymbol.clicked():
+        mute = not mute
+        pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
+    if settingsButton.clicked():
+        logger.info("Settings menu entered from title screen")
+        settings_menu(mute)
+        logger.info("Settings menu exited to title screen")
+    return False, mute
+
+
 def _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute):
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return True, mute  # Will return False, 0.0, mute in main
+        if _handle_quit_event(event):
+            return True, mute
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if startButton.clicked():
-                pygame.mixer.music.stop()
+            started, mute = _handle_mouse_click(event, startButton, muteSymbol, unmuteSymbol, settingsButton, mute)
+            if started:
                 return True, mute
-            if muteSymbol.clicked() or unmuteSymbol.clicked():
-                mute = not mute
-                pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
-            if settingsButton.clicked():
-                logger.info("Settings menu entered from title screen")
-                settings_menu(mute)
-                logger.info("Settings menu exited to title screen")
     return False, mute
 
 

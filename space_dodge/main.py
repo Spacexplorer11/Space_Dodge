@@ -1,10 +1,43 @@
 # Imports
+import logging
 import os
 import pathlib
 import subprocess
 import sys
 import time
 import venv
+
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # (DEBUG < INFO < WARNING < ERROR < CRITICAL)
+
+# Create a file handler to log to mylog.log
+file_handler = logging.FileHandler('mylog.log', mode='a')
+file_handler.setLevel(logging.DEBUG)
+
+# Format for each log message
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(filename)s:%(lineno)d — %(message)s')
+file_handler.setFormatter(formatter)
+
+# Add the handler to logger
+if not logger.handlers:
+    logger.addHandler(file_handler)
+
+
+def validate_requirements_file(path):
+    logger.info(f"Validating requirements file: {path}")
+    print("🔍 Validating requirements.txt...")
+    with open(path, 'r') as f:
+        for line in f:
+            line = line.strip()
+            # Skip comments and empty lines
+            if not line or line.startswith('#'):
+                continue
+            # Basic checks for suspicious characters
+            if any(c in line for c in [';', '&', '|', '`', '$', '>', '<']):
+                logger.error(f"Requirements file {path} contains invalid characters: {line}")
+                raise ValueError(f"Invalid character in requirements file line: {line}")
+
 
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
@@ -38,6 +71,7 @@ if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requ
     print("📦 Installing all required packages from requirements.txt...")
     logger.info(f"Installing required packages from {requirements_file}")
     # Safe static command with validated file path
+    validate_requirements_file(req_path)
     result = subprocess.run(
         [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
         check=True
@@ -46,25 +80,6 @@ else:
     raise FileNotFoundError(
         f"requirements.txt not found in script directory: {script_dir}"
     )
-
-# Import the classes' modules
-from classes.bullet import Bullet
-from classes.button import Button
-from classes.player import Player
-from drawing.draw import draw
-from drawing.pause_menu.pause_function import pause_menu
-from drawing.title_screen.draw_title_screen import draw_title
-from drawing.tutorial_and_information.keybindings import keybindings_screen
-# Import all constant variables
-from file_handling.constants_and_file_loading import (FONT,
-                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
-# Import all the files( images, sounds, etc. )
-from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
-                                                      sadSound, GameOverSound, highscoreSound)
-from file_handling.loading import load_highscore
-from file_handling.constants_and_file_loading import logger
-from file_handling.saving import save_object
-from file_handling.utility import ref
 import pygame
 
 # Import the classes' modules
