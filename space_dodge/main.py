@@ -6,8 +6,6 @@ import sys
 import time
 import venv
 
-from file_handling.constants_and_file_loading import logger
-
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
     venv_path = os.path.join(os.path.dirname(__file__), 'venv')
@@ -49,6 +47,24 @@ else:
         f"requirements.txt not found in script directory: {script_dir}"
     )
 
+# Import the classes' modules
+from classes.bullet import Bullet
+from classes.button import Button
+from classes.player import Player
+from drawing.draw import draw
+from drawing.pause_menu.pause_function import pause_menu
+from drawing.title_screen.draw_title_screen import draw_title
+from drawing.tutorial_and_information.keybindings import keybindings_screen
+# Import all constant variables
+from file_handling.constants_and_file_loading import (FONT,
+                                                      FONT_MEDIUM, FONT_BIG, WIDTH, HEIGHT, WINDOW)
+# Import all the files( images, sounds, etc. )
+from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
+                                                      sadSound, GameOverSound, highscoreSound)
+from file_handling.loading import load_highscore
+from file_handling.constants_and_file_loading import logger
+from file_handling.saving import save_object
+from file_handling.utility import ref
 import pygame
 
 # Import the classes' modules
