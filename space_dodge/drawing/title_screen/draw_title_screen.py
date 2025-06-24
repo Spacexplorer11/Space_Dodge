@@ -48,10 +48,10 @@ def _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, 
             if startButton.clicked():
                 pygame.mixer.music.stop()
                 return True, mute
-            elif muteSymbol.clicked() or unmuteSymbol.clicked():
+            if muteSymbol.clicked() or unmuteSymbol.clicked():
                 mute = not mute
                 pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
-            elif settingsButton.clicked():
+            if settingsButton.clicked():
                 settings_menu(mute)
     return False, mute
 
@@ -87,3 +87,5 @@ def _handle_first_time_flow(mute):
                 return running, startTime, mute
         welcome_screen()
         time.sleep(1/60)  # Add frame-rate limiting to prevent excessive CPU usage
+    # Fallback return (should never be reached due to loop logic)
+    return False, 0.0, mute
