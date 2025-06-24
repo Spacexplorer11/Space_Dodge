@@ -23,7 +23,6 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
     pause = True
 
     while pause:
-        time.sleep(3 / 1000)
         WINDOW.blit(pause_background, (0, 0))
         WINDOW.blit(PAUSE_FONT.render("PAUSE MENU", 1, "white"), (290, 176))
         WINDOW.blit(PAUSE_FONT.render(f"Time played: {round(elapsedTime)} secs", 1, "white"), (180, 250))
@@ -59,3 +58,4 @@ def pause_menu(score, elapsedTime, highscore, highscoreBreak, mute):
                     logger.info("Settings menu exited")
 
         pygame.display.update()
+        time.sleep(3 / 1000)
