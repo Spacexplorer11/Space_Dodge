@@ -40,7 +40,7 @@ button:hover {
     margin-right: 23vw;
 }
 
-#container a:hover{
+#container a:hover {
     color: lightgreen;
     text-decoration-line: underline;
     text-decoration-style: wavy;
@@ -193,8 +193,8 @@ p:hover strong {
 
 /* Space Grotesk font */
 .space-grotesk {
-  font-family: "Space Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }

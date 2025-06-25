@@ -27,7 +27,7 @@ def draw_title(mute):
     unmuteSymbol = Button(unmuteImage, 50, 200)
     startButton = Button(start_button_image, 350, 300)
     settingsButton = Button(settings_icon_frames, WIDTH - settings_icon_frames[1].get_width() - 10,
-                            HEIGHT - settings_icon_frames[1].get_height())
+                            HEIGHT - settings_icon_frames[1].get_height(), 25)
 
     while not start:
         time.sleep(3 / 1000)
@@ -50,7 +50,9 @@ def draw_title(mute):
                     mute = not mute
                     pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
                 elif settingsButton.clicked():
-                    settings_menu(mute)
+                    running, mute = settings_menu(mute)
+                    if running is False:
+                        return False, 0.0, mute
 
         pygame.display.update()
 

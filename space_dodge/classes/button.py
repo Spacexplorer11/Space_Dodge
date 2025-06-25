@@ -5,7 +5,7 @@ from classes.animation import Animation
 
 
 class Button:
-    def __init__(self, image, x, y, duration=2):
+    def __init__(self, image, x, y, fps=30):
         self.x = x
         self.y = y
         self.pos = (x, y)
@@ -13,7 +13,7 @@ class Button:
 
         if self.is_animated:
             self._image = list(image.values())[0]  # Use the first image as the default
-            self.animation = Animation(x, y, list(image.values()), duration)
+            self.animation = Animation(x, y, list(image.values()), fps)
         else:
             self._image = image
             self.image_hover = p.transform.scale(self._image,
