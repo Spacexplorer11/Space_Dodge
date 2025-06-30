@@ -1,0 +1,29 @@
+name: Test + Coverage
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    # Set up your environment, e.g. Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install deps
+      run: |
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Run tests + collect coverage
+      run: |
+        pytest --cov=space_dodge/main --cov-report=xml
+
+    - name: Upload to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: coverage.xml
