@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import main
 import pygame
 
+
 # Helper to simulate pygame events for testing
 class EventSimulator:
     def __init__(self):
@@ -31,6 +32,10 @@ class EventSimulator:
         if self.frame_count == 1:
             events.append(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_a))
         if self.frame_count == 2:
+            events.append(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_a))
+
+        # Press a key to exit the firstTime keybindings screen
+        if self.frame_count == 5:
             events.append(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_a))
 
         # Press 'i' to see keybindings
