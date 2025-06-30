@@ -1,26 +1,23 @@
 import threading
+import time
 
 import pygame
 import pygame_widgets
-import time
-
-from pygame_widgets.slider import Slider
-from pygame_widgets.textbox import TextBox
-
 from classes.button import Button
 from file_handling.constants_and_file_loading import (
-    WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, pause_time, x_button_icon)
+    WINDOW, pause_background, muteImage, unmuteImage, PAUSE_FONT, x_button_icon)
+from pygame_widgets.slider import Slider
+from pygame_widgets.textbox import TextBox
 
 mutePauseButton = Button(pygame.transform.scale(muteImage, (120, 80)), 180, 430)
 unmutePauseButton = Button(pygame.transform.scale(unmuteImage, (120, 80)), 180, 430)
 slider_title = pygame.font.SysFont("comicsans", 30).render("Volume", 1, (255, 255, 255))
 xButton = Button(x_button_icon, 665, 175)  # Create the x button object
-
+slider = Slider(WINDOW, 350, 400, 100, 30, min=0, max=100, initial=pygame.mixer.music.get_volume() * 100)
+output = TextBox(WINDOW, 500, 395, 75, 50, fontSize=30)
 
 
 def settings_menu(mute):
-    slider = Slider(WINDOW, 350, 400, 100, 30, min=0, max=100, initial=pygame.mixer.music.get_volume() * 100)
-    output = TextBox(WINDOW, 500, 395, 75, 50, fontSize=30)
 
     output.disable()  # Act as label instead of textbox
     pause = True
@@ -54,7 +51,7 @@ def settings_menu(mute):
                     return pause, mute
 
         slider.listen(events)
-        output.setText(slider.getValue())
+        output.setText(str(slider.getValue()))
 
         pygame_widgets.update(events)
 

@@ -1,7 +1,6 @@
 import pygame as p
-
-from file_handling.constants_and_file_loading import WINDOW
 from classes.animation import Animation
+from file_handling.constants_and_file_loading import WINDOW
 
 
 class Button:

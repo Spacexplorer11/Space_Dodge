@@ -33,11 +33,15 @@ def draw_except(error):
         if error in error_messages:
             errorText1 = FONT_ERROR.render("Error:", 1, "red")
             errorText2 = FONT_ERROR.render(error_messages[error], 1, "red")
-            errorText3 = FONT_ERROR_SMALL.render("Please create an issue on GitHub using the Help Wanted template and attach the mylog.log file", 1, "red")
+            errorText3 = FONT_ERROR_SMALL.render(
+                "Please create an issue on GitHub using the Help Wanted template and attach the mylog.log file", 1,
+                "red")
             errorText1Place = WIDTH / 2 - errorText1.get_width() / 2, HEIGHT / 2 - errorText1.get_height() / 2
             WINDOW.blit(errorText1, errorText1Place)
-            WINDOW.blit(errorText2, (WIDTH / 2 - errorText2.get_width() / 2, HEIGHT / 2 - errorText2.get_height() / 2 + 30))
-            WINDOW.blit(errorText3, (WIDTH / 2 - errorText3.get_width() / 2, HEIGHT / 2 - errorText3.get_height() / 2 + 60))
+            WINDOW.blit(errorText2,
+                        (WIDTH / 2 - errorText2.get_width() / 2, HEIGHT / 2 - errorText2.get_height() / 2 + 30))
+            WINDOW.blit(errorText3,
+                        (WIDTH / 2 - errorText3.get_width() / 2, HEIGHT / 2 - errorText3.get_height() / 2 + 60))
             pygame.display.update()
 
     pygame.quit()

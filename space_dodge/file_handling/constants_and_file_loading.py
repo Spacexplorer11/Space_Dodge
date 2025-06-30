@@ -2,7 +2,6 @@ import logging
 import os
 
 import pygame as p
-
 from drawing.exception_handling.draw_exception import draw_except
 from file_handling.utility import ref
 from pygame import image as i
@@ -49,9 +48,21 @@ BULLET_VELOCITY = 3
 # Button variables
 BUTTON_WIDTH, BUTTON_HEIGHT = 300, 200
 
-logfile = ref('mylog.log')
-logging.basicConfig(filename=logfile, level=logging.INFO)
+# Set up logging
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # (DEBUG < INFO < WARNING < ERROR < CRITICAL)
+
+# Create a file handler to log to mylog.log
+file_handler = logging.FileHandler('mylog.log', mode='a')
+file_handler.setLevel(logging.DEBUG)
+
+# Format for each log message
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(filename)s:%(lineno)d — %(message)s')
+file_handler.setFormatter(formatter)
+
+# Add the handler to logger
+if not logger.handlers:
+    logger.addHandler(file_handler)
 
 
 # Function to draw the loading bar
