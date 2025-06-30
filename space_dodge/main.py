@@ -72,6 +72,11 @@ else:
 
 import pygame
 
+# Prevent music/init running during imports (for testing/coverage)
+if __name__ != "__main__":
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
+    os.environ["SDL_AUDIODRIVER"] = "dummy"
+
 # Import the classes' modules
 from classes.bullet import Bullet
 from classes.button import Button
@@ -92,7 +97,7 @@ from file_handling.utility import ref
 
 pygame.mixer.init()
 pygame.font.init()
-pygame.init()
+pygame.init() if __name__ == "__main__" else None
 
 
 def main():
