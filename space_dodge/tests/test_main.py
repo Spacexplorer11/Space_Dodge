@@ -2,12 +2,11 @@ import os
 import sys
 import threading
 
-import main
-import pygame
-
 # Add root folder to sys.path (if not already)
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+import main
+import pygame
 
 # Helper to simulate pygame events for testing
 class EventSimulator:
@@ -51,24 +50,16 @@ class EventSimulator:
             events.append(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_m))
 
         # Simulate moving right
-        if 40 <= self.frame_count <= 100:
-            keys = {pygame.K_d: True}
-            event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_d)
-            event.mod = 0
-            event.unicode = 'd'
-            event.scancode = pygame.key.key_code('d')
-            pygame.key.set_pressed(keys)
-            events.append(event)
+        if self.frame_count == 40:
+            events.append(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_d))
+        if self.frame_count == 100:
+            events.append(pygame.event.Event(pygame.KEYUP, key=pygame.K_d))
 
         # Simulate moving left
-        if 101 <= self.frame_count <= 160:
-            keys = {pygame.K_a: True}
-            event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_a)
-            event.mod = 0
-            event.unicode = 'a'
-            event.scancode = pygame.key.key_code('a')
-            pygame.key.set_pressed(keys)
-            events.append(event)
+        if self.frame_count == 101:
+            events.append(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_a))
+        if self.frame_count == 160:
+            events.append(pygame.event.Event(pygame.KEYUP, key=pygame.K_a))
 
         # Simulate pressing 'p' (pause) around frame 300
         if self.frame_count == 300:
