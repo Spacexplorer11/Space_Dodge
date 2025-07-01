@@ -46,7 +46,7 @@ from file_handling.constants_and_file_loading import (FONT,
 # Import all the files( images, sounds, etc. )
 from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pauseButtonImage, game_background,
                                                       sadSound, GameOverSound, highscoreSound)
-from file_handling.loading import load_highscore
+from file_handling.loading_func import load_highscore
 from file_handling.saving import save_object
 from file_handling.utility import ref
 import pygame
@@ -80,7 +80,7 @@ def main():
     bullets = []  # The list of bullets
 
     # Load the high score from file
-    highscore, highscoreFileFound = load_highscore()
+    highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
 
     # The text for when the player loses a life
     lostLivesText = FONT_MEDIUM.render("You lost a life, you are now on 2 lives!", 1, "red")
@@ -96,7 +96,7 @@ def main():
             pausedTimes.clear()
             score = 0
             # Load the high score from file
-            highscore, highscoreFileFound = load_highscore()
+            highscore, highscoreFileFound = load_highscore(ref("file_handling/highscore.pickle"))
             # Play the background music
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
