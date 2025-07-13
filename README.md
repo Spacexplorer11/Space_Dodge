@@ -19,16 +19,17 @@ Please leave them in [Issues under the "suggestion" tag](https://github.com/Spac
 If you have **any** feedback please fill out this [survey](https://tally.so/r/mOo7pA)
 
 
-## Instructions to install the game
+## Instructions to install & run the game
 
 The instructions to play the game are in-game.
+You can also find these instructions on [my website](https://spacedodge.space/instructions)
 1. Download Python from [python.org](https://python.org). **Make sure it is correct for your computer.**
 > [!Caution]
 > Make sure it is the **official** python site (https://python.org)!
 
 > [!Important]
 > If you are on windows, please run `python` **on its own** in the terminal/command prompt and install python from the microsoft store as well
-2. Download the latest release [here](https://github.com/spacexplorer11/Space_Dodge/releases/latest/download/Space_Dodge.zip)
+2. Download the latest release [here](https://github.com/spacexplorer11/Space_Dodge/releases/latest/download/Space_Dodge.zip) or on [itch.io](https://spacexplorer11.itch.io/spacedodge)
 3. Extract/unzip the file to a desired location.
 4. Navigate to the folder where you extracted the files. Find main.py (it is inside the space_dodge folder)
 >[!Note]
