@@ -1,5 +1,4 @@
 import pygame
-
 from classes.animation import Animation
 from file_handling.constants_and_file_loading import (
     WINDOW, WIDTH, HEIGHT, FONT, BULLET_HEIGHT,
@@ -18,7 +17,8 @@ def draw(player, bullets, highscore, highscoreBreak, mute, lives, timeText, scor
         WINDOW.blit(bullet_texture, (bullet.x, bullet.y))
         if bullet.y > HEIGHT - BULLET_HEIGHT - 10:
             explosions.append(
-                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()), total_duration=0.75))
+                Animation(x=bullet.x, y=(HEIGHT - BULLET_HEIGHT - 10), frames=list(bullet_explosion_frames.values()),
+                          total_duration=0.75))
 
     # Update and draw explosions
     for explosion in explosions[:]:

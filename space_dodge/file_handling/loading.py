@@ -1,8 +1,7 @@
 import json
 
+from file_handling.constants_and_file_loading import logger
 from file_handling.utility import ref
-
-from space_dodge.file_handling.constants_and_file_loading import logger
 
 
 def load_highscore():
