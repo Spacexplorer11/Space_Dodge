@@ -30,7 +30,7 @@
 		<h3>Questions?</h3>
 		<p>
 			Contact me at
-			<code><a href="mailto:spacexplorer11@proton.me">spacexplorer11@proton.me</a></code>
+			<code><a href="mailto:akaal@akaalroop.com">akaal@akaalroop.com</a></code>
 			if you have any questions!
 		</p>
 	</div>
