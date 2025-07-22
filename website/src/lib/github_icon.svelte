@@ -5,7 +5,7 @@
    title="View source on GitHub">
 	<img alt="GitHub logo"
 	     id="github_logo"
-	     src="{base}/github_icon.png">
+	     src="{base}/github_icon.webp">
 </a>
 <style>
 	/* Github logo styles */

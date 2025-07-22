@@ -53,7 +53,7 @@
 	<button class="start_button" on:click={startGame}>
 		<img alt="Space Dodge Start Button"
 		     class="start_button"
-		     src="{base}/start_button.png">
+		     src="{base}/start_button.webp">
 	</button>
 </div>
 <style>
