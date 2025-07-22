@@ -1,36 +1,81 @@
 # Imports
+import logging
 import os
+import pathlib
 import subprocess
 import sys
 import time
-import venv
 
-# Check if running inside a virtual environment
-if sys.prefix == sys.base_prefix:
-    venv_path = os.path.join(os.path.dirname(__file__), 'venv')
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # (DEBUG < INFO < WARNING < ERROR < CRITICAL)
 
-    # If venv doesn't exist, create it and restart the script
-    if not os.path.isdir(venv_path):
-        print("🔧 Creating a virtual environment...")
-        venv.create(venv_path, with_pip=True)
-        print("⚙️ Restarting the script inside the virtual environment...")
-        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
-            venv_path, 'Scripts', 'python.exe')
-        os.execv(activate_script, [activate_script] + sys.argv)
-    else:
-        print("⚙️ Re-starting the script inside the virtual environment...")
-        activate_script = os.path.join(venv_path, 'bin', 'python') if sys.platform != 'win32' else os.path.join(
-            venv_path, 'Scripts', 'python.exe')
-        os.execv(activate_script, [activate_script] + sys.argv)
+# Create a file handler to log to mylog.log
+file_handler = logging.FileHandler('mylog.log', mode='a')
+file_handler.setLevel(logging.DEBUG)
 
-# Check if all required packages are installed in the virtual environment
-required_packages = ['pygame', 'pygame_widgets']  # List your packages here
-for package in required_packages:
+# Format for each log message
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(filename)s:%(lineno)d — %(message)s')
+file_handler.setFormatter(formatter)
+
+# Add the handler to logger
+if not logger.handlers:
+    logger.addHandler(file_handler)
+
+
+def validate_requirements_file(path):
+    logger.info(f"Validating requirements file: {path}")
+    print("🔍 Validating requirements.txt...")
+    with open(path, 'r') as f:
+        for line in f:
+            line = line.strip()
+            # Skip comments and empty lines
+            if not line or line.startswith('#'):
+                continue
+            # Reject lines with dangerous characters to prevent injection
+            if any(c in line for c in [';', '&', '|', '`', '$', '>', '<']):
+                logger.error(f"Requirements file {path} contains invalid characters: {line}")
+                raise ValueError(f"Invalid character in requirements file line: {line}")
+
+
+def install_requirements(req_path):
+    """
+    Runs pip install on requirements.txt safely after validating its content.
+    This subprocess call uses a list (not shell=True), so no shell injection is possible.
+    The input file is validated to ensure no dangerous characters exist.
+    """
+    validate_requirements_file(req_path)
+
+    logger.info(f"Installing required packages from {req_path}")
+    print("📦 Installing all required packages from requirements.txt...")
+
+    result = subprocess.run(
+        [sys.executable, "-m", "pip", "install", "-r", str(req_path)],
+        check=True
+    )
+    return result
+
+
+# In your main flow:
+script_dir = os.path.dirname(os.path.abspath(__file__))
+requirements_file = os.path.join(script_dir, 'requirements.txt')
+
+req_path = pathlib.Path(requirements_file).resolve()
+if req_path.is_file() and script_dir in str(req_path) and req_path.name == "requirements.txt":
     try:
-        __import__(package)
-    except ImportError:
-        print(f"📦 Installing '{package}' inside virtual environment...")
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+        install_requirements(req_path)
+    except ValueError as ve:
+        logger.critical(f"Requirements file validation failed: {ve}")
+        sys.exit(1)
+else:
+    raise FileNotFoundError(f"requirements.txt not found in script directory: {script_dir}")
+
+import pygame
+
+# Prevent music/init running during imports (for testing/coverage)
+if __name__ != "__main__":
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
+    os.environ["SDL_AUDIODRIVER"] = "dummy"
 
 # Import the classes' modules
 from classes.bullet import Bullet
@@ -49,11 +94,10 @@ from file_handling.constants_and_file_loading import (muteImage, unmuteImage, pa
 from file_handling.loading_func import load_highscore
 from file_handling.saving import save_object
 from file_handling.utility import ref
-import pygame
 
 pygame.mixer.init()
 pygame.font.init()
-pygame.init()
+pygame.init() if __name__ == "__main__" else None
 
 
 def main():
@@ -63,12 +107,14 @@ def main():
     lives = 4  # Self-explanatory
     highscoreSoundPlayed = False  # Has the highscore sound been played?
     pausedTimes = []  # The total pause time
+    startTime = time.time()  # The time the game started (will be overwritten by title screen)
     last_time = time.time()
     explosions = []  # The list of explosions
     player = Player()  # Create the player object
     muteButton = Button(muteImage, 132, 10)  # Create the mute symbol object
     unmuteButton = Button(unmuteImage, 132, 10)  # Create the unmute symbol object
     pauseButton = Button(pauseButtonImage, 900, 10)  # Create the pause symbol object
+    firstTime = True  # Is this the first time the game is started?
 
     clock = pygame.time.Clock()  # The clock for the game
 
@@ -91,7 +137,8 @@ def main():
 
         if lives == 4:
             # Draw the title screen
-            running, startTime, mute = draw_title(mute)
+            logger.info("Drawing the title screen")
+            running, startTime, mute = draw_title(mute, firstTime)
             lives = 3
             pausedTimes.clear()
             score = 0
@@ -101,6 +148,7 @@ def main():
             pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
             pygame.mixer.music.set_volume(20)
             pygame.mixer.music.play(-1)
+            logger.info("Main game loop started")
             continue
 
         # The time the game was paused & playing
@@ -115,11 +163,11 @@ def main():
         # Get the keys pressed
         keys = pygame.key.get_pressed()
 
-        # The text for the time and score( it's updated every frame )
+        # The text for the time and score (it's updated every frame)
         timeText = FONT.render(f"Time: {round(elapsedTime)}", 1, "white")
         scoreText = FONT.render(f"Score: {score}", 1, "white")
 
-        # The rectangles for the symbols( it's updated every frame )
+        # The rectangles for the symbols (it's updated every frame)
         muteButton.update_rect(timeText.get_width() + 10)
         unmuteButton.update_rect(timeText.get_width() + 10)
         pauseButton.update_rect(scoreText.get_width() + 745)
@@ -137,6 +185,8 @@ def main():
                 if score >= highscore:
                     save_object(score)
                 running = False
+                logger.info("Game exited by user")
+                pygame.mixer.music.stop()
                 break
             # Check if the mouse is clicked or a key is pressed
             elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
@@ -173,7 +223,7 @@ def main():
                 highscoreSoundPlayed = True
                 startTime1 = time.time()
                 while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                    for event in pygame.event.get():   # but the game can still be quit during this time
+                    for event in pygame.event.get():  # but the game can still be quit during this time
                         if event.type == pygame.QUIT:
                             if score >= highscore:
                                 save_object(score)
@@ -207,6 +257,7 @@ def main():
                 if player_mask.overlap(bullet.mask, offset):
                     bullets.clear()
                     lives -= 1
+                    logger.info(f"Player hit by bullet, lives left: {lives}")
                     if lives > 0:
                         WINDOW.blit(game_background, (0, 0))
                         WINDOW.blit(lostLivesText if lives > 1 else lostLifeText,
@@ -214,7 +265,7 @@ def main():
                         pygame.display.update()
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 1:  # A while loop which waits for 1 second
-                            for event in pygame.event.get():   # but the game can still be quit during this time
+                            for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     if score >= highscore:
                                         save_object(score)
@@ -223,6 +274,7 @@ def main():
                             if not running:
                                 break
                     else:
+                        logger.info("Player lost all lives, game over")
                         WINDOW.blit(game_background, (0, 0))
                         pygame.display.update()
                         if score >= highscore or highscore == 0:
@@ -244,13 +296,14 @@ def main():
                             pygame.mixer.Sound.play(sadSound)
                         startTime1 = time.time()
                         while not time.time() > startTime1 + 5:  # A while loop which waits for 5 seconds
-                            for event in pygame.event.get():   # but the game can still be quit during this time
+                            for event in pygame.event.get():  # but the game can still be quit during this time
                                 if event.type == pygame.QUIT:
                                     running = False
                                     break
                             if not running:
                                 break
                         lives = 4
+                        firstTime = False
                         break
             if pygame.mixer.music.get_busy() is False and mute is False:
                 pygame.mixer.music.load(ref("assets/sounds/background_music/background_music.mp3"))
