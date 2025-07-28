@@ -1,12 +1,15 @@
-import pygame
 import time
+
+import pygame
 from classes.button import Button
-from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.pause_menu.settings import settings_menu
+from drawing.tutorial_and_information.keybindings import keybindings_screen
 from drawing.tutorial_and_information.welcome import welcome_screen
 from file_handling.constants_and_file_loading import (
     WINDOW, start_button_image, muteImage, unmuteImage, title_screen_background, settings_icon_frames, WIDTH, HEIGHT
 )
+# Set up logging
+from file_handling.constants_and_file_loading import logger
 from file_handling.utility import ref
 
 # Initialise pygame & pygame.mixer
@@ -14,51 +17,89 @@ pygame.init()
 pygame.mixer.init()
 
 
-# Draw the title screen
-def draw_title(mute):
-    # Load the title screen music
+def _play_title_music():
     pygame.mixer.music.load(ref("assets/sounds/background_music/title_screen/title_screen_music.mp3"))
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(loops=-1)
-    start = False
 
-    # Define Button objects
+
+def _create_buttons():
     muteSymbol = Button(muteImage, 50, 200)
     unmuteSymbol = Button(unmuteImage, 50, 200)
     startButton = Button(start_button_image, 350, 300)
     settingsButton = Button(settings_icon_frames, WIDTH - settings_icon_frames[1].get_width() - 10,
                             HEIGHT - settings_icon_frames[1].get_height())
+    return startButton, muteSymbol, unmuteSymbol, settingsButton
+
+
+def _draw_title_screen(mute, startButton, muteSymbol, unmuteSymbol, settingsButton):
+    WINDOW.blit(title_screen_background, (0, 0))
+    startButton.draw()
+    if mute:
+        WINDOW.blit(muteSymbol.image, muteSymbol.pos)
+    else:
+        WINDOW.blit(unmuteSymbol.image, unmuteSymbol.pos)
+    settingsButton.draw()
+
+
+def _handle_quit_event(event):
+    return event.type == pygame.QUIT
+
+
+def _handle_mouse_click(event, startButton, muteSymbol, unmuteSymbol, settingsButton, mute):
+    if startButton.clicked():
+        pygame.mixer.music.stop()
+        return True, mute
+    if muteSymbol.clicked() or unmuteSymbol.clicked():
+        mute = not mute
+        pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
+    if settingsButton.clicked():
+        logger.info("Settings menu entered from title screen")
+        settings_menu(mute)
+        logger.info("Settings menu exited to title screen")
+    return False, mute
+
+
+def _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute):
+    for event in pygame.event.get():
+        if _handle_quit_event(event):
+            return True, mute
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            started, mute = _handle_mouse_click(event, startButton, muteSymbol, unmuteSymbol, settingsButton, mute)
+            if started:
+                return True, mute
+    return False, mute
+
+
+# Draw the title screen
+def draw_title(mute, firstTime):
+    _play_title_music()
+    startButton, muteSymbol, unmuteSymbol, settingsButton = _create_buttons()
+    start = False
 
     while not start:
         time.sleep(3 / 1000)
-        WINDOW.blit(title_screen_background, (0, 0))
-        startButton.draw()
-        if mute:
-            WINDOW.blit(muteSymbol.image, muteSymbol.pos)
-        else:
-            WINDOW.blit(unmuteSymbol.image, unmuteSymbol.pos)
-        settingsButton.draw()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False, 0.0, mute
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if startButton.clicked():
-                    start = True
-                    pygame.mixer.music.stop()
-                elif muteSymbol.clicked() or unmuteSymbol.clicked():
-                    mute = not mute
-                    pygame.mixer.music.unpause() if not mute else pygame.mixer.music.pause()
-                elif settingsButton.clicked():
-                    settings_menu(mute)
-
+        _draw_title_screen(mute, startButton, muteSymbol, unmuteSymbol, settingsButton)
         pygame.display.update()
+        start, mute = _handle_title_events(startButton, muteSymbol, unmuteSymbol, settingsButton, mute)
 
+    if firstTime:
+        logger.info("First-time user flow initiated")
+        return _handle_first_time_flow(mute)
+    return True, time.time(), mute
+
+
+def _handle_first_time_flow(mute):
+    # Handle the first-time user experience with welcome screen and keybindings.
+    start = True
     while start:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False, 0.0, mute
-            elif event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 running, startTime = keybindings_screen(4)
                 return running, startTime, mute
         welcome_screen()
+        time.sleep(1/60)  # Add frame-rate limiting to prevent excessive CPU usage
+    # Fallback return (should never be reached due to loop logic)
+    return False, 0.0, mute
