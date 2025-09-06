@@ -93,7 +93,7 @@ You should [create an issue](https://github.com/Spacexplorer11/Space_Dodge/issue
   
 
 ## Contact
-- If you would like to contact me, please message me on discord at `spacexplorer11` or email me at [akaal@akaalroop.com](mailto:akaal@akaalroop.com)
+- If you would like to contact me, please use any of the methods available [on my profile/in my profile README!](https://github.com/Spacexplorer11)
 
 ## Thanks! 💜
 Thank you so much for playing Space Dodge! I'd really appreciate it if you starred my repository!
