@@ -7,7 +7,7 @@ import venv
 
 # Check if running inside a virtual environment
 if sys.prefix == sys.base_prefix:
-    venv_path = os.path.join(os.path.dirname(__file__), 'venv')
+    venv_path = os.path.join(os.path.dirname(__file__), '.venv')
 
     # If venv doesn't exist, create it and restart the script
     if not os.path.isdir(venv_path):
