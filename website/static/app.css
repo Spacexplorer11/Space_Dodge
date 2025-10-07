@@ -18,7 +18,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+button.default_hover:hover {
     background: transparent;
     border: none;
     font-size: larger;
