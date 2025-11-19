@@ -1,6 +1,5 @@
 <script>
 	import {menuOpen} from "$lib/stores/menu.js";
-	import {base} from '$app/paths';
 
 	function toggleMenu() {
 		const menu = document.getElementById("hamburger-menu");
@@ -34,11 +33,11 @@
 <!-- 🍔 Slide-in Menu -->
 <div id="hamburger-menu">
 	<nav>
-		<a href="{base}/">Home</a>
-		<a href="{base}/instructions">Instructions</a>
-		<a href="{base}/contributors">Contributors</a>
-		<a href="{base}/about">About</a>
+		<a href="/">Home</a>
+		<a href="/instructions">Instructions</a>
+		<a href="/contributors">Contributors</a>
+		<a href="/about">About</a>
 		<!--  <a href="/stats">Stats</a> -->
-		<a href="{base}/privacy_policy">Privacy Policy</a>
+		<a href="/privacy_policy">Privacy Policy</a>
 	</nav>
 </div>

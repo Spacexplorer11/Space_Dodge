@@ -1,6 +1,5 @@
 <script>
 	import {afterNavigate, goto} from "$app/navigation";
-	import {base} from "$app/paths";
 	import {onMount} from "svelte";
 
 	// Array of desktop and mobile OS types
@@ -31,10 +30,10 @@
 	function checkMobile() {
 		const device = getDeviceInfo();
 		if (Mobile.includes(device)) {
-			goto(`${base}/mobile_error`);
+			goto(`/mobile_error`);
 		} else if (!Desktop.includes(device)) {
 			alert("Your OS is not supported.");
-			goto(`${base}/mobile_error`);
+			goto(`/mobile_error`);
 		}
 	}
 
