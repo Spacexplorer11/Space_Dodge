@@ -1,5 +1,4 @@
 <script>
-	import {base} from '$app/paths';
 	import {goto} from "$app/navigation";
 
 	// Array of desktop and mobile OS types
@@ -30,12 +29,12 @@
 	function startGame() {
 		const device = getDeviceInfo();
 		if (Desktop.includes(device)) {
-			goto(`${base}/instructions`);
+			goto(`$/instructions`);
 		} else if (Mobile.includes(device)) {
-			goto(`${base}/mobile_error`);
+			goto(`$/mobile_error`);
 		} else {
 			alert("Your OS is not supported.");
-			goto(`${base}/mobile_error`);
+			goto(`$/mobile_error`);
 		}
 	}
 </script>
@@ -53,7 +52,7 @@
 	<button class="start_button" on:click={startGame}>
 		<img alt="Space Dodge Start Button"
 		     class="start_button"
-		     src="{base}/start_button.webp">
+		     src="/start_button.webp">
 	</button>
 </div>
 <style>
