@@ -1,7 +1,7 @@
 <div id="container">
-	<div id="header">
+	<header>
 		<h1>Privacy Policy</h1>
-	</div>
+	</header>
 	<div id="content">
 		<p>
 			This website collects <strong>minimal, anonymous data</strong> from you. This data is further anonymised and

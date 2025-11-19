@@ -45,10 +45,10 @@
 		checkMobile();
 	});
 </script>
-<div id="header">
+<header>
 	<h1>Instructions to install</h1>
 	<h2>Have fun in just seven steps!</h2>
-</div>
+</header>
 <div id="content">
 	<ol>
 		<li>Download Python 3.13 or later from the official website: <a href="https://www.python.org/downloads/">Python

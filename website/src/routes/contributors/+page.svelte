@@ -1,12 +1,12 @@
 <script>
 	import {contributorsWithPct} from '$lib/stores/repo_data.js';
 </script>
-<div id="header">
+<header>
 	<h1>Contributors</h1>
 	<h2>Space Dodge is a collaborative project.</h2>
 	<h2>This page is to thank our contributors!</h2>
 	<h3>Contributors:</h3>
-</div>
+</header>
 <div id="stats">
 	{#if $contributorsWithPct.length === 0}
 		<div id="loading-message">Loading contributors...</div>

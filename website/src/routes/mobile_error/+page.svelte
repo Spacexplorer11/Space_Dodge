@@ -1,7 +1,7 @@
 <div id="warning_header">
-	<div id="header">
+	<header>
 		<h1> Unavailable on your device</h1>
-	</div>
+	</header>
 	<h2>Space Dodge is <b>not available</b> on mobile devices.</h2>
 	<h3>Please open this page on a computer<br><br><br></h3>
 	<img alt="Warning Symbol - red circle with line through it" id="warning_symbol"

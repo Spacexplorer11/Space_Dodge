@@ -38,10 +38,10 @@
 		}
 	}
 </script>
-<div id="header">
+<header>
 	<h1>Space Dodge</h1>
 	<h2>by <a href="https://github.com/spacexplorer11">Akaalroop Singh</a><br><br></h2>
-</div>
+</header>
 <div id="content">
 	<p>Welcome to Space Dodge!</p>
 	<p>This is a simple game where you dodge bullets in space. </p>
