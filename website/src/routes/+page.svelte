@@ -29,12 +29,12 @@
 	function startGame() {
 		const device = getDeviceInfo();
 		if (Desktop.includes(device)) {
-			goto(`$/instructions`);
+			goto(`/instructions`);
 		} else if (Mobile.includes(device)) {
-			goto(`$/mobile_error`);
+			goto(`/mobile_error`);
 		} else {
 			alert("Your OS is not supported.");
-			goto(`$/mobile_error`);
+			goto(`/mobile_error`);
 		}
 	}
 </script>
