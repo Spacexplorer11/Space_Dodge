@@ -17,7 +17,6 @@
       "svelte": "^5.43.2"
 	},
 	"dependencies": {
-		"@sveltejs/adapter-static": "^3.0.10",
 		"@tsparticles/slim": "^3.8.1",
 		"@tsparticles/svelte": "^3.1.1"
 	}
