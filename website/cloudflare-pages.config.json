@@ -1,0 +1,12 @@
+{
+  "build": {
+    "command": "bun run build",
+    "directory": "."
+  },
+  "install": {
+    "command": "bun install"
+  },
+  "environment": {
+    "runtime": "bun"
+  }
+}
