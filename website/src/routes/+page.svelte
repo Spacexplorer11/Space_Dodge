@@ -40,7 +40,7 @@
 </script>
 <div id="header">
 	<h1>Space Dodge</h1>
-	<h2>by <a href="https://github.com/spacexplorer11">Akaalroop Singh</a>. <br><br></h2>
+	<h2>by <a href="https://github.com/spacexplorer11">Akaalroop Singh</a><br><br></h2>
 </div>
 <div id="content">
 	<p>Welcome to Space Dodge!</p>
