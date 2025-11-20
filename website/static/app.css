@@ -80,14 +80,14 @@ body {
 }
 
 /* Header styles */
-#header {
+header {
     color: white;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
 
-#header a {
+header a {
     color: white;
     text-decoration: underline;
 }
