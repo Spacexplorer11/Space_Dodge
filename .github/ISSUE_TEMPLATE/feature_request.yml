@@ -16,33 +16,21 @@ body:
       placeholder: Describe the problem
       value:
     validations:
-      required: true
+      required: false
   - type: markdown
     attributes:
       value: |
-        **Describe the solution you'd like**
+        **Describe the feature you'd like**
         A clear and concise description of what you want to happen.
   - type: textarea
     id: solution
     attributes:
       label: Solution
-      description: Summarize the solution briefly.
+      description: Summarize the feature briefly.
       placeholder: Describe the solution
       value:
     validations:
       required: true
-  - type: markdown
-    attributes:
-      value: |
-        **Describe alternatives you've considered**
-        A clear and concise description of any alternative solutions or features you've considered.
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives
-      description: Summarize the alternatives briefly.
-      placeholder: Describe the alternatives
-      value:
   - type: markdown
     attributes:
       value: |
@@ -52,6 +40,6 @@ body:
     id: context
     attributes:
       label: Extra Information or background
-      description: Include any additional details or screenshots related to the feature request here.
+      description: Include any additional details or screenshots related to the feature request here (such as mock designs or examples of the feature).
       placeholder: Add any other things you think we should know
       value:
