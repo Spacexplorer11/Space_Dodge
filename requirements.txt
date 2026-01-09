@@ -1,6 +1,6 @@
 pip~=25.3
 pygame~=2.6.1
-macholib~=1.16.3
+macholib~=1.16.4
 packaging~=25.0
 setuptools~=80.9.0
 altgraph~=0.17.5
