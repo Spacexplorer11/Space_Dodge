@@ -3,5 +3,5 @@ pygame~=2.6.1
 macholib~=1.16.3
 packaging~=25.0
 setuptools~=80.9.0
-altgraph~=0.17.4
+altgraph~=0.17.5
 pyperclip~=1.11.0
