@@ -18,7 +18,7 @@
 		"svelte": "^5.46.4"
 	},
 	"dependencies": {
-		"@tsparticles/slim": "^3.9.1",
+		"@tsparticles/slim": "^3.8.1",
 		"@tsparticles/svelte": "^3.1.1"
 	}
 }
