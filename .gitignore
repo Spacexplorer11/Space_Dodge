@@ -286,3 +286,4 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+/space_dodge/file_handling/highscore.json

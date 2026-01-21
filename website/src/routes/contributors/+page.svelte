@@ -13,7 +13,7 @@
 	{/if}
 	<div id="contributors">
 		{#each $contributorsWithPct as c (c.login)}
-			{#if c.login && (c.contributions ?? c.total) != null}
+			{#if c.login && (c.contributions ?? c.total) != null && c.login !== 'unknown'}
 				<div class="contributor">
 					<img src="{c.avatar_url || c.author?.avatar_url}" alt="{c.login}" width="32" height="32"
 					     style="border-radius:50%;margin-right:8px"/>
