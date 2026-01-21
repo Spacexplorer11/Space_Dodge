@@ -27,29 +27,41 @@
  */
 declare module '$env/static/private' {
 	export const NODE: string;
+    export const INIT_CWD: string;
 	export const TERM: string;
 	export const SHELL: string;
 	export const HOMEBREW_REPOSITORY: string;
 	export const TMPDIR: string;
+    export const npm_config_global_prefix: string;
+    export const COLOR: string;
 	export const TERM_SESSION_ID: string;
+    export const npm_config_noproxy: string;
 	export const npm_config_local_prefix: string;
 	export const PROCESS_LAUNCHED_BY_Q: string;
 	export const USER: string;
 	export const COMMAND_MODE: string;
+    export const npm_config_globalconfig: string;
 	export const SSH_AUTH_SOCK: string;
 	export const __CF_USER_TEXT_ENCODING: string;
 	export const npm_execpath: string;
 	export const PATH: string;
 	export const TERMINAL_EMULATOR: string;
 	export const npm_package_json: string;
+    export const npm_config_engine_strict: string;
 	export const _: string;
+    export const npm_config_userconfig: string;
+    export const npm_config_init_module: string;
 	export const __CFBundleIdentifier: string;
 	export const npm_command: string;
 	export const PWD: string;
 	export const npm_lifecycle_event: string;
+    export const EDITOR: string;
 	export const npm_package_name: string;
 	export const LANG: string;
+    export const npm_config_npm_version: string;
 	export const XPC_FLAGS: string;
+    export const npm_config_force: string;
+    export const npm_config_node_gyp: string;
 	export const npm_package_version: string;
 	export const XPC_SERVICE_NAME: string;
 	export const GPG_TTY: string;
@@ -57,6 +69,7 @@ declare module '$env/static/private' {
 	export const HOME: string;
 	export const HOMEBREW_PREFIX: string;
 	export const PROCESS_LAUNCHED_BY_CW: string;
+    export const npm_config_cache: string;
 	export const LOGNAME: string;
 	export const npm_lifecycle_script: string;
 	export const LC_CTYPE: string;
@@ -65,8 +78,8 @@ declare module '$env/static/private' {
 	export const HOMEBREW_CELLAR: string;
 	export const OSLogRateLimit: string;
 	export const npm_node_execpath: string;
+    export const npm_config_prefix: string;
 	export const FIG_TERM: string;
-	export const NODE_ENV: string;
 }
 
 /**
@@ -97,29 +110,41 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		NODE: string;
+        INIT_CWD: string;
 		TERM: string;
 		SHELL: string;
 		HOMEBREW_REPOSITORY: string;
 		TMPDIR: string;
+        npm_config_global_prefix: string;
+        COLOR: string;
 		TERM_SESSION_ID: string;
+        npm_config_noproxy: string;
 		npm_config_local_prefix: string;
 		PROCESS_LAUNCHED_BY_Q: string;
 		USER: string;
 		COMMAND_MODE: string;
+        npm_config_globalconfig: string;
 		SSH_AUTH_SOCK: string;
 		__CF_USER_TEXT_ENCODING: string;
 		npm_execpath: string;
 		PATH: string;
 		TERMINAL_EMULATOR: string;
 		npm_package_json: string;
+        npm_config_engine_strict: string;
 		_: string;
+        npm_config_userconfig: string;
+        npm_config_init_module: string;
 		__CFBundleIdentifier: string;
 		npm_command: string;
 		PWD: string;
 		npm_lifecycle_event: string;
+        EDITOR: string;
 		npm_package_name: string;
 		LANG: string;
+        npm_config_npm_version: string;
 		XPC_FLAGS: string;
+        npm_config_force: string;
+        npm_config_node_gyp: string;
 		npm_package_version: string;
 		XPC_SERVICE_NAME: string;
 		GPG_TTY: string;
@@ -127,6 +152,7 @@ declare module '$env/dynamic/private' {
 		HOME: string;
 		HOMEBREW_PREFIX: string;
 		PROCESS_LAUNCHED_BY_CW: string;
+        npm_config_cache: string;
 		LOGNAME: string;
 		npm_lifecycle_script: string;
 		LC_CTYPE: string;
@@ -135,8 +161,8 @@ declare module '$env/dynamic/private' {
 		HOMEBREW_CELLAR: string;
 		OSLogRateLimit: string;
 		npm_node_execpath: string;
+        npm_config_prefix: string;
 		FIG_TERM: string;
-		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
